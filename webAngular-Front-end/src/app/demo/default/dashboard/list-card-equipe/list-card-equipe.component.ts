@@ -39,7 +39,7 @@ export class ListCardEquipeComponent implements OnInit, OnDestroy {
       this.equipeService.getAllEquipes().pipe(
         tap(equipes => console.log('ListCardEquipeComponent: Equipes received', equipes))
       ),
-    600
+    400
     );
 
     this.subscription.add(

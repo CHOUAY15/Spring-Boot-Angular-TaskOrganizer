@@ -1,5 +1,5 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -8,7 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { ActivatedRoute, Router } from '@angular/router';
+import {  Router } from '@angular/router';
 import { DialogProjetComponent } from '../dialog-projet/dialog-projet.component';
 import { Projet } from 'src/app/model/projet';
 import { ProjetService } from 'src/app/services/projet.service';
@@ -32,46 +32,38 @@ import { ProjetService } from 'src/app/services/projet.service';
   templateUrl: './projet-table.component.html',
   styleUrl: './projet-table.component.scss'
 })
-export class ProjetTableComponent implements OnInit, AfterViewInit {
+export class ProjetTableComponent implements OnChanges , AfterViewInit {
+  // properties
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+  @Input() projets: Projet[] = [];
+  @Input() equipeId: string = '';
   showDialog = false;
   displayedColumns: string[] = ['titre', 'description', 'dateDebut', 'dateFin', 'tâches', 'actions'];
   dataSource: MatTableDataSource<Projet>;
-  equipeId: string;
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
-
+  // constructeur
   constructor(
     private router: Router,
     private projetService: ProjetService,
-    private route: ActivatedRoute
   ) {
     this.dataSource = new MatTableDataSource<Projet>([]);
   }
 
-  ngOnInit() {
-    this.route.params.subscribe((params) => {
-      this.equipeId = params['id'];
-      if (this.equipeId) {
-        this.loadProjets(this.equipeId);
-      }
-    });
+
+  // methodes
+
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['projets']) {
+      this.dataSource.data = this.projets;
+      this.dataSource._updateChangeSubscription();
+    }
   }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-  }
-
-  loadProjets(equipeId: string) {
-    this.projetService.getProjetsByTeamId(equipeId).subscribe({
-      next: (projets) => {
-        this.dataSource.data = projets;
-      },
-      error: (error) => {
-        console.error('Error fetching projects:', error);
-      }
-    });
   }
 
   applyFilter(event: Event) {
@@ -94,11 +86,12 @@ export class ProjetTableComponent implements OnInit, AfterViewInit {
   ajouterProjet() {
     this.showDialog = true;
   }
+
   deleteProjet(projetId: number) {
     this.projetService.deleteProjet(projetId).subscribe({
       next: (response) => {
         console.log('Project deleted successfully', response);
-        this.dataSource.data = this.dataSource.data.filter(projet => projet.id !== projetId);
+        this.dataSource.data = this.dataSource.data.filter((projet) => projet.id !== projetId);
         this.dataSource._updateChangeSubscription();
       },
       error: (error) => {
