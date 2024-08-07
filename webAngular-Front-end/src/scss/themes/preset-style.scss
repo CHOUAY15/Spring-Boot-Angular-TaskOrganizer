@@ -2,7 +2,7 @@
 
 :root {
   @each $name, $value in $preset-colors {
-    $pc-primary: #1a9338; // Primary green
+    $pc-primary: #00B98E;; // Primary green
 
     $color-rgb: to-rgb($pc-primary);
     --bs-blue: #{$pc-primary};

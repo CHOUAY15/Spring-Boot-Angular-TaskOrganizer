@@ -1,6 +1,6 @@
 @use '@angular/material' as mat;
 
-$primary-green: #1a9338; // Primary green
+$primary-green: #00B98E; // Primary green
 
 $light-green: #86d1a3;
 $hover-blue: #e3f2fd;
@@ -87,7 +87,7 @@ table {
   gap: 8px;
   
   button {
-    color: #1a9338;
+    color: #00B98E;
     border: none;
     padding: 8px 16px;
     border-radius: 4px;
@@ -186,7 +186,7 @@ table {
   background-color: transparent;
   cursor: pointer;
   font-size: 16px;
-  color: #1a9338;/* Couleur de texte de votre choix */
+  color: #00B98E;/* Couleur de texte de votre choix */
 }
 
 .voir mat-icon {

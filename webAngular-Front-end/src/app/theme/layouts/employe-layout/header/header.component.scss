@@ -1,22 +1,75 @@
-.custom-header {
-    background-color: #2bb24d; /* Example color */
-    height: 100px; /* Example height */
-    color: #FFFFFF; /* Text color */
+.modern-header {
+    background:  white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+  
+  .navbar {
+    padding: 15px 0;
+  }
+  
+  .navbar-brand h1 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #00B98E;
+    margin: 0;
+  }
+  
+  .navbar-nav .nav-link {
+    color: #0E2E50;
+    font-weight: 500;
+    padding: 10px 15px;
+    transition: color 0.3s ease;
+  }
+  
+  .navbar-nav .nav-link:hover,
+  .navbar-nav .nav-link.active {
+    color: #00B98E;
+  }
+  
+  .btn-primary {
+    background-color: #F3F6F8;
+    border-color: #ececec;
+    padding: 10px 20px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    color: #00B98E;
+    border-radius: 30px;
+  }
+  
+//   .btn-primary:hover {
+//     // background-color: #00B98E;
+//     // border-color: #229e3e;
+//   }
+  
+  .navbar-toggler {
+    border: none;
+    padding: 0;
+    color: white;
+  }
+  
+  .navbar-toggler:focus {
+    box-shadow: none;
+  }
+  
+  .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23FFFFFF' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 }
-
-.custom-header .navbar-nav .nav-link {
-    color: #FFFFFF; /* Link color */
-}
-
-.custom-header .navbar-nav .nav-link:hover,
-.custom-header .navbar-nav .nav-link.active {
-    color: #FFD700; /* Hover and active link color */
-}
-
-.custom-header .navbar-brand h1 {
-    color: #FFFFFF; /* Brand color */
-}
-
-.custom-header .navbar-toggler {
-    color: #FFFFFF; /* Toggler color */
-}
+  
+  @media (max-width: 991px) {
+    .navbar-nav {
+      margin-top: 15px;
+    }
+    
+    .navbar-nav .nav-link {
+      padding: 10px 0;
+    }
+    
+    .btn-primary {
+      margin-top: 15px;
+      display: block;
+      width: 100%;
+    }
+  }

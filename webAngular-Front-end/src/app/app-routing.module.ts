@@ -37,6 +37,10 @@ const routes: Routes = [
         path: 'projets/:eqpId/:nomProjet/:id/taches',
         loadComponent: () => import('./demo/default/dashboard/taches/taches.component').then((m) => m.TachesComponent)
       },
+      {
+        path: 'rapports',
+        loadComponent: () => import('./demo/default/dashboard/rapports-employe/rapports-employe.component').then((m) => m.RapportsEmployeComponent)
+      },
 
 
       {
@@ -67,7 +71,7 @@ const routes: Routes = [
         loadComponent: () => import('./demo/default/employe/employe-taches/employe-taches.component').then((m) => m.EmployeTachesComponent)
       },
       {
-        path: 'rapports',
+        path: 'rapportsEmploye',
         loadComponent: () => import('./demo/default/employe/rapports-table/rapports-table.component').then(m=>m.RapportsTableComponent)
       }
       
