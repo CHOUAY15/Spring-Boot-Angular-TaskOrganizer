@@ -1,0 +1,71 @@
+<div class="projet-table-container">
+  <div class="table-header">
+    <mat-form-field>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Filtre">
+    </mat-form-field>
+    <button class="add-task-button" (click)="ajouterProjet()">
+      + Ajouter un projet 
+    </button>
+  </div>
+
+  <ng-container *ngIf="dataSource.data.length > 0; else noProjects">
+    <table mat-table [dataSource]="dataSource" matSort>
+      <ng-container matColumnDef="titre">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> <strong>Titre</strong> </th>
+        <td mat-cell *matCellDef="let projet" [attr.data-label]="'Titre'"> {{projet.nom}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> <strong>Description</strong> </th>
+        <td mat-cell *matCellDef="let projet" [attr.data-label]="'Description'"> {{projet.description}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="dateDebut">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> <strong>Date de debut</strong> </th>
+        <td mat-cell *matCellDef="let projet" [attr.data-label]="'Date de debut'"> {{projet.dateDebut  | date}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="dateFin">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> <strong>Date de fin</strong> </th>
+        <td mat-cell *matCellDef="let projet" [attr.data-label]="'Date de fin'"> {{projet.dateFin  | date}} </td>
+      </ng-container>
+      
+      <ng-container matColumnDef="tâches">
+        <th mat-header-cell *matHeaderCellDef class="actions-header"> <strong>Tâches</strong> </th>
+        <td mat-cell *matCellDef="let projet" [attr.data-label]="'Tâches'">
+          <button class="voir" (click)="goToTaches(projet)">
+            <mat-icon>visibility</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef class="actions-header"> <strong>Actions</strong> </th>
+        <td mat-cell *matCellDef="let projet" [attr.data-label]="'Actions'">
+          <div class="action-buttons">
+            <button class="supprimer" (click)="deleteProjet(projet.id)">supprimer</button>
+            <button class="modifier" mat-button>modifier</button>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+  </ng-container>
+
+  <ng-template #noProjects>
+    <div class="no-projects-message">
+      Aucun projet pour l'instant !
+    </div>
+  </ng-template>
+</div>
+
+<app-dialog-projet
+  *ngIf="showDialog"
+  [equipeId]="equipeId"
+  (close)="handleClose()"
+  (projectAdded)="onProjectAdded($event)"
+></app-dialog-projet>

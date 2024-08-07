@@ -1,0 +1,26 @@
+<h1>Équipes</h1>
+
+<ng-container *ngIf="(loading$ | async) === false; else loadingTemplate">
+  <ng-container *ngIf="(error$ | async) === false; else errorTemplate">
+    <ng-container *ngIf="(equipes$ | async) as equipes">
+      <div class="team-grid" *ngIf="equipes.length > 0; else noEquipes">
+        <app-card-equipe *ngFor="let equipe of equipes" [cardEquipe]="equipe"></app-card-equipe>
+      </div>
+      <ng-template #noEquipes>
+        <div class="centered-message">
+          Aucune équipe pour l'instant !
+        </div>
+      </ng-template>
+    </ng-container>
+  </ng-container>
+</ng-container>
+
+<ng-template #loadingTemplate>
+  <div class="centered-message loading-message">
+    <app-spinner-g></app-spinner-g>
+  </div>
+</ng-template>
+
+<ng-template #errorTemplate>
+  <app-error-message></app-error-message>
+</ng-template>

@@ -1,0 +1,22 @@
+.custom-header {
+    background-color: #2bb24d; /* Example color */
+    height: 100px; /* Example height */
+    color: #FFFFFF; /* Text color */
+}
+
+.custom-header .navbar-nav .nav-link {
+    color: #FFFFFF; /* Link color */
+}
+
+.custom-header .navbar-nav .nav-link:hover,
+.custom-header .navbar-nav .nav-link.active {
+    color: #FFD700; /* Hover and active link color */
+}
+
+.custom-header .navbar-brand h1 {
+    color: #FFFFFF; /* Brand color */
+}
+
+.custom-header .navbar-toggler {
+    color: #FFFFFF; /* Toggler color */
+}

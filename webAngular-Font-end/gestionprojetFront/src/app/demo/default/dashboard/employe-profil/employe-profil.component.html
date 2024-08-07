@@ -1,0 +1,48 @@
+<div *ngIf="employee">
+<div class="employee-card">
+    <div class="card-header">
+  
+        <div class="avatar-container">
+          <img *ngIf="employee.avatar; else defaultAvatar" [src]="employee.avatar" alt="Avatar" class="avatar-img">
+        <ng-template #defaultAvatar>
+          <img *ngIf="employee.sexe === 'Homme'" src="../../../../../assets//images/profile/homme.png" alt="Default Male Avatar" class="avatar-img">
+          <img *ngIf="employee.sexe === 'Femme'" src="../../../../../assets//images/profile/femme.png" alt="Default Female Avatar" class="avatar-img">
+        </ng-template>
+        </div>
+        <div class="name-container">
+          <h2> {{ employee.nom }} {{ employee.prenom }}</h2>
+          <p class="subtitle">{{ employee.position }}</p>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="info-item">
+          <span class="info-label">CIN</span>
+          <span class="info-value">{{ employee.cin }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Email</span>
+          <span class="info-value">{{ employee.email }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Âge</span>
+          <span class="info-value">{{ employee.age }} ans</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Sexe</span>
+          <span class="info-value">{{ employee.sexe }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Adresse</span>
+          <span class="info-value">{{ employee.adresse }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Téléphone</span>
+          <span class="info-value">{{ employee.telephone }}</span>
+        </div>
+      </div>
+
+
+      </div>
+     
+  </div>
+  

@@ -1,0 +1,10 @@
+<div class="card">
+  <h6 class="card-title">
+    <i class="fas fa-users users-icon"></i>équipe: {{ cardEquipe.nom }}
+  </h6>
+    <p class="card-description">{{ cardEquipe.description }}</p>
+    <div class="card-actions">
+      <button class="btn btn-primary" (click)="goToEmployes()">Employes</button>
+      <button  class="btn btn-secondary" (click)="goToProjets()">Projets</button>
+    </div>
+  </div>

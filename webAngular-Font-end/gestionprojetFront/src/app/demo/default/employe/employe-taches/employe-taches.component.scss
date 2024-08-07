@@ -1,0 +1,242 @@
+:host {
+    font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .board {
+    display: flex;
+    padding: 24px;
+    background-color: #f0f4f800;
+    min-height: 80vh;
+    overflow-x: auto;
+    margin-left: 60px;  /* Adjust as needed */
+    
+  }
+  
+  .liste-container {
+    width: 320px;
+    margin: 0 16px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    max-height: calc(80vh - 48px); // Reduced from 100vh to 80vh
+  }
+  
+  .liste-header {
+    padding: 16px 16px 8px; // Reduced padding
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  h2 {
+    color: #1a9338;
+    font-size: 18px; // Reduced from 20px
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px; // Reduced from 12px
+    margin: 0;
+  
+    mat-icon {
+      font-size: 20px; // Reduced from 24px
+      width: 20px; // Reduced from 24px
+      height: 20px; // Reduced from 24px
+  
+      &.à-faire { color: #fbbc04; }
+      &.en-cours { color: #1a73e8; }
+      &.terminé { color: #34a853; }
+    }
+  }
+  
+  .tache-count {
+    background-color: #9bff7c4c;
+    color:#1a9338;
+    font-size: 12px; // Reduced from 14px
+    font-weight: 500;
+    padding: 3px 6px; // Reduced padding
+    border-radius: 10px; // Reduced from 12px
+  }
+  
+  .liste {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 8px 16px; // Reduced padding
+  }
+  
+  .tache {
+    padding: 14px; // Reduced from 18px
+    background-color: #c4ffc4;
+    color: #202124;
+    border-radius: 6px; // Reduced from 8px
+    margin-bottom: 10px; // Reduced from 14px
+    cursor: grab;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    height: auto;
+    width: auto;
+  
+    &:hover {
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15); // Reduced shadow
+      transform: translateY(-1px); // Reduced movement
+    }
+  
+    &:active {
+      cursor: grabbing;
+    }
+  }
+  
+  
+  
+  
+  .indicateur {
+    display: block;
+    width: 100%;
+    height: 3px; // Reduced from 4px
+    margin-top: 10px; // Reduced from 14px
+    border-radius: 2px;
+  
+    &.à-faire { background-color: #fbbc04; }
+    &.en-cours { background-color: #1a73e8; }
+    &.terminé { background-color: #34a853; }
+  }
+  
+  .ajouter-carte {
+    color: #1a9338;
+    padding: 12px 16px; // Reduced padding
+    cursor: pointer;
+    border-radius: 0 0 12px 12px;
+    transition: background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px; // Reduced from 10px
+    font-weight: 500;
+    margin-top: auto;
+    font-size: 14px; // Added to reduce text size
+  
+    &:hover {
+      background-color: #e8f0fe;
+    }
+  
+    mat-icon {
+      font-size: 18px; // Reduced from 20px
+      width: 18px; // Reduced from 20px
+      height: 18px; // Reduced from 20px
+    }
+  }
+  
+  // Drag and drop styles
+  .cdk-drag-preview {
+    box-sizing: border-box;
+    border-radius: 6px; // Reduced from 8px
+    box-shadow: 0 4px 4px -2px rgba(0,0,0,0.2),
+                0 6px 8px 1px rgba(0,0,0,0.14),
+                0 2px 10px 2px rgba(0,0,0,0.12);
+    cursor: grabbing !important;
+  }
+  
+  .cdk-drag-placeholder {
+    opacity: 0;
+  }
+  
+  .cdk-drag-animating {
+    transition: transform 200ms cubic-bezier(0, 0, 0.2, 1);
+  }
+  
+  .liste.cdk-drop-list-dragging .tache:not(.cdk-drag-placeholder) {
+    transition: transform 200ms cubic-bezier(0, 0, 0.2, 1);
+  }
+  
+  // Custom placeholder
+  .custom-placeholder {
+    background: #ccc;
+    border: dotted 2px #999; // Reduced from 3px
+    min-height: 50px; // Reduced from 60px
+    transition: transform 200ms cubic-bezier(0, 0, 0.2, 1);
+  }
+  // Style for empty lists
+  .liste:empty {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    color: #a0aec0;
+    font-style:inherit;
+  }
+  
+  .liste:empty::after {
+    content: "aucune tâche pour l'instant";
+  }
+  /* Style for the import button */
+.import-button {
+  background-color: #4CAF50; /* Green background */
+  border: none; /* Remove borders */
+  color: white; /* White text */
+  padding: 15px 32px; /* Some padding */
+  text-align: center; /* Center the text */
+  text-decoration: none; /* Remove underline */
+  display: inline-block; /* Make the button appear inline */
+  font-size: 16px; /* Increase font size */
+  margin: 4px 2px; /* Some margin */
+  cursor: pointer; /* Pointer/hand icon on hover */
+  border-radius: 4px; /* Rounded corners */
+}
+
+/* Add some hover effects for the button */
+.import-button:hover {
+  background-color: #45a049; /* Darker green */
+}
+.rapport-update {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  padding: 20px;
+  margin-bottom: 20px;
+  margin-left: 60px;
+}
+
+.rapport-update h3 {
+  color: #1a9338;
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+.file-input-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.file-input {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+}
+
+.file-label {
+  display: inline-block;
+  padding: 10px 15px;
+  background-color: #4CAF50;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.file-label:hover {
+  background-color: #45a049;
+}
+
+.file-icon {
+  margin-right: 10px;
+}
+
+.file-text {
+  font-size: 14px;
+}
+

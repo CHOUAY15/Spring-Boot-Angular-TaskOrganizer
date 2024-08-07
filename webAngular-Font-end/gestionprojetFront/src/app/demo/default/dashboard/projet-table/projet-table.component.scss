@@ -1,0 +1,298 @@
+@use '@angular/material' as mat;
+
+$primary-blue: #1976d2;
+$light-blue: #bbdefb;
+$hover-blue: #e3f2fd;
+$red: #f44336;
+$yellow: #ffeb3b;
+$green: #4caf50;
+$orange: #ff9800;
+
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.add-task-button {
+  background-color: $green;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+  &:hover {
+    background-color: darken($green, 10%);
+  }
+}
+
+.projet-table-container {
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow-x: auto;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+  margin-bottom: 20px;
+
+  .mat-input-element {
+    color: $primary-blue;
+  }
+
+  .mat-form-field-label {
+    color: $primary-blue;
+  }
+
+  .mat-form-field-underline {
+    background-color: $primary-blue;
+  }
+}
+
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  
+  td.mat-column-actions {
+    text-align: center;
+  }
+
+  th.mat-header-cell {
+    background-color: $primary-blue;
+    color: white;
+    font-weight: bold;
+    padding: 16px;
+    text-align: left;
+  }
+
+  td.mat-cell {
+    padding: 16px;
+    border-bottom: 1px solid $light-blue;
+  }
+
+  tr.mat-row {
+    &:hover {
+      background-color: $hover-blue;
+    }
+
+    &:last-child td {
+      border-bottom: none;
+    }
+  }
+}
+
+.mat-column-avatar {
+  width: 80px;
+  padding-right: 8px;
+}
+
+.avatar-img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  
+  button {
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &.supprimer {
+      background-color: $red;
+      
+      &:hover {
+        background-color: darken($red, 10%);
+      }
+    }
+
+    &.modifier {
+      background-color: $primary-blue;
+      color: rgb(255, 255, 255);
+      
+      &:hover {
+        background-color: darken($primary-blue, 10%);
+      }
+    }
+    &.tache {
+      background-color: $green;
+      color: rgb(255, 255, 255);
+      
+      &:hover {
+        background-color: darken($green, 10%);
+      }
+    }
+  }
+}
+
+.actions-header {
+  text-align: center;
+}
+
+.mat-paginator {
+  border-top: 1px solid $light-blue;
+}
+
+.status-a-faire {
+  color: $orange;
+  font-weight: 900;
+}
+
+.status-en-cours {
+  color: $yellow;
+  font-weight: 900;
+}
+
+.status-terminee {
+  color: $green;
+  font-weight: 900;
+}
+
+.status-noterminee {
+  color: $red;
+  font-weight: 900;
+}
+
+// Responsive styles
+@media screen and (max-width: 1024px) {
+  .projet-table-container {
+    padding: 15px;
+  }
+
+  table {
+    font-size: 14px;
+  }
+
+  th.mat-header-cell,
+  td.mat-cell {
+    padding: 12px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .projet-table-container {
+    padding: 10px;
+  }
+
+  .table-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .add-task-button {
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  table {
+    display: block;
+
+    thead {
+      display: none;
+    }
+
+    tbody {
+      display: block;
+    }
+
+    tr {
+      display: block;
+      margin-bottom: 16px;
+      border: 1px solid $light-blue;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    td {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px;
+      text-align: right;
+      border-bottom: 1px solid $light-blue;
+
+      &:before {
+        content: attr(data-label);
+        float: left;
+        font-weight: bold;
+        text-transform: uppercase;
+        color: $primary-blue;
+        padding-right: 10px;
+      }
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+  }
+
+  .mat-column-avatar {
+    width: 100%;
+    padding-right: 0;
+    justify-content: center;
+
+    &:before {
+      content: none;
+    }
+  }
+
+  .avatar-img {
+    margin: 0 auto;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+    align-items: stretch;
+    
+    button {
+      width: 100%;
+      margin-bottom: 8px;
+    }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .projet-table-container {
+    padding: 5px;
+  }
+
+  table {
+    font-size: 12px;
+  }
+
+  td {
+    padding: 8px;
+  }
+}
+.voir {
+  display: flex;
+  align-items: center;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  font-size: 16px;
+  color: #1a9338;; /* Couleur de texte de votre choix */
+}
+
+.voir mat-icon {
+  margin-right: 8px; /* Espacement entre l'icône et le texte */
+}

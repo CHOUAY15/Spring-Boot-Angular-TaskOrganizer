@@ -1,0 +1,107 @@
+
+  
+ .tache-header {
+    display: flex;
+    flex-direction: row; // Ensure children are aligned in a row
+    justify-content: space-between;
+    align-items: flex-start;
+    position: relative;
+  }
+  
+  .tache-menu {
+    color: #5f6368;
+    margin-top: -6px; // Reduced from -8px
+    margin-right: -6px; // Reduced from -8px
+    position: relative;
+  }
+  
+  .tache-menu-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 3px; // Reduced from 4px
+    
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.04);
+      border-radius: 50%;
+    }
+  }
+  
+  .tache-menu-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: white;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    min-width: 140px; // Reduced from 150px
+    z-index: 1000;
+    display: none;
+  
+    &.show {
+      display: block;
+    }
+  
+    ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+  
+    li {
+      padding: 6px 12px; // Reduced padding
+      cursor: pointer;
+  
+      &:hover {
+        background-color: #f0f4f8;
+      }
+    }
+  }
+  
+  .tache-content {
+    margin-top: 6px; // Reduced from 8px
+  }
+  
+  .membre {
+    margin-bottom: 6px; // Reduced from 8px
+    display: flex;
+    align-items: center;
+    gap: 4px; // Reduced from 6px
+    font-size: 12px; // Reduced from 14px
+    color: #3c4043;
+  }
+  
+  .tache-footer {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px; // Reduced from 12px
+    color: #5f6368;
+    margin-top: 10px; // Reduced from 14px
+  }
+  
+  .date, .duree {
+    display: flex;
+    align-items: center;
+    gap: 4px; // Reduced from 6px
+  
+    mat-icon {
+      font-size: 14px; // Reduced from 16px
+      width: 14px; // Reduced from 16px
+      height: 14px; // Reduced from 16px
+    }
+  }
+  .horizontal-icon {
+    transform: rotate(90deg);
+  }
+  .eye-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px; /* Adjust padding as needed */
+  }
+  
+  .eye-button mat-icon {
+    font-size: 22px; /* Adjust the icon size to make it smaller */
+    color: rgba(0, 0, 0, 0.571); /* Change the color to blue */
+  }
+  

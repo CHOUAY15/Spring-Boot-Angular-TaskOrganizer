@@ -1,0 +1,26 @@
+<div class="tache-header">
+    <div class="titre">{{ tache.titre }}</div>
+    <div class="tache-menu">
+      <button class="eye-button" (click)="toggleAdditionalInfo()">
+        <mat-icon>visibility</mat-icon>
+      </button>
+      <button class="tache-menu-button" (click)="toggleMenu($event)">
+        <mat-icon class="horizontal-icon">more_vert</mat-icon>
+      </button>
+      <div class="tache-menu-dropdown" [class.show]="isMenuOpen" #menu>
+        <ul>
+          <li (click)="editTask()">Edit</li>
+          <li (click)="deleteTask()">Delete</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="tache-content">
+    <span class="membre"><mat-icon>person</mat-icon> {{tache.employe.nom}} {{ tache.employe.prenom }}</span>
+   
+    <div class="tache-footer">
+      <span class="date"><mat-icon>event</mat-icon> {{tache.dateDebut| date:'dd/MM/yyyy'}}</span>
+      <span class="duree"><mat-icon>schedule</mat-icon> {{tache.nbrJours}} jours</span>
+    </div>
+  
+  </div>

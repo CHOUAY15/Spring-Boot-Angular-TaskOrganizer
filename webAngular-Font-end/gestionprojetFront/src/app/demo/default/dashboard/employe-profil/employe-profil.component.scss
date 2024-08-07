@@ -1,0 +1,123 @@
+.employee-card {
+    background-color: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    max-width: 900px;
+    margin: 20px auto;
+    transition: all 0.3s ease;
+  }
+  
+  .employee-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+  }
+  
+  .card-header {
+    background: linear-gradient(135deg, rgb(43, 119, 48) 0%, #338a56 100%);
+    color: white;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .avatar-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .avatar-img {
+    width: 80px;  /* Adjust the width as needed */
+    height: 80px; /* Adjust the height as needed */
+    object-fit: cover; /* Ensures the image covers the entire element */
+    border-radius: 50%; /* Makes the image circular if it's a square */
+  }
+  
+  .avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 5px solid white;
+    object-fit: cover;
+  }
+  
+  .name-container h2 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 600;
+    color: #ffffff;
+  }
+  
+  .subtitle {
+    margin: 5px 0 0;
+    font-size: 16px;
+    opacity: 0.8;
+  }
+  
+  .card-body {
+    padding: 30px;
+  }
+  
+  .info-item {
+    display: flex;
+    flex-direction: column;
+    padding: 12px 0;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  
+  .info-item:last-child {
+    border-bottom: none;
+  }
+  
+  .info-label {
+    font-size: 14px;
+    color: #888;
+    font-weight: 500;
+    margin-bottom: 5px;
+  }
+  
+  .info-value {
+    font-size: 16px;
+    color: #333;
+    font-weight: 600;
+  }
+  
+  /* Responsive design */
+  @media (max-width: 600px) {
+    .employee-card {
+      max-width: 100%;
+      margin: 10px;
+    }
+  
+    .card-header {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+  
+    .avatar-container {
+      margin-right: 0;
+      margin-bottom: 15px;
+    }
+  
+    .avatar {
+      width: 80px;
+      height: 80px;
+    }
+  
+    .card-body {
+      padding: 20px;
+    }
+  
+    .info-item {
+      flex-direction: row;
+      justify-content: space-between;
+      padding: 8px 0;
+    }
+  
+    .info-label, .info-value {
+      font-size: 14px;
+    }
+  }
+  
