@@ -7,6 +7,7 @@ import { AdminComponent } from './theme/layouts/admin-layout/admin-layout.compon
 import { EmployeLayoutComponent } from './theme/layouts/employe-layout/employe-layout.component';
 
 const routes: Routes = [
+
   {
     path: '',
     component: AdminComponent,
@@ -59,6 +60,10 @@ const routes: Routes = [
     component: EmployeLayoutComponent,
     children: [
       {
+        path: 'acceuil',
+        loadComponent: () => import('./demo/default/landing/landing.component').then((m) => m.LandingComponent)
+      },
+      {
         path: 'employe',
         loadComponent: () => import('./demo/default/employe/landing-page/landing-page.component').then((m) => m.LandingPageComponent)
       },
@@ -73,7 +78,10 @@ const routes: Routes = [
       {
         path: 'rapportsEmploye',
         loadComponent: () => import('./demo/default/employe/rapports-table/rapports-table.component').then(m=>m.RapportsTableComponent)
-      }
+      } , {
+        path: 'login',
+        loadComponent: () => import('./demo/default/login-page/login-form/login-form.component').then((m) => m.LoginFormComponent)
+      },
       
     ]
   }

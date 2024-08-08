@@ -1,15 +1,41 @@
+// header.component.ts
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Component, HostListener, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive, CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './header.component.html',
-  styleUrl: './header.component.scss'
+  styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent {
-  isMenuCollapsed = true;
+export class HeaderComponent implements AfterViewInit {
+  @ViewChild('header') headerElement!: ElementRef;
 
+  isMenuCollapsed = true;
+  isScrolledToBottom = false;
+  isHeaderScrolled = false;
+
+  ngAfterViewInit() {
+    this.checkScroll();
+  }
+
+  @HostListener('window:scroll', ['$event'])
+  onWindowScroll(event: Event): void {
+    this.checkScroll();
+  }
+
+  private checkScroll(): void {
+    const scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+    const headerHeight = this.headerElement.nativeElement.offsetHeight;
+
+    // Check if scrolled past header height
+    this.isHeaderScrolled = scrollPosition > headerHeight;
+
+    // Check if scrolled to bottom
+    const windowHeight = window.innerHeight;
+    const documentHeight = document.documentElement.scrollHeight;
+    this.isScrolledToBottom = (windowHeight + scrollPosition) >= (documentHeight - 10); // 10px threshold
+  }
 }
