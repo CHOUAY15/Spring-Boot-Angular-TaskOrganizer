@@ -37,6 +37,12 @@ public class EmployeController {
     public ResponseEntity<List<EmployeDto>> getAllEmployesByEquipeId(@PathVariable("eqpId" ) Integer eqpId) {
         return new ResponseEntity<>(employeService.findEmployeByEquipeId(eqpId), HttpStatus.OK);
     }
+    // get All employe by chef id
+    @GetMapping("/chefId/{chefId}")
+    public ResponseEntity<List<EmployeDto>> getAllEMployesByChefId(@PathVariable("chefId" ) Integer chefId) {
+        return new ResponseEntity<>(employeService.findByChef(chefId), HttpStatus.OK);
+    }
+
     //add a employee  in a equipe id
     @PostMapping("/eqpId/{eqpId}")
     public ResponseEntity<EmployeDto> addEmployeToEquipe(@Valid @RequestBody EmployeDto employeDto, @PathVariable("eqpId") Integer eqpId) throws EntityNotFoundException {

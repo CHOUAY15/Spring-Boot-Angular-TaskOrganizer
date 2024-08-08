@@ -10,6 +10,7 @@ public interface EmployeRepository extends JpaRepository< EmployeEntity , Intege
 
 
      List <EmployeEntity> findByEquipeId(Integer eqpId);
+     List<EmployeEntity> findByEquipe_chef_Id(Integer chefId);
 
 
      

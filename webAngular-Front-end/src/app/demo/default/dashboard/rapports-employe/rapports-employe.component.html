@@ -1,24 +1,33 @@
 <!-- projet-documents.component.html -->
 <div class="projet-container">
-    <h2>Rapports des employes</h2>
-    <ul class="projet-list">
-      <li *ngFor="let projet of projets$| async" class="projet-item">
-        <div class="projet-folder" (click)="toggleProjet(projet)">
-          <div class="projet-info">
-            <i class="fas fa-user" ></i>
-            <span class="projet-nom">abderrahman boulknadel</span>
-          </div>
-          <div class="projet-meta">
-            <span class="projet-date">déposé le :{{ projet.dateDebut| date:'dd/MM/yyyy' }}</span>
+
+
+  <ng-container *ngIf="(loading$ | async) === false; else loadingTemplate">
+    <ng-container *ngIf="(error$ | async) === false; else errorTemplate">
+      <ng-container *ngIf="(employes$ | async) as employes">
+  
        
-          </div>
+
+        <div class="team-grid" *ngIf="employes.length > 0; else noEmployes">
+          <app-list-rapports [employes]="employes"></app-list-rapports>
         </div>
-        <ul class="document-list" *ngIf="projet.isOpen">
-          <li *ngFor="let doc of projet.livrables" class="document-item">
-            <i class="fas fa-file-pdf"></i>
-            <span class="document-name" (click)="viewFile(doc)">{{ doc.nom }}</span>
-          </li>
-        </ul>
-      </li>
-    </ul>
-  </div>
+        <ng-template #noEmployes>
+          <div class="centered-message">
+            Aucun Rapport pour l'instant !
+          </div>
+        </ng-template>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+  
+  <ng-template #loadingTemplate>
+    <div class="centered-message loading-message">
+      <app-spinner-g></app-spinner-g>
+    </div>
+  </ng-template>
+  
+  <ng-template #errorTemplate>
+    <app-error-message></app-error-message>
+  </ng-template>
+
+</div>

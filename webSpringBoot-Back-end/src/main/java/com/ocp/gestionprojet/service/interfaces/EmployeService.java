@@ -17,4 +17,6 @@ public interface EmployeService {
     EmployeDto addEmployeToEquipe(EmployeDto employeDto, Integer eqpId) throws EntityNotFoundException;
 
     List<EmployeDto> findEmployeByEquipeId(Integer eqpId);
+    
+    List<EmployeDto> findByChef(Integer chefId);
 }

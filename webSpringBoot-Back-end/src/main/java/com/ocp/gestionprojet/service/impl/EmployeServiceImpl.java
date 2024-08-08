@@ -9,7 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ocp.gestionprojet.exception.EntityNotFoundException;
 import com.ocp.gestionprojet.mapper.EmployeMapper;
+import com.ocp.gestionprojet.mapper.RapportMapper;
 import com.ocp.gestionprojet.model.dto.EmployeDto;
+import com.ocp.gestionprojet.model.dto.RapportDto;
 import com.ocp.gestionprojet.model.entity.EmployeEntity;
 import com.ocp.gestionprojet.model.entity.EquipeEntity;
 import com.ocp.gestionprojet.repository.EmployeRepository;
@@ -24,7 +26,10 @@ public class EmployeServiceImpl implements EmployeService {
     @Autowired
     private EmployeMapper employeMapper;
     @Autowired
-    EquipeRepository equipeRepository;
+    private EquipeRepository equipeRepository;
+ 
+    @Autowired
+    private RapportMapper rapportMapper;
 
     @Override
     public EmployeDto findById(Integer id) throws EntityNotFoundException {
@@ -82,6 +87,31 @@ public class EmployeServiceImpl implements EmployeService {
         employeEntity.setEquipe(equipeEntity);
         EmployeEntity savedEmployeEntity = employeRepository.save(employeEntity);
         return employeMapper.toDto(savedEmployeEntity);
+    }
+
+
+    @Override
+    public List<EmployeDto> findByChef(Integer chefId) {
+        return employeRepository.findByEquipe_chef_Id(chefId)
+            .stream()
+            .map(employeEntity -> {
+                RapportDto rapportDto = rapportMapper.toDto(employeEntity.getRapport());
+                return EmployeDto.builder()
+                    .nom(employeEntity.getNom())
+                    .prenom(employeEntity.getPrenom())
+                    .avatar(employeEntity.getAvatar())
+                    .age(employeEntity.getAge())
+                    .cin(employeEntity.getCin())
+                    .adresse(employeEntity.getAdresse())
+                    .email(employeEntity.getEmail())
+                    .sexe(employeEntity.getSexe())
+                    .telephone(employeEntity.getTelephone())
+                    .position(employeEntity.getPosition())
+                    .rapport(rapportDto)
+                    .id(employeEntity.getId())
+                    .build();
+            })
+            .collect(Collectors.toList());
     }
 
 }

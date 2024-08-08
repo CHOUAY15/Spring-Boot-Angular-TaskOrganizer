@@ -29,7 +29,7 @@ public class EmployeEntity extends Person {
     private List<TacheEntity> taches=new ArrayList<>();
 
     @OneToOne(mappedBy = "employe")
-    private RapportEntity rapports;
+    private RapportEntity rapport;
 
     
 

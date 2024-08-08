@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Employee } from 'src/app/model/employe';
-import { EmployeService } from '../services/employe.service';
+import { EmployeService } from '../../../services/employe.service';
 
 @Component({
   selector: 'app-user-circles',

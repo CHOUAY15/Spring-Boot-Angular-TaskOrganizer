@@ -15,4 +15,6 @@ import lombok.Setter;
 public class EmployeDto extends PersonDto {
 
     private String position;
+    private RapportDto rapport;
+
 }

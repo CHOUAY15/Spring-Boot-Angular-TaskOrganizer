@@ -1,51 +1,57 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Deliverable, ProjectWithOpenState } from 'src/app/model/projetSubmitData';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { BehaviorSubject, Observable, Subscription, tap } from 'rxjs';
+import {  ProjectWithOpenState } from 'src/app/model/projetSubmitData';
+import { LoadingService } from 'src/app/services/loading.service';
 import { ProjetService } from 'src/app/services/projet.service';
-
-
+import { ListDocumentsComponent } from "../list-documents/list-documents.component";
+import { SharedModule } from "../../../../theme/shared/shared.module";
 
 @Component({
   selector: 'app-documents-projet',
   standalone: true,
-  imports: [CommonModule, DatePipe],
+  imports: [CommonModule, DatePipe, ListDocumentsComponent, SharedModule],
   templateUrl: './documents-projet.component.html',
   styleUrl: './documents-projet.component.scss'
 })
-export class DocumentsProjetComponent implements OnInit {
-  projets$: Observable<ProjectWithOpenState[]>;
+export class DocumentsProjetComponent implements OnInit, OnDestroy {
 
-  constructor(private projetService: ProjetService) {}
+  private projetSubject = new BehaviorSubject<ProjectWithOpenState[]>([]);
+  private subscription: Subscription = new Subscription();
+  loading$: Observable<boolean>;
+  error$: Observable<boolean>;
+  projets$ = this.projetSubject.asObservable();
+
+  constructor(
+    private projetService: ProjetService,
+    private stateService: LoadingService
+  ) {
+    this.loading$ = this.stateService.loading$;
+    this.error$ = this.stateService.error$;
+  }
 
   ngOnInit(): void {
-    this.projets$ = this.projetService.getProjetsByChef();
-    console.log(this.projets$);
+    this.loadProjets();
   }
 
- 
-  viewFile(livrable: Deliverable) {
-    this.projetService.getFileUrl(livrable.path).subscribe(
-      (url: string) => {
-        window.open(url, '_blank');
-      },
-      (error) => {
-        console.error('Error getting file URL:', error);
-        // Handle error (e.g., show an error message to the user)
-      }
+  loadProjets() {
+    const loadedData$ = this.stateService.loadData(
+      this.projetService.getProjetsByChef().pipe(tap((projets) => console.log('prjts: prjts received', projets))),
+      400
+    );
+
+    this.subscription.add(
+      loadedData$.subscribe(
+        (prjts) => {
+          console.log('prjts: Updating prjts', prjts);
+          this.projetSubject.next(prjts || []);
+        },
+        (error) => console.error('prjts: Error in prjts subscription', error)
+      )
     );
   }
-  toggleProjet(projet: ProjectWithOpenState): void {
-    (projet as any).isOpen = !(projet as any).isOpen;
-  }
-  ajouterPDF(projet: ProjectWithOpenState, event: Event): void {
-    event.stopPropagation(); // Empêche le toggle du projet
-    // Logique pour ajouter un nouveau PDF au projet
-    console.log('Ajouter un PDF au projet:', projet.nom);
-  }
 
-  supprimerDocument(projet: ProjectWithOpenState, doc: Deliverable): void {
-    // Logique pour supprimer le document du projet
-    console.log('Supprimer le document:', doc.nom, 'du projet:', projet.nom);
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }

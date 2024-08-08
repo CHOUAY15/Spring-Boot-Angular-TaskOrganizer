@@ -1,30 +1,32 @@
 <!-- projet-documents.component.html -->
 <div class="projet-container">
-  <h2>Projets et Documents</h2>
-  <ul class="projet-list">
-    <li *ngFor="let projet of projets$| async" class="projet-item">
-      <div class="projet-folder" (click)="toggleProjet(projet)">
-        <div class="projet-info">
-          <i class="fas" [ngClass]="{'fa-folder': !projet.isOpen, 'fa-folder-open': projet.isOpen}"></i>
-          <span class="projet-nom">{{ projet.nom }}</span>
+
+
+  <ng-container *ngIf="(loading$ | async) === false; else loadingTemplate">
+    <ng-container *ngIf="(error$ | async) === false; else errorTemplate">
+      <ng-container *ngIf="(projets$ | async) as projets">
+       
+
+        <div class="team-grid" *ngIf="projets.length > 0; else noProjets">
+          <app-list-documents [projets]="projets"></app-list-documents>
         </div>
-        <div class="projet-meta">
-          <span class="projet-date">Créé le :{{ projet.dateDebut| date:'dd/MM/yyyy' }}</span>
-          <button *ngIf="projet.isOpen" class="btn-add-pdf" (click)="ajouterPDF(projet, $event)" title="Ajouter un nouveau document">
-           Ajouter
-          </button>
-        </div>
-      </div>
-      <ul class="document-list" *ngIf="projet.isOpen">
-        <li *ngFor="let doc of projet.livrables" class="document-item">
-          <i class="fas fa-file-pdf"></i>
-          <span class="document-name">{{ doc.nom }}</span>
-          <div class="document-actions">
-            <button (click)="viewFile(doc)"class="btn-open-pdf">Ouvrir</button>
-            <button (click)="supprimerDocument(projet, doc)" class="btn-delete-pdf">Supprimer</button>
+        <ng-template #noProjets>
+          <div class="centered-message">
+            Aucun projet pour l'instant !
           </div>
-        </li>
-      </ul>
-    </li>
-  </ul>
+        </ng-template>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+  
+  <ng-template #loadingTemplate>
+    <div class="centered-message loading-message">
+      <app-spinner-g></app-spinner-g>
+    </div>
+  </ng-template>
+  
+  <ng-template #errorTemplate>
+    <app-error-message></app-error-message>
+  </ng-template>
+
 </div>

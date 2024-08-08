@@ -1,0 +1,40 @@
+<div class="filter-container">
+  <input 
+    type="text" 
+    [(ngModel)]="filterText" 
+    (ngModelChange)="filerProjets()"
+    placeholder="Filtrer par nom du projet ou date"
+    class="filter-input"
+  >
+</div>
+
+
+<ul class="projet-list">
+    <li *ngFor="let projet of filteredProjets" class="projet-item">
+      <div class="projet-folder" (click)="toggleProjet(projet)">
+        <div class="projet-info">
+          <i class="fas" [ngClass]="{'fa-folder': !projet.isOpen, 'fa-folder-open': projet.isOpen}"></i>
+          <span class="projet-nom">{{ projet.nom }}</span>
+        </div>
+        <div class="projet-meta">
+          <span class="projet-date">Créé le :{{ projet.dateDebut| date:'dd/MM/yyyy' }}</span>
+          <button *ngIf="projet.isOpen" class="btn-add-pdf" (click)="ajouterPDF(projet, $event)" title="Ajouter un nouveau document">
+           Ajouter
+          </button>
+        </div>
+      </div>
+      <ul class="document-list" *ngIf="projet.isOpen">
+        <li *ngFor="let doc of projet.livrables" class="document-item">
+        
+          <span class="document-row">
+            <i class="fas fa-file-pdf"></i>
+            <span class="document-name">{{ doc.nom }}</span>
+            <div class="document-actions">
+                <button (click)="viewFile(doc)" class="btn-open-pdf">Ouvrir</button>
+                <button (click)="supprimerDocument(projet, doc)" class="btn-delete-pdf">Supprimer</button>
+            </div>
+        </span>
+        </li>
+      </ul>
+    </li>
+  </ul>

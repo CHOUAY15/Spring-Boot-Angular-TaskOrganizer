@@ -13,7 +13,6 @@ import lombok.experimental.SuperBuilder;
 public class PersonDto {
 
      private Integer id;
-
     @NotBlank(message = "Le nom est obligatoire")
     @Size(max = 100, message = "Le nom ne peut pas dépasser 100 caractères et min est 5 caractères",min = 5)
     private String nom;
