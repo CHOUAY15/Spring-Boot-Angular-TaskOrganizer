@@ -6,7 +6,39 @@
     font-size: 1.2em;
     color: #333;
   }
+  .loading-message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+  }
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    margin-bottom: 20px;
+    color: #333;
+  }
   
+  .breadcrumb a {
+    color: #000000;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }x
+  
+  .breadcrumb a:hover {
+    color: #09352a;
+  }
+  
+  .breadcrumb .separator {
+    margin: 0 10px;
+    color: #666;
+  }
+  
+  .breadcrumb .current {
+    font-weight: 600;
+    color: #000000;
+  }
   
 
   

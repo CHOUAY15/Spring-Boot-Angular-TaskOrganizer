@@ -104,4 +104,18 @@
     font-size: 22px; /* Adjust the icon size to make it smaller */
     color: rgba(0, 0, 0, 0.571); /* Change the color to blue */
   }
+  .circle-icon {
+    width: 30px; /* Reduced size */
+    height: 30px; /* Reduced size */
+    border-radius: 50%; /* Keeps the element circular */
+    overflow: hidden; /* Ensures the image fits within the circle */
+    display: inline-block; /* Allows the div to be sized by its contents */
+}
+
+.circle-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures the image covers the circle */
+}
+
   

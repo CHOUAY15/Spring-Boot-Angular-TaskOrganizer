@@ -1,4 +1,8 @@
-<h4>Les employes{{ nomEquipe }}</h4>
+<div class="breadcrumb">
+  <a routerLink="/">{{ this.nomEquipe }}</a>
+  <span class="separator">/</span>
+  <span class="current">employes</span>
+</div>
 
 
 <ng-container *ngIf="(loading$ | async) === false; else loadingTemplate">
@@ -9,7 +13,7 @@
         </div>
         <ng-template #noEmployes>
           <div class="centered-message">
-            Aucune projet pour l'instant !
+            Aucune employe pour l'instant !
           </div>
         </ng-template>
       </ng-container>

@@ -16,7 +16,8 @@
     </div>
   </div>
   <div class="tache-content">
-    <span class="membre"><mat-icon>person</mat-icon> {{tache.employe.nom}} {{ tache.employe.prenom }}</span>
+    <span class="membre"><div class="circle-icon"><img [src]="tache.employe.sexe === 'Homme' ? '../../../../../assets/images/profile/homme.png' : '../../../../../assets/images/profile/femme.png'" 
+      [alt]="tache.employe.sexe === 'Homme' ? 'Default Male Avatar' : 'Default Female Avatar'"></div> {{tache.employe.nom}} {{ tache.employe.prenom }}</span>
    
     <div class="tache-footer">
       <span class="date"><mat-icon>event</mat-icon> {{tache.dateDebut| date:'dd/MM/yyyy'}}</span>

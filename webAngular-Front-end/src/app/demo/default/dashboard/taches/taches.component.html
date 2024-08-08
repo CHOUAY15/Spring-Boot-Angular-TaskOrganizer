@@ -1,2 +1,26 @@
-<h5>projets/{{ nomProjet }}</h5>
-<app-list-taches></app-list-taches>
+<div class="breadcrumb">
+  <a >{{ nomProjet }}</a>
+  <span class="separator">/</span>
+  <span class="current">tâches</span>
+</div>
+
+<ng-container *ngIf="(loading$ | async) === false; else loadingTemplate">
+  <ng-container *ngIf="(error$ | async) === false; else errorTemplate">
+    <ng-container *ngIf="taches$ | async as taches">
+      <div class="team-grid">
+        <app-list-taches [taches]="taches" [prjtId]="prjtId"></app-list-taches>
+      </div>
+
+    </ng-container>
+  </ng-container>
+</ng-container>
+
+<ng-template #loadingTemplate>
+  <div class="centered-message loading-message">
+    <app-spinner-g></app-spinner-g>
+  </div>
+</ng-template>
+
+<ng-template #errorTemplate>
+  <app-error-message></app-error-message>
+</ng-template>

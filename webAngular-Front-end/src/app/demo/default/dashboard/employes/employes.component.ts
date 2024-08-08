@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { EmployeeTableComponent } from '../employee-table/employee-table.component';
 import { BehaviorSubject, Observable, Subscription, tap } from 'rxjs';
 import { Employee } from 'src/app/model/employe';
@@ -12,7 +12,7 @@ import { ProjetTableComponent } from "../projet-table/projet-table.component";
 @Component({
   selector: 'app-employes',
   standalone: true,
-  imports: [EmployeeTableComponent, CommonModule, SharedModule],
+  imports: [EmployeeTableComponent, CommonModule, SharedModule,RouterLink],
   templateUrl: './employes.component.html',
   styleUrl: './employes.component.scss'
 })
@@ -55,11 +55,11 @@ export class EmployesComponent implements OnInit ,OnDestroy{
 
     this.subscription.add(
       loadedData$.subscribe(
-        (equipes) => {
-          console.log('equipes: Updating equipes', equipes);
-          this.employeSubject.next(equipes || []);
+        (employes) => {
+          console.log('employes: Updating employes', employes);
+          this.employeSubject.next(employes || []);
         },
-        (error) => console.error('equipes: Error in equipes subscription', error)
+        (error) => console.error('employes: Error in employes subscription', error)
       )
     );
   }

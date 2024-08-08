@@ -23,6 +23,6 @@ public class TacheDto {
     private Date dateDebut;
     private Integer nbrJours;
     private StatutTache statut;
-    private EmployeTacheDto employe;
+    private EmployeDto employe;
 
 }

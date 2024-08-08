@@ -7,6 +7,7 @@ import { Tache } from 'src/app/model/tache';
 
 
 
+
 @Component({
   selector: 'app-cart-tache',
   standalone: true,
@@ -21,8 +22,11 @@ export class CartTacheComponent implements OnInit, OnDestroy {
   isMenuOpen = false;
   documentClickListener: any;
 
+  eyeOpen=false;
+
 
   toggleAdditionalInfo() {
+    this.eyeOpen=true;
 
   }
 

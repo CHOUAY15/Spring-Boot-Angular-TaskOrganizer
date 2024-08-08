@@ -1,3 +1,5 @@
+
+
 <div class="board">
   <div class="liste-container" *ngFor="let statut of statuts">
     <div class="liste-header">
@@ -26,11 +28,7 @@
     <app-dialoge-tache *ngIf="showDialog" (close)="handleClose()" [prjtId]="prjtId" (tacheAdd)="onAddTache($event)"></app-dialoge-tache>
   </div>
 
-  <!-- cdkDropList
-  [cdkDropListData]="getTachesList(statut)"
-  [cdkDropListConnectedTo]="['todoList', 'inProgressList', 'doneList']"
-  [id]="statut === 'A_Faire' ? 'todoList' : statut === 'En_Cours' ? 'inProgressList' : 'doneList'"
-  (cdkDropListDropped)="drop($event)" -->
+
 
   
   

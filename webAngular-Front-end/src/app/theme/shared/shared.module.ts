@@ -16,6 +16,7 @@ import { IconModule } from '@ant-design/icons-angular';
 import { NgbDropdownModule, NgbNavModule, NgbModule, NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { ErrorMessageComponent } from 'src/app/demo/default/dashboard/error-message/error-message.component';
 import { SpinnerGComponent } from 'src/app/demo/default/dashboard/spinner-g/spinner-g.component';
+import { UserCirclesComponent } from '../../user-circles/user-circles.component';
 
 @NgModule({
   imports: [
@@ -47,8 +48,9 @@ import { SpinnerGComponent } from 'src/app/demo/default/dashboard/spinner-g/spin
     IconModule,
     ErrorMessageComponent,
     SpinnerGComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    UserCirclesComponent
   ],
-  declarations: [ErrorMessageComponent,SpinnerGComponent,SpinnerComponent]
+  declarations: [ErrorMessageComponent,SpinnerGComponent,SpinnerComponent,UserCirclesComponent]
 })
 export class SharedModule {}

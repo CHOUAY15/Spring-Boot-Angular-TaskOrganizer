@@ -20,7 +20,7 @@ export interface NavigationItem {
 
 export const NavigationItems: NavigationItem[] = [
   {
-    id: 'dashboard',
+    id: 'Accueil',
     title: 'Accueil',
     type: 'group',
     icon: 'icon-navigation',
@@ -30,7 +30,7 @@ export const NavigationItems: NavigationItem[] = [
         title: 'Équipes',
         type: 'item',
         classes: 'nav-item',
-        url: '/dashboard/default',
+        url: '/accueil/default',
         icon: 'profile',
         breadcrumbs: false
       }
