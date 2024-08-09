@@ -60,7 +60,7 @@ const routes: Routes = [
     component: EmployeLayoutComponent,
     children: [
       {
-        path: 'acceuil',
+        path: 'home',
         loadComponent: () => import('./demo/default/landing/landing.component').then((m) => m.LandingComponent)
       },
       {

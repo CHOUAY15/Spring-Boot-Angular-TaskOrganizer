@@ -29,13 +29,19 @@ export class HeaderComponent implements AfterViewInit {
   private checkScroll(): void {
     const scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
     const headerHeight = this.headerElement.nativeElement.offsetHeight;
-
     // Check if scrolled past header height
     this.isHeaderScrolled = scrollPosition > headerHeight;
-
     // Check if scrolled to bottom
     const windowHeight = window.innerHeight;
     const documentHeight = document.documentElement.scrollHeight;
     this.isScrolledToBottom = (windowHeight + scrollPosition) >= (documentHeight - 10); // 10px threshold
+  }
+
+  scrollToSection(sectionId: string): void {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
+    }
+    this.isMenuCollapsed = true; // Close the menu after clicking
   }
 }

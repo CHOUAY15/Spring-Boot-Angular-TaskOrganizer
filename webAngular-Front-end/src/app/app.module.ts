@@ -22,6 +22,7 @@ import localeFr from '@angular/common/locales/fr';
 import { environment } from 'src/environments/environment';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
+import { httpInterceptorProviders } from './interceptors';
 
 // Enregistrer la locale française
 registerLocaleData(localeFr);
@@ -48,7 +49,8 @@ registerLocaleData(localeFr);
     AngularFireStorageModule
   ],
   providers: [
-    { provide: LOCALE_ID, useValue: 'fr-FR' } // Définir la locale française
+    { provide: LOCALE_ID, useValue: 'fr-FR' },
+    httpInterceptorProviders // Définir la locale française
   ],
   bootstrap: [AppComponent]
 })
