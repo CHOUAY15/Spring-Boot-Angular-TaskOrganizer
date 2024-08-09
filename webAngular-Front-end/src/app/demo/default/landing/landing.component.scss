@@ -149,3 +149,60 @@
 .rounded-pill {
     border-radius: 50rem !important;
 }
+.hero-header {
+    margin: 0;
+  }
+  
+  .image-container {
+    height: 400px;  /* Increased height to accommodate larger images */
+  }
+  
+  .floating-image {
+    position: absolute;
+    width: 150px;  /* Increased from 100px to 150px */
+    height: auto;
+    filter: brightness(0) invert(1);
+    transition: all 5s ease-in-out;
+  }
+  
+  @keyframes float {
+    0% { transform: translate(0, 0); }
+    25% { transform: translate(75px, 75px); }  /* Increased movement range */
+    50% { transform: translate(150px, -75px); }
+    75% { transform: translate(-75px, 150px); }
+    100% { transform: translate(0, 0); }
+  }
+  
+  .floating-image:nth-child(1) {
+    animation: float 15s infinite alternate;  /* Slowed down animation */
+  }
+  
+  .floating-image:nth-child(2) {
+    animation: float 18s infinite alternate-reverse;  /* Slowed down animation */
+  }
+  .zoom-container {
+    overflow: hidden;
+  }
+  
+  .zoom-content {
+    transition: transform 0.3s ease;
+  }
+  
+  .zoom-container:hover .zoom-content {
+    transform: scale(1.1);
+  }
+  @keyframes vertical-shake {
+    0% { transform: translateY(0); }
+    25% { transform: translateY(-7px); }
+    50% { transform: translateY(5px); }
+    75% { transform: translateY(7px); }
+    100% { transform: translateY(0); }
+  }
+  
+  .shake-image {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    animation: vertical-shake 3s ease-in-out infinite;
+  }
+  

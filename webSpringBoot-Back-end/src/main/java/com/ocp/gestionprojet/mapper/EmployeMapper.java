@@ -9,13 +9,13 @@ import com.ocp.gestionprojet.model.entity.EmployeEntity;
 
 @Mapper(componentModel = "spring")
 @Component
-
 public interface EmployeMapper {
 
+    @Mapping(target = "rapport", ignore = true)
     EmployeDto toDto(EmployeEntity employeEntity);
 
     @Mapping(target = "equipe", ignore = true)
     @Mapping(target = "taches", ignore = true)
+    @Mapping(target = "rapport", ignore = true)
     EmployeEntity toEntity(EmployeDto employeDto);
-
 }

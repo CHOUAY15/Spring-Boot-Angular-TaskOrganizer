@@ -9,14 +9,11 @@ import com.ocp.gestionprojet.model.entity.RapportEntity;
 
 @Mapper(componentModel = "spring")
 @Component
-
 public interface RapportMapper {
 
     RapportDto toDto(RapportEntity rapportEntity);
 
     @Mapping(target = "projet", ignore = true)
     @Mapping(target = "employe", ignore = true)
-
     RapportEntity toEntity(RapportDto rapportDto);
-
 }

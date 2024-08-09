@@ -11,13 +11,9 @@ import com.ocp.gestionprojet.model.entity.DepartementEntity;
 @Component
 public interface DepartementMapper {
 
-    DepartementDto toDto (DepartementEntity departementEntity);
-
     @Mapping(target = "equipes", ignore = true)
     @Mapping(target = "chefs", ignore = true)
-
     DepartementEntity toEntity(DepartementDto departementDto);
 
-    
-    
+    DepartementDto toDto(DepartementEntity departementEntity);
 }

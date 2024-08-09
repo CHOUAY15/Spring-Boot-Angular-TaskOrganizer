@@ -7,7 +7,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +20,6 @@ import com.ocp.gestionprojet.model.dto.RegisterDto;
 import com.ocp.gestionprojet.model.entity.UserEntity;
 import com.ocp.gestionprojet.repository.UserRepository;
 import com.ocp.gestionprojet.security.JWTGenerator;
-import com.ocp.gestionprojet.service.impl.UserDetailsServiceImpl;
 import com.ocp.gestionprojet.shared.RolesUser;
 
 @RestController

@@ -9,13 +9,11 @@ import com.ocp.gestionprojet.model.entity.LivrableEntity;
 
 @Mapper(componentModel = "spring")
 @Component
-
 public interface LivrableMapper {
 
-    LivrableDto toDto(LivrableEntity livrablesEntity);
+    LivrableDto toDto(LivrableEntity livrableEntity);
 
+    @Mapping(target = "id", ignore = true)
     @Mapping(target = "projet", ignore = true)
-
     LivrableEntity toEntity(LivrableDto livrableDto);
-
 }
