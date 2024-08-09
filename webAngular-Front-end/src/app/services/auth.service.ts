@@ -12,44 +12,31 @@ interface LoginResponse {
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private currentUserSubject: BehaviorSubject<User>;
-  public currentUser: Observable<User>;
+  private currentUserSubject: BehaviorSubject<any>;
+  public currentUser: Observable<any>;
 
   constructor(private http: HttpClient) {
-    this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
+    this.currentUserSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
-  public get currentUserValue(): User {
+  public get currentUserValue() {
     return this.currentUserSubject.value;
   }
 
-  login(email: string, password: string): Observable<User> {
-    return this.http.post<LoginResponse>(`${environment.apiUrl}/auth/login`, { email, password })
+  login(email: string, password: string) {
+    return this.http.post<any>(`http://localhost:4000/auth/login`, { email, password })
       .pipe(map(response => {
-        // Create a user object with the email and token
-        const user: User = {
-          email: email,
-          token: response.accessToken
-        };
-        // Store user details and jwt token in local storage to keep user logged in between page refreshes
-        localStorage.setItem('currentUser', JSON.stringify(user));
-        this.currentUserSubject.next(user);
-        return user;
+        // store user details and jwt token in local storage to keep user logged in between page refreshes
+        localStorage.setItem('currentUser', JSON.stringify(response));
+        this.currentUserSubject.next(response);
+        return response;
       }));
   }
 
   logout() {
-    // Remove user from local storage and set current user to null
+    // remove user from local storage to log user out
     localStorage.removeItem('currentUser');
     this.currentUserSubject.next(null);
-  }
-
-  isLoggedIn(): boolean {
-    return !!this.currentUserValue;
-  }
-
-  getToken(): string {
-    return this.currentUserValue ? this.currentUserValue.token : null;
   }
 }

@@ -1,6 +1,7 @@
 // angular import
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './guards/auth.guard';
 
 // Project import
 import { AdminComponent } from './theme/layouts/admin-layout/admin-layout.component';
@@ -11,6 +12,8 @@ const routes: Routes = [
   {
     path: '',
     component: AdminComponent,
+    canActivate: [AuthGuard],
+    data: { expectedRole: 'ADMIN' },
     children: [
       {
         path: '',

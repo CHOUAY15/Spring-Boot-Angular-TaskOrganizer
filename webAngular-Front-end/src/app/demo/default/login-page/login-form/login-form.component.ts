@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { AuthService } from 'src/app/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-form',
@@ -10,12 +12,24 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./login-form.component.scss']
 })
 export class LoginFormComponent {
-  username: string = '';
+  email: string = '';
   password: string = '';
+  
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) { }
 
   onSubmit() {
-    console.log('Login attempt:', this.username, this.password);
-    // Here you would typically call a service to attempt login
+    this.authService.login(this.email, this.password)
+      .subscribe(
+        data => {
+          this.router.navigate(['/accueil/default']);
+        },
+        error => {
+          console.error('Login failed:', error);
+        }
+      );
   }
 
   onForgotPassword(event: Event) {

@@ -2,9 +2,13 @@ package com.ocp.gestionprojet.security;
 
 import java.util.Date;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
+
+import com.ocp.gestionprojet.model.entity.UserEntity;
+import com.ocp.gestionprojet.repository.UserRepository;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -15,23 +19,32 @@ import java.security.Key;
 @Component
 
 public class JWTGenerator {
-private static final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+    private static final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+
+    @Autowired
+    private UserRepository userRepository;
+
+    public String generateToken(Authentication authentication) {
+        String username = authentication.getName();
+        Date currentDate = new Date();
+        Date expireDate = new Date(currentDate.getTime() + SecurityConstants.JWT_EXPIRATION);
+
+        UserEntity user = userRepository.findByEmail(username)
+                .orElseThrow(() -> new AuthenticationCredentialsNotFoundException("User not found"));
+
+        String token = Jwts.builder()
+                .setSubject(username)
+                .claim("userId", user.getId())
+                .claim("role", user.getRole().name())
+                .setIssuedAt(new Date())
+                .setExpiration(expireDate)
+                .signWith(key, SignatureAlgorithm.HS512)
+                .compact();
+        System.out.println("New token :");
+        System.out.println(token);
+        return token;
+    }
 	
-	public String generateToken(Authentication authentication) {
-		String username = authentication.getName();
-		Date currentDate = new Date();
-		Date expireDate = new Date(currentDate.getTime() + SecurityConstants.JWT_EXPIRATION);
-		
-		String token = Jwts.builder()
-				.setSubject(username)
-				.setIssuedAt( new Date())
-				.setExpiration(expireDate)
-				.signWith(key,SignatureAlgorithm.HS512)
-				.compact();
-		System.out.println("New token :");
-		System.out.println(token);
-		return token;
-	}
 	public String getUsernameFromJWT(String token){
 		Claims claims = Jwts.parserBuilder()
 				.setSigningKey(key)
