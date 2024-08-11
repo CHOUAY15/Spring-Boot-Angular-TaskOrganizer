@@ -23,6 +23,10 @@ import { environment } from 'src/environments/environment';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { httpInterceptorProviders } from './interceptors';
+import { AuthGuard } from './guards/auth.guard';
+import { RoleGuard } from './guards/role.guard';
+import { GuestGuard } from './guards/guest.guard';
+
 
 // Enregistrer la locale française
 registerLocaleData(localeFr);
@@ -50,7 +54,8 @@ registerLocaleData(localeFr);
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'fr-FR' },
-    httpInterceptorProviders // Définir la locale française
+    httpInterceptorProviders,AuthGuard,RoleGuard,GuestGuard
+// Définir la locale française
   ],
   bootstrap: [AppComponent]
 })

@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.ocp.gestionprojet.exception.EntityNotFoundException;
 import com.ocp.gestionprojet.model.dto.ChefDequipeDto;
+import com.ocp.gestionprojet.model.entity.ChefDequipeEntity;
+import com.ocp.gestionprojet.model.entity.UserEntity;
 
 public interface ChefDequipeService {
     ChefDequipeDto findById(Integer id) throws EntityNotFoundException;
@@ -13,8 +15,12 @@ public interface ChefDequipeService {
     void delete(Integer id);
 
     ChefDequipeDto save(ChefDequipeDto chefDequipeDto);
-    ChefDequipeDto addChefToDepartement(ChefDequipeDto chefDequipeDto, Integer deptId) throws EntityNotFoundException;
 
+    // ChefDequipeEntity addChefToDepartement(ChefDequipeDto chefDequipeDto, Integer deptId, UserEntity user)
+    //         throws EntityNotFoundException;
+
+    ChefDequipeEntity addChefToEquipe(ChefDequipeDto chefDequipeDto, Integer eqpId, UserEntity user)
+            throws EntityNotFoundException;
 
     List<ChefDequipeDto> findAll();
 

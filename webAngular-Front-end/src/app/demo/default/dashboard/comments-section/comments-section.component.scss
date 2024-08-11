@@ -1,0 +1,136 @@
+.comments-section {
+    font-family: 'Roboto', sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 24px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.task-details {
+    background-color: #f0f4f4;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 24px;
+    transition: all 0.3s ease;
+    border-left: 4px solid #00B98E;
+}
+
+.task-details:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.task-title {
+    font-size: 1.6em;
+    color: #2c3e50;
+    margin: 0 0 16px 0;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid #00B98E;
+    padding-bottom: 8px;
+}
+
+.task-info {
+    margin: 12px 0;
+    line-height: 1.6;
+    display: flex;
+    align-items: center;
+}
+
+.task-info strong {
+    color: #34495e;
+    font-weight: 500;
+    margin-right: 8px;
+    min-width: 100px;
+}
+
+.status-icon {
+    font-family: 'Material Icons';
+    font-size: 20px;
+    margin-right: 8px;
+    vertical-align: middle;
+    color: #00B98E;
+}
+
+.status-pending {
+    color: #f39c12;
+}
+
+.status-completed {
+    color: #2ecc71;
+}
+
+.status-ongoing {
+    color: #3498db;
+}
+
+app-comment {
+    display: block;
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 16px;
+    transition: all 0.3s ease;
+    border-left: 4px solid #00B98E;
+}
+
+app-comment:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+    .comments-section {
+        padding: 16px;
+    }
+
+    .task-title {
+        font-size: 1.3em;
+    }
+
+    .task-info {
+        font-size: 0.95em;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .task-info strong {
+        margin-bottom: 4px;
+    }
+}
+
+/* Modern typography */
+body {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #333;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 500;
+    color: #2c3e50;
+    margin-bottom: 16px;
+}
+
+.material-icons {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: 'liga';
+    color: #00B98E;
+}

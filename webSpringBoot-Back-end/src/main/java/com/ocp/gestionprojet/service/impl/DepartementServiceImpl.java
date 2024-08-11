@@ -21,12 +21,14 @@ public class DepartementServiceImpl implements DepartementService {
     @Autowired
     private DepartementMapper departementMapper;
 
+    // get all departements
     @Override
     public List<DepartementDto> findAll() {
         return departementRepository.findAll().stream().map(entity -> departementMapper.toDto(entity))
                 .collect(Collectors.toList());
     }
 
+    // create a departement . 
     @Override
     public DepartementDto Save(DepartementDto departementDto) {
         DepartementEntity departementEntity=departementMapper.toEntity(departementDto);

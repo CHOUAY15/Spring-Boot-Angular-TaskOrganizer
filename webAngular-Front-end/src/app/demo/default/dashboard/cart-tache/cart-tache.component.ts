@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
+import { Router } from '@angular/router';
 import { Tache } from 'src/app/model/tache';
 
 
@@ -18,15 +19,19 @@ import { Tache } from 'src/app/model/tache';
 export class CartTacheComponent implements OnInit, OnDestroy {
   @Input() tache: Tache;
   @ViewChild('menu', { static: false }) menu: ElementRef;
+  constructor(private route:Router){
+
+  }
+
 
   isMenuOpen = false;
   documentClickListener: any;
 
-  eyeOpen=false;
 
 
   toggleAdditionalInfo() {
-    this.eyeOpen=true;
+    this.route.navigateByUrl(`chef/taches/${this.tache.id}/commentaires`)
+
 
   }
 

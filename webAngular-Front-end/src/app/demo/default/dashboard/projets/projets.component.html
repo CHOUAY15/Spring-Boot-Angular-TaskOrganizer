@@ -1,19 +1,23 @@
+<!-- projets.component.html -->
+
 <div class="projects-container">
-  <div class="breadcrumb">
-    <a routerLink="/">{{ this.nomEquipe }}</a>
-    <span class="separator">/</span>
-    <span class="current">projets</span>
+  <div class="header-container">
+    <div class="breadcrumb">
+      <a routerLink="/">{{ this.nomEquipe }}</a>
+      <span class="separator">/</span>
+      <span class="current">projets</span>
+    </div>
+    <button class="add-project-button" (click)="ajouterProjet()">+ Ajouter un projet</button>
   </div>
-  
-  
-  
+
   <ng-container *ngIf="(loading$ | async) === false; else loadingTemplate">
     <ng-container *ngIf="(error$ | async) === false; else errorTemplate">
       <ng-container *ngIf="(projets$ | async) as projets">
+        
         <app-user-circles [equipeId]="equipeId"></app-user-circles>
 
         <div class="team-grid" *ngIf="projets.length > 0; else noProjets">
-          <app-projet-table [projets]="projets" [equipeId]="equipeId"></app-projet-table>
+          <app-projet-table [projets]="projets" [equipeId]="equipeId" (addProject)="ajouterProjet()"></app-projet-table>
         </div>
         <ng-template #noProjets>
           <div class="centered-message">
@@ -33,4 +37,11 @@
   <ng-template #errorTemplate>
     <app-error-message></app-error-message>
   </ng-template>
+
+  <app-dialog-projet
+    *ngIf="showDialog"
+    [equipeId]="equipeId"
+    (close)="handleClose()"
+    (projectAdded)="onProjectAdded($event)"
+  ></app-dialog-projet>
 </div>

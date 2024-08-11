@@ -14,16 +14,20 @@ export class TacheService {
   ) {}
 
   getTachesByProjet(Id: string): Observable<Tache[]> {
-    return this.http.get<Tache[]>(`http://localhost:4000/taches/prjtId/${Id}`);
+    return this.http.get<Tache[]>(`http://localhost:4000/api/taches/prjtId/${Id}`);
   }
   addTache(tache:TacheSubmitData ,prjtId:string): Observable<any> {
-    return this.http.post(`http://localhost:4000/taches/prjtId/${prjtId}`, tache);
+    return this.http.post(`http://localhost:4000/api/taches/prjtId/${prjtId}`, tache);
   }
   getTachesByEmploye(): Observable<Tache[]> {
     return this.http.get<Tache[]>(`http://localhost:4000/taches/empId/6`);
   }
   updateTacheStatus(tacheId: number, newStatut: string): Observable<Tache> {
     return this.http.put<Tache>(`http://localhost:4000/taches`, { statut: newStatut,id:tacheId });
+  }
+  getTacheById(Id: string): Observable<Tache> {
+    return this.http.get<Tache>(`http://localhost:4000/api/taches/id/${Id}`);
+
   }
   
 }

@@ -17,7 +17,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.ocp.gestionprojet.service.impl.UserDetailsServiceImpl;
 
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.Customizer;
 
 @Configuration
 @EnableWebSecurity
@@ -31,7 +30,8 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable())
+                .cors().and()
+                .csrf().disable()
                 .exceptionHandling()
                 .authenticationEntryPoint(authEntryPoint)
                 .and()
@@ -39,9 +39,18 @@ public class SecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.POST, "/auth", "/auth/**").permitAll()
+                        .requestMatchers("/auth/login").permitAll()
+                        .requestMatchers("/api/departements/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/equipes/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/equipes/**").hasAnyRole("ADMIN", "CHEF")
+                        .requestMatchers(HttpMethod.GET, "/api/employes/**").hasAnyRole("ADMIN", "CHEF")
+                        .requestMatchers("/api/projets/**").hasAnyRole("ADMIN", "CHEF")
+                        .requestMatchers("/api/taches/**").hasAnyRole("ADMIN", "CHEF")
+                        .requestMatchers("/api/commentaires/**").hasAnyRole("ADMIN", "CHEF")
+
                         .anyRequest().authenticated())
-                .httpBasic(Customizer.withDefaults());
+                .httpBasic().disable();
+
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

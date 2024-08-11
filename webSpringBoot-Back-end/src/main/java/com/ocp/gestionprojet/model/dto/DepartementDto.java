@@ -13,5 +13,6 @@ public class DepartementDto {
     private Integer id;
     @NotBlank
     private String nom;
-    
+    private String localisation;
+    private String contact;
 }

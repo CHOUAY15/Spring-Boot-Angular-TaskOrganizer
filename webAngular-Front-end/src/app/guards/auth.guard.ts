@@ -1,23 +1,29 @@
 import { Injectable } from '@angular/core';
-import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root'
+})
 export class AuthGuard implements CanActivate {
-  constructor(
-    private router: Router,
-    private authService: AuthService
-  ) { }
+  constructor(private authService: AuthService, private router: Router) {}
 
-  canActivate(route: ActivatedRouteSnapshot): boolean {
-    const expectedRole = route.data['expectedRole'];
-    const currentUser = this.authService.currentUserValue;
-
-    if (!currentUser || currentUser.role !== expectedRole) {
-      this.router.navigate(['/login']);
-      return false;
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+    const currentUser = this.authService.getCurrentUser();
+    if (currentUser) {
+      // User is logged in, redirect based on role
+      if (currentUser.role === 'CHEF' && !state.url.startsWith('/chef')) {
+        this.router.navigate(['/chef']);
+        return false;
+      } else if (currentUser.role === 'USER' && !state.url.startsWith('/acceuil')) {
+        this.router.navigate(['/acceuil']);
+        return false;
+      }
+      return true;
     }
 
-    return true;
+    // Not logged in, redirect to login page
+    this.router.navigate(['/login']);
+    return false;
   }
 }

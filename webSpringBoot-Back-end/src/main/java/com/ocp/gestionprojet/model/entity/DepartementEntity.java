@@ -24,15 +24,15 @@ public class DepartementEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-    @Column (name = "nom",unique = true)
-
+    @Column(name = "nom", unique = true)
     private String nom;
-
+    @Column(name = "localisation")
+    private String localisation;
+    @Column(name = "contact")
+    private String contact;
     @OneToMany(mappedBy = "departement", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List <EquipeEntity> equipes;
-
+    private List<EquipeEntity> equipes;
     @OneToMany(mappedBy = "departement", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List <ChefDequipeEntity> chefs;
-    
+    private List<ChefDequipeEntity> chefs;
+
 }

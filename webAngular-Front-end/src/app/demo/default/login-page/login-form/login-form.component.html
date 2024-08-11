@@ -1,18 +1,28 @@
 <div>
-    <form (ngSubmit)="onSubmit()" class="login-form">
-        <h2> TaskMaster</h2>
-        <div class="form-group">
-          <input type="text" id="email" name="email" [(ngModel)]="email" required>
-          <label for="email">Email</label>
-        </div>
-        <div class="form-group">
-          <input type="password" id="password" name="password" [(ngModel)]="password" required>
-          <label for="password">Mot de passe</label>
-        </div>
-        <button type="submit">Se connecter</button>
-        <div class="forgot-password">
-          <a href="#">Mot de passe oublié ?</a>
-        </div>
-      </form>
-      
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+    <h2>TaskMaster</h2>
+    <div class="form-group">
+      <input type="email" id="email" formControlName="email" required>
+      <label for="email">Email</label>
+      <div *ngIf="loginForm.get('email')?.invalid && (loginForm.get('email')?.dirty || loginForm.get('email')?.touched)" class="error-message">
+        <span *ngIf="loginForm.get('email')?.errors?.['required']">L'email est requis.</span>
+        <span *ngIf="loginForm.get('email')?.errors?.['email']">Format d'email invalide.</span>
+      </div>
+    </div>
+    <div class="form-group">
+      <input type="password" id="password" formControlName="password" required>
+      <label for="password">Mot de passe</label>
+      <div *ngIf="loginForm.get('password')?.invalid && (loginForm.get('password')?.dirty || loginForm.get('password')?.touched)" class="error-message">
+        <span *ngIf="loginForm.get('password')?.errors?.['required']">Le mot de passe est requis.</span>
+      </div>
+    </div>
+    <div *ngIf="authError" class="error-message">
+      {{ authError }}
+    </div>
+    <button type="submit" [disabled]="loginForm.invalid || isLoading">   <span *ngIf="!isLoading">Se connecter</span>
+      <span *ngIf="isLoading" class="spinner"></span></button>
+    <div class="forgot-password">
+      <a href="#" (click)="onForgotPassword($event)">Mot de passe oublié ?</a>
+    </div>
+  </form>
 </div>

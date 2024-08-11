@@ -19,7 +19,7 @@ type Statut = 'A_Faire' | 'En_Cours' | 'Termine';
 })
 export class ListTachesComponent implements OnInit {
   @Input() taches: Tache[] = [];
-  @Input() prjtId:string;
+  @Input() prjtId: string;
 
   tachesAFaire: Tache[] = [];
   tachesEnCours: Tache[] = [];
@@ -31,9 +31,25 @@ export class ListTachesComponent implements OnInit {
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit() {
-    this.tachesAFaire = this.taches.filter((tache) => tache.statut === 'A_Faire');
-    this.tachesEnCours = this.taches.filter((tache) => tache.statut === 'En_Cours');
-    this.tachesTerminees = this.taches.filter((tache) => tache.statut === 'Termine');
+    this.tachesAFaire = this.taches
+      .filter((tache) => tache.statut === 'A_Faire')
+      .sort((a, b) => {
+        const priorityOrder = { haute: 1, moyenne: 2, basse: 3 };
+        return priorityOrder[a.priorite] - priorityOrder[b.priorite];
+      });
+    this.tachesEnCours = this.taches
+      .filter((tache) => tache.statut === 'En_Cours')
+      .sort((a, b) => {
+        const priorityOrder = { haute: 1, moyenne: 2, basse: 3 };
+        return priorityOrder[a.priorite] - priorityOrder[b.priorite];
+      });
+      this.tachesTerminees = this.taches
+      .filter((tache) => tache.statut === 'Termine')
+      .sort((a, b) => {
+        const priorityOrder = { haute: 1, moyenne: 2, basse: 3 };
+        return priorityOrder[a.priorite] - priorityOrder[b.priorite];
+      });
+
   }
 
   getTachesList(statut: Statut): Tache[] {

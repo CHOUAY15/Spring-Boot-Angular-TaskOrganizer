@@ -23,6 +23,8 @@ export class DialogeTacheComponent implements OnInit {
   taskForm: FormGroup;
 
   teamMembers :Employee[]=[];
+  priorites: string[] = ['haute', 'moyenne', 'basse'];
+  
   equipeId:string;
   @Input() prjtId:string;
 
@@ -33,7 +35,8 @@ export class DialogeTacheComponent implements OnInit {
       titre: ['', Validators.required],
       description: [''],
       employe: ['', Validators.required],
-      nbrJours: [1, [Validators.required, Validators.min(1)]]
+      nbrJours: [1, [Validators.required, Validators.min(1)]],
+      priorite:['',Validators.required]
     });
     this.router.paramMap.subscribe(params => {
       this.equipeId = params.get('eqpId');
@@ -63,6 +66,7 @@ export class DialogeTacheComponent implements OnInit {
         titre: formData.titre,
         description: formData.description,
         nbrJours: formData.nbrJours,
+        priorite:formData.priorite,
         employe: { id: parseInt(formData.employe, 10) }
       };
 

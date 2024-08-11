@@ -33,8 +33,8 @@ public class RapportEntity {
     @Column(name = "path", nullable = false)
     private String path;
     
-     @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     @Column(name = "date_creation", nullable = false)
     private Date dateCreation=new Date();
 

@@ -1,0 +1,169 @@
+@font-face {
+    font-family: 'Dongle';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url(https://fonts.gstatic.com/s/dongle/v12/sJoG3Ltdjt6VPkqeActrYg.ttf) format('truetype');
+  }
+  
+  .main-class {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    overflow: hidden;
+  }
+  
+  .content-container {
+    position: relative;
+    z-index: 10;
+    min-height: calc(100vh - var(--header-height, 80px));
+    margin-top: var(--header-height, 80px);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .router-content {
+    flex-grow: 1;
+  }
+  
+  app-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 20;
+  }
+  
+  app-footer {
+    width: 100%;
+    z-index: 2;
+  }
+  
+  .layout-container {
+    --color-bg1: #3b5998;
+    --color-bg2: #8b9dc3;
+    --color-bg3: #00b98e;
+    --circle-size: 80%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 1;
+  
+    .gradient-bg {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      overflow: hidden;
+      background: linear-gradient(40deg, var(--color-bg1), var(--color-bg2), var(--color-bg3));
+      z-index: -2;
+    }
+  
+    .gradients-container {
+      filter: url(#goo) blur(30px);
+      width: 100%;
+      height: 100%;
+    }
+  
+    .g1,
+    .g2,
+    .g3,
+    .g4,
+    .g5,
+    .g6,
+    .g7,
+    .g8 {
+      position: absolute;
+      width: var(--circle-size);
+      height: var(--circle-size);
+      transform-origin: center center;
+      animation: moveInCircle 20s ease infinite;
+    }
+  
+    .g1 {
+      background: radial-gradient(circle at center, rgba(59, 89, 152, 1) 0%, rgba(59, 89, 152, 0) 70%);
+      top: -20%;
+      left: -20%;
+    }
+  
+    .g2 {
+      background: radial-gradient(circle at center, rgba(139, 157, 195, 1) 0%, rgba(139, 157, 195, 0) 70%);
+      top: 20%;
+      left: 20%;
+      animation-duration: 25s;
+      animation-direction: reverse;
+    }
+  
+    .g3 {
+      background: radial-gradient(circle at center, rgba(0, 185, 142, 1) 0%, rgba(0, 185, 142, 0) 70%);
+      top: 60%;
+      left: -10%;
+      animation-duration: 30s;
+    }
+  
+    .g4 {
+      background: radial-gradient(circle at center, rgba(59, 89, 152, 1) 0%, rgba(59, 89, 152, 0) 70%);
+      top: -10%;
+      right: -10%;
+      animation-duration: 22s;
+    }
+  
+    .g5 {
+      background: radial-gradient(circle at center, rgba(139, 157, 195, 1) 0%, rgba(139, 157, 195, 0) 70%);
+      bottom: -20%;
+      left: 50%;
+      animation-duration: 28s;
+    }
+  
+    .g6 {
+      background: radial-gradient(circle at center, rgba(0, 185, 142, 1) 0%, rgba(0, 185, 142, 0) 70%);
+      top: 30%;
+      right: -20%;
+      animation-duration: 35s;
+    }
+  
+    .g7 {
+      background: radial-gradient(circle at center, rgba(59, 89, 152, 1) 0%, rgba(59, 89, 152, 0) 70%);
+      bottom: -10%;
+      right: 20%;
+      animation-duration: 32s;
+    }
+  
+    .g8 {
+      background: radial-gradient(circle at center, rgba(139, 157, 195, 1) 0%, rgba(139, 157, 195, 0) 70%);
+      top: 10%;
+      left: 50%;
+      animation-duration: 27s;
+      animation-direction: reverse;
+    }
+  
+    .interactive {
+      position: absolute;
+      background: radial-gradient(circle at center, rgba(0, 185, 142, 1) 0%, rgba(0, 185, 142, 0) 70%);
+      width: 100%;
+      height: 100%;
+      top: -50%;
+      left: -50%;
+      z-index: 10;
+    }
+  
+    @keyframes moveInCircle {
+      0% {
+        transform: rotate(0deg) translateX(100px) rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg) translateX(100px) rotate(-360deg);
+      }
+    }
+  }
+  .router-wrapper {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  

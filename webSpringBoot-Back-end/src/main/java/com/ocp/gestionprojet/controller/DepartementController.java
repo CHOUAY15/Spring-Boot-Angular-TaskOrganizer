@@ -14,25 +14,25 @@ import com.ocp.gestionprojet.service.interfaces.DepartementService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
 @RestController
-@RequestMapping("departements")
+@RequestMapping("api/departements")
 
 public class DepartementController {
 
     @Autowired
     private DepartementService departementService;
 
+    // get all departements
     @GetMapping("")
     public ResponseEntity<List<DepartementDto>> getAllDepartements() {
         return new ResponseEntity<>(departementService.findAll(), HttpStatus.OK);
     }
 
+    // cree une departement
     @PostMapping("")
-    public ResponseEntity <DepartementDto> saveDepartement(@RequestBody DepartementDto departementDto) {
-        DepartementDto savedDepartementDto=departementService.Save(departementDto);
+    public ResponseEntity<DepartementDto> saveDepartement(@RequestBody DepartementDto departementDto) {
+        DepartementDto savedDepartementDto = departementService.Save(departementDto);
         return new ResponseEntity<>(savedDepartementDto, HttpStatus.CREATED);
     }
-    
 
 }

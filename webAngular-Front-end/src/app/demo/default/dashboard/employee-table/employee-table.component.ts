@@ -63,6 +63,6 @@ export class EmployeeTableComponent implements OnChanges, AfterViewInit {
   }
 
   voirProfil(employee: Employee) {
-    this.router.navigateByUrl(`employe/${employee.id}`);
+    this.router.navigateByUrl(`chef/employe/${employee.id}`);
   }
 }

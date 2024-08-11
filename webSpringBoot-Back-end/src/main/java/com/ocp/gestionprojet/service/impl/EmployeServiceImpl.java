@@ -8,12 +8,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ocp.gestionprojet.exception.EntityNotFoundException;
-import com.ocp.gestionprojet.mapper.EmployeMapper;
+import com.ocp.gestionprojet.mapper.PersonnelMapper;
 import com.ocp.gestionprojet.mapper.RapportMapper;
 import com.ocp.gestionprojet.model.dto.EmployeDto;
 import com.ocp.gestionprojet.model.dto.RapportDto;
 import com.ocp.gestionprojet.model.entity.EmployeEntity;
 import com.ocp.gestionprojet.model.entity.EquipeEntity;
+import com.ocp.gestionprojet.model.entity.UserEntity;
 import com.ocp.gestionprojet.repository.EmployeRepository;
 import com.ocp.gestionprojet.repository.EquipeRepository;
 import com.ocp.gestionprojet.service.interfaces.EmployeService;
@@ -24,7 +25,7 @@ public class EmployeServiceImpl implements EmployeService {
     @Autowired
     private EmployeRepository employeRepository;
     @Autowired
-    private EmployeMapper employeMapper;
+    private PersonnelMapper personnelMapper;
     @Autowired
     private EquipeRepository equipeRepository;
  
@@ -34,14 +35,14 @@ public class EmployeServiceImpl implements EmployeService {
     @Override
     public EmployeDto findById(Integer id) throws EntityNotFoundException {
         return employeRepository.findById(id)
-                .map(entity -> employeMapper.toDto(entity))
+                .map(entity -> personnelMapper.toDto(entity))
                 .orElseThrow(() -> new EntityNotFoundException("employe n'est pas exist "));
     }
 
     @Override
     public EmployeDto update(EmployeDto employeDto) throws EntityNotFoundException {
         EmployeDto existingEmployeDto = findById(employeDto.getId());
-        EmployeEntity existingEmployEntity = employeMapper.toEntity(existingEmployeDto);
+        EmployeEntity existingEmployEntity = personnelMapper.toEntity(existingEmployeDto);
         existingEmployEntity.setNom(employeDto.getNom());
         existingEmployEntity.setPrenom(employeDto.getPrenom());
         existingEmployEntity.setAge(employeDto.getAge());
@@ -54,7 +55,7 @@ public class EmployeServiceImpl implements EmployeService {
         existingEmployEntity.setSexe(employeDto.getSexe());
 
         EmployeEntity updatedEmploye = employeRepository.save(existingEmployEntity);
-        return employeMapper.toDto(updatedEmploye);
+        return personnelMapper.toDto(updatedEmploye);
     }
 
     @Override
@@ -65,12 +66,12 @@ public class EmployeServiceImpl implements EmployeService {
 
     @Override
     public List<EmployeDto> findEmployeByEquipeId(Integer eqpId) {
-        return employeRepository.findByEquipeId(eqpId).stream().map(entity -> employeMapper.toDto(entity))
+        return employeRepository.findByEquipeId(eqpId).stream().map(entity -> personnelMapper.toDto(entity))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public EmployeDto addEmployeToEquipe(EmployeDto employeDto, Integer eqpId) throws EntityNotFoundException {
+    public EmployeEntity addEmployeToEquipe(EmployeDto employeDto, Integer eqpId, UserEntity user) throws EntityNotFoundException {
         EquipeEntity equipeEntity = equipeRepository.findById(eqpId)
                 .orElseThrow(() -> new EntityNotFoundException("equipe not found with id"));
         EmployeEntity employeEntity = new EmployeEntity();
@@ -85,8 +86,11 @@ public class EmployeServiceImpl implements EmployeService {
         employeEntity.setPosition(employeDto.getPosition());
         employeEntity.setSexe(employeDto.getSexe());
         employeEntity.setEquipe(equipeEntity);
+        equipeEntity.setNbrEmploye(equipeEntity.getNbrEmploye()+1);
+        equipeRepository.save(equipeEntity);
+        employeEntity.setUser(user);
         EmployeEntity savedEmployeEntity = employeRepository.save(employeEntity);
-        return employeMapper.toDto(savedEmployeEntity);
+        return savedEmployeEntity;
     }
 
 

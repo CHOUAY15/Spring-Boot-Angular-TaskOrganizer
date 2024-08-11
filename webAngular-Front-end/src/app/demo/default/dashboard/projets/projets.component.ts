@@ -1,3 +1,5 @@
+// projets.component.ts
+
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ProjetTableComponent } from '../projet-table/projet-table.component';
 import { ActivatedRoute, RouterLink } from '@angular/router';
@@ -7,19 +9,19 @@ import { BehaviorSubject, Observable, Subscription, tap } from 'rxjs';
 import { LoadingService } from 'src/app/services/loading.service';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from '../../../../theme/shared/shared.module';
-
+import { DialogProjetComponent } from '../dialog-projet/dialog-projet.component';
 
 @Component({
   selector: 'app-projets',
   standalone: true,
-  imports: [ProjetTableComponent, CommonModule, SharedModule,RouterLink],
+  imports: [ProjetTableComponent, CommonModule, SharedModule, RouterLink, DialogProjetComponent],
   templateUrl: './projets.component.html',
   styleUrl: './projets.component.scss'
 })
 export class ProjetsComponent implements OnInit, OnDestroy {
   private projetSubject = new BehaviorSubject<Projet[]>([]);
   private subscription: Subscription = new Subscription();
-  // properties
+
   nomEquipe: string = '';
   equipeId: string = '';
   projets: Projet[] = [];
@@ -28,7 +30,8 @@ export class ProjetsComponent implements OnInit, OnDestroy {
   loading$: Observable<boolean>;
   error$: Observable<boolean>;
 
-  // constructeur
+  showDialog = false;
+
   constructor(
     private stateService: LoadingService,
     private route: ActivatedRoute,
@@ -38,12 +41,10 @@ export class ProjetsComponent implements OnInit, OnDestroy {
     this.error$ = this.stateService.error$;
   }
 
-
-
   ngOnInit() {
     this.route.params.subscribe((params) => {
       this.equipeId = params['id'];
-      this.nomEquipe=params['nomEquipe']
+      this.nomEquipe = params['nomEquipe'];
       this.loadProjets();
     });
   }
@@ -64,6 +65,20 @@ export class ProjetsComponent implements OnInit, OnDestroy {
       )
     );
   }
+
+  ajouterProjet() {
+    this.showDialog = true;
+  }
+
+  handleClose() {
+    this.showDialog = false;
+  }
+
+  onProjectAdded(newProject: Projet) {
+    this.loadProjets(); // Reload projects after adding a new one
+    this.showDialog = false;
+  }
+
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }

@@ -30,7 +30,7 @@ export const NavigationItems: NavigationItem[] = [
         title: 'Équipes',
         type: 'item',
         classes: 'nav-item',
-        url: '/accueil/default',
+        url: '/',
         icon: 'profile',
         breadcrumbs: false
       }
@@ -65,14 +65,14 @@ export const NavigationItems: NavigationItem[] = [
         title: 'Rapports',
         type: 'item',
         classes: 'nav-item',
-        url: '/rapports',
+        url: '/chef/rapports',
       },
       {
         id: 'documents',
         title: 'Documents',
         type: 'item',
         classes: 'nav-item',
-        url: '/documents',
+        url: '/chef/documents',
       },
     
     ]

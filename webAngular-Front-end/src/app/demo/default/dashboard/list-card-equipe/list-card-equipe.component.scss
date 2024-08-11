@@ -46,3 +46,61 @@ h1 {
       transform: rotate(360deg);
   }
 }
+.filter-container {
+  margin-bottom: 20px;
+  padding: 10px;
+  max-width: 250px; // Reduced width
+  margin-left: 0; // Align to the left
+
+  .filter-input {
+    width: 100%;
+    padding: 8px 15px; // Reduced padding
+    font-size: 14px; // Smaller font size
+    border: 1px solid #ddd; // Thinner border
+    border-radius: 20px; // Slightly reduced border-radius
+    outline: none;
+    transition: all 0.3s ease-in-out;
+    background-color: white;
+    color: #333;
+
+    &:focus {
+      border-color: #4a90e2;
+      box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+    }
+
+    &::placeholder {
+      color: #999;
+      font-size: 12px; // Smaller placeholder text
+    }
+  }
+}
+
+// Optional: Add some responsiveness
+@media (max-width: 768px) {
+  .filter-container {
+    padding: 8px;
+    max-width: 200px; // Even smaller on mobile devices
+
+    .filter-input {
+      font-size: 12px;
+      padding: 6px 12px;
+    }
+  }
+}
+
+// Optional: Add a search icon
+.filter-container {
+  position: relative;
+
+  &::after {
+    content: '\f002'; // FontAwesome search icon
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    position: absolute;
+    right: 20px; // Moved closer to the edge
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+    font-size: 14px; // Smaller icon
+  }
+}

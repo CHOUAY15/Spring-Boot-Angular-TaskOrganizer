@@ -1,42 +1,71 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { environment } from 'src/environments/environment';
-import { User } from '../model/user';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
-interface LoginResponse {
+ export interface LoginResponse {
   accessToken: string;
   tokenType: string;
+  id: number;
+  role: string;
+  person: {
+    id: number;
+    nom: string;
+    prenom: string;
+    age: number;
+    telephone: string;
+    email: string;
+    adresse: string;
+    avatar: string | null;
+    cin: string;
+    sexe: string;
+    departementNom: string;
+  };
 }
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root'
+})
 export class AuthService {
-  private currentUserSubject: BehaviorSubject<any>;
-  public currentUser: Observable<any>;
+  private currentUserSubject: BehaviorSubject<LoginResponse | null>;
+  public currentUser: Observable<LoginResponse | null>;
+  private apiUrl = 'http://localhost:4000';
 
   constructor(private http: HttpClient) {
-    this.currentUserSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('currentUser')));
+    this.currentUserSubject = new BehaviorSubject<LoginResponse | null>(JSON.parse(localStorage.getItem('currentUser') || 'null'));
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
-  public get currentUserValue() {
-    return this.currentUserSubject.value;
-  }
-
-  login(email: string, password: string) {
-    return this.http.post<any>(`http://localhost:4000/auth/login`, { email, password })
-      .pipe(map(response => {
-        // store user details and jwt token in local storage to keep user logged in between page refreshes
+  login(email: string, password: string): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(`${this.apiUrl}/auth/login`, { email, password }).pipe(
+      tap((response) => {
         localStorage.setItem('currentUser', JSON.stringify(response));
         this.currentUserSubject.next(response);
-        return response;
-      }));
+      })
+    );
   }
 
   logout() {
-    // remove user from local storage to log user out
     localStorage.removeItem('currentUser');
     this.currentUserSubject.next(null);
   }
+
+  getCurrentUser(): LoginResponse | null {
+    return this.currentUserSubject.value;
+  }
+
+  hasRole(role: string): boolean {
+    const user = this.getCurrentUser();
+    return user !== null && user.role === role;
+  }
+
+  getToken(): string | null {
+    const user = this.getCurrentUser();
+    return user ? user.accessToken : null;
+  }
+  getUserRole(): string {
+    const user = this.getCurrentUser();
+    return user ? user.role : '';
+  }
+
 }

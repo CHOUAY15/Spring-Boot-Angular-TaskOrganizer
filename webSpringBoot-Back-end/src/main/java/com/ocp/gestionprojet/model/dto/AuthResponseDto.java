@@ -16,15 +16,15 @@ public class AuthResponseDto {
     private String tokenType = "Bearer ";
     private Integer id;
     private RolesUser role;
-
-    public AuthResponseDto(String accessToken) {
-        this.accessToken = accessToken;
-    }
+    private PersonDto person;
     
-    public AuthResponseDto(String accessToken,Integer id,RolesUser role) {
-     this.id=id;
-     this.accessToken=accessToken;
-     this.role=role;
+    public AuthResponseDto(String accessToken, Integer id, RolesUser role, PersonDto person) {
+        this.accessToken = accessToken;
+        this.id = id;
+        this.role = role;
+        this.person = person;
     }
+
+ 
 
 }

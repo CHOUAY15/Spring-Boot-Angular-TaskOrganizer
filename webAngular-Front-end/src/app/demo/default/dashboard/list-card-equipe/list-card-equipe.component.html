@@ -1,4 +1,13 @@
 <h1>Équipes</h1>
+<div class="filter-container">
+  <input 
+    type="text" 
+    [(ngModel)]="filterText" 
+    (ngModelChange)="filterEquipes()"
+    placeholder="Nom de l'équipe ou département"
+    class="filter-input"
+  >
+</div>
 
 <ng-container *ngIf="(loading$ | async) === false; else loadingTemplate">
   <ng-container *ngIf="(error$ | async) === false; else errorTemplate">
@@ -8,7 +17,7 @@
       </div>
       <ng-template #noEquipes>
         <div class="centered-message">
-          Aucune équipe pour l'instant !
+          Aucune équipe  !
         </div>
       </ng-template>
     </ng-container>

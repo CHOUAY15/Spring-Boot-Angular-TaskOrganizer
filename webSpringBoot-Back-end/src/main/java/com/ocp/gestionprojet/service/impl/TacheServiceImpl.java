@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.ocp.gestionprojet.exception.EntityNotFoundException;
 import com.ocp.gestionprojet.mapper.TacheMapper;
 import com.ocp.gestionprojet.model.dto.TacheDto;
+import com.ocp.gestionprojet.model.dto.TacheRequestDto;
 import com.ocp.gestionprojet.model.entity.EmployeEntity;
 import com.ocp.gestionprojet.model.entity.ProjetEntity;
 import com.ocp.gestionprojet.model.entity.TacheEntity;
@@ -29,6 +30,7 @@ public class TacheServiceImpl implements TacheService {
     private EmployeRepository employeRepository;
     @Autowired
     private ProjetRepository projetRepository;
+ 
 
     @Override
     public TacheDto findById(Integer id) throws EntityNotFoundException {
@@ -38,12 +40,12 @@ public class TacheServiceImpl implements TacheService {
     }
 
     @Override
-    public TacheDto update(TacheDto tacheDto) throws EntityNotFoundException {
-        TacheEntity existingTacheEntity = tacheRepository.findById(tacheDto.getId())
-            .orElseThrow(() -> new EntityNotFoundException("Tache not found with id: " + tacheDto.getId()));
-        
-        existingTacheEntity.setStatut(tacheDto.getStatut());
-        
+    public TacheDto update(TacheRequestDto tacheDto, Integer id) throws EntityNotFoundException {
+        TacheEntity existingTacheEntity = tacheRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Tache not found with id: " + id));
+
+        tacheMapper.updateEntityFromRequestDto(tacheDto, existingTacheEntity);
+
         TacheEntity updatedTache = tacheRepository.save(existingTacheEntity);
         return tacheMapper.toDto(updatedTache);
     }
@@ -69,16 +71,17 @@ public class TacheServiceImpl implements TacheService {
 
     // add a tache to employee
     // @Override
-    // public TacheDto addTacheToEmploye(TacheDto tacheDto, Integer empId) throws EntityNotFoundException {
-    //     EmployeEntity employeEntity = employeRepository.findById(empId)
-    //             .orElseThrow(() -> new EntityNotFoundException("employe not found with id"));
-    //     TacheEntity tacheEntity = new TacheEntity();
-    //     tacheEntity.setTitre(tacheDto.getTitre());
-    //     tacheEntity.setDescription(tacheDto.getDescription());
-    //     tacheEntity.setNbrJours(tacheDto.getNbrJours());
-    //     tacheEntity.setEmploye(employeEntity);
-    //     TacheEntity savedTacheEntity = tacheRepository.save(tacheEntity);
-    //     return tacheMapper.toDto(savedTacheEntity);
+    // public TacheDto addTacheToEmploye(TacheDto tacheDto, Integer empId) throws
+    // EntityNotFoundException {
+    // EmployeEntity employeEntity = employeRepository.findById(empId)
+    // .orElseThrow(() -> new EntityNotFoundException("employe not found with id"));
+    // TacheEntity tacheEntity = new TacheEntity();
+    // tacheEntity.setTitre(tacheDto.getTitre());
+    // tacheEntity.setDescription(tacheDto.getDescription());
+    // tacheEntity.setNbrJours(tacheDto.getNbrJours());
+    // tacheEntity.setEmploye(employeEntity);
+    // TacheEntity savedTacheEntity = tacheRepository.save(tacheEntity);
+    // return tacheMapper.toDto(savedTacheEntity);
     // }
 
     // find tache by employee
@@ -89,9 +92,9 @@ public class TacheServiceImpl implements TacheService {
                 .collect(Collectors.toList());
     }
 
-    // add tache to ap rojet 
+    // add tache to ap rojet
     @Override
-    public TacheDto addTacheToProjet(TacheDto tacheDto, Integer prjtId) throws EntityNotFoundException {
+    public TacheDto addTacheToProjet(TacheRequestDto tacheDto, Integer prjtId) throws EntityNotFoundException {
         EmployeEntity employeEntity = employeRepository
                 .findById(tacheDto.getEmploye().getId())
                 .orElseThrow(() -> new EntityNotFoundException("employe not found"));
@@ -104,18 +107,19 @@ public class TacheServiceImpl implements TacheService {
         tacheEntity.setTitre(tacheDto.getTitre());
         tacheEntity.setNbrJours(tacheDto.getNbrJours());
         tacheEntity.setDescription(tacheDto.getDescription());
+        tacheEntity.setPriorite(tacheDto.getPriorite());
+
         TacheEntity savedTacheEntity = tacheRepository.save(tacheEntity);
         return tacheMapper.toDto(savedTacheEntity);
 
     }
 
-
-    //  find tache by projet
+    // find tache by projet
     @Override
     public List<TacheDto> findByProjets(Integer prjtId) {
         return tacheRepository.findByProjetId(prjtId)
-        .stream().map(entity -> tacheMapper.toDto(entity))
-        .collect(Collectors.toList());
+                .stream().map(entity -> tacheMapper.toDto(entity))
+                .collect(Collectors.toList());
     }
 
 }

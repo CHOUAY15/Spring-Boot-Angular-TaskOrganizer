@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ocp.gestionprojet.exception.EntityNotFoundException;
 import com.ocp.gestionprojet.mapper.LivrableMapper;
@@ -12,7 +13,6 @@ import com.ocp.gestionprojet.mapper.ProjetMapper;
 import com.ocp.gestionprojet.model.dto.LivrableDto;
 import com.ocp.gestionprojet.model.dto.ProjetDto;
 import com.ocp.gestionprojet.model.dto.ProjetRequestDto;
-import com.ocp.gestionprojet.model.dto.ProjetResponseDto;
 import com.ocp.gestionprojet.model.entity.EquipeEntity;
 import com.ocp.gestionprojet.model.entity.LivrableEntity;
 import com.ocp.gestionprojet.model.entity.ProjetEntity;
@@ -37,22 +37,16 @@ public class ProjetServiceImpl implements ProjetService {
     private LivrableRepository livrableRepository;
 
     @Override
-    public ProjetDto findById(Integer id) throws EntityNotFoundException {
-        return projetRepository.findById(id)
-                .map(entity -> projetMapper.toDto(entity))
-                .orElseThrow(() -> new EntityNotFoundException("projet n'est pas exist"));
-    }
+    @Transactional
+    public ProjetDto update(ProjetRequestDto projetDto, Integer id) throws EntityNotFoundException {
 
-    @Override
-    public ProjetDto update(ProjetDto projetDto) throws EntityNotFoundException {
-        ProjetDto existingProjetDto = findById(projetDto.getId());
-        ProjetEntity existingProjetEntity = projetMapper.toEntity(existingProjetDto);
-        existingProjetEntity.setNom(projetDto.getNom());
-        existingProjetEntity.setDescription(projetDto.getDescription());
+        ProjetEntity existingProjetEntity = projetRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Project not found with id: " + id));
 
-        existingProjetDto.setDateDebut(projetDto.getDateDebut());
-        existingProjetDto.setDateFin(projetDto.getDateFin());
+        projetMapper.updateProjetFromDto(projetDto, existingProjetEntity);
+
         ProjetEntity updatedProjetEntity = projetRepository.save(existingProjetEntity);
+
         return projetMapper.toDto(updatedProjetEntity);
 
     }
@@ -63,25 +57,10 @@ public class ProjetServiceImpl implements ProjetService {
 
     }
 
-    @Override
-    public ProjetDto save(ProjetDto projetDto) {
-        ProjetEntity projetEntity = projetMapper.toEntity(projetDto);
-        ProjetEntity savedEntity = projetRepository.save(projetEntity);
-        return projetMapper.toDto(savedEntity);
-
-    }
-
-    @Override
-    public List<ProjetDto> findAll() {
-        return projetRepository.findAll()
-                .stream()
-                .map(entity -> projetMapper.toDto(entity))
-                .collect(Collectors.toList());
-
-    }
     // add prjet to equipe
 
     @Override
+    @Transactional
     public ProjetDto addProjetToEquipe(ProjetRequestDto projetDto, Integer eqpId) throws EntityNotFoundException {
         EquipeEntity equipeEntity = equipeRepository.findById(eqpId)
                 .orElseThrow(() -> new EntityNotFoundException("equipe not found with id"));
@@ -112,23 +91,36 @@ public class ProjetServiceImpl implements ProjetService {
 
     // find projet by chef
     @Override
-    public List<ProjetResponseDto> findByChef(Integer chefId) {
-        List<ProjetEntity> projetEntities = projetRepository.findByChefId(chefId);
-        return projetEntities.stream().map(projetEntity -> {
-            List<LivrableDto> livrables = projetEntity.getLivrables().stream()
-                    .map(livrable -> LivrableDto.builder()
-                            .nom(livrable.getNom())
-                            .path(livrable.getPath())
-                            .build())
-                    .collect(Collectors.toList());
-
-            return ProjetResponseDto.builder()
-                    .nom(projetEntity.getNom())
-                    .dateDebut(projetEntity.getDateDebut())
-                    .livrables(livrables)
-                    .build();
-        }).collect(Collectors.toList());
+    @Transactional
+    public List<ProjetDto> findByChef(Integer chefId) {
+        return projetRepository.findByChefId(chefId)
+                .stream()
+                .map(entity -> projetMapper.toDto(entity))
+                .collect(Collectors.toList());
 
     }
+
+    // @Override
+    // public ProjetDto findById(Integer id) throws EntityNotFoundException {
+    // return projetRepository.findById(id)
+    // .map(entity -> projetMapper.toDto(entity))
+    // .orElseThrow(() -> new EntityNotFoundException("projet n'est pas exist"));
+    // }
+    // @Override
+    // public ProjetDto save(ProjetDto projetDto) {
+    // ProjetEntity projetEntity = projetMapper.toEntity(projetDto);
+    // ProjetEntity savedEntity = projetRepository.save(projetEntity);
+    // return projetMapper.toDto(savedEntity);
+
+    // }
+
+    // @Override
+    // public List<ProjetDto> findAll() {
+    // return projetRepository.findAll()
+    // .stream()
+    // .map(entity -> projetMapper.toDto(entity))
+    // .collect(Collectors.toList());
+
+    // }
 
 }

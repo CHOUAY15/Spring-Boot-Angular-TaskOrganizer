@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.ocp.gestionprojet.exception.EntityNotFoundException;
 import com.ocp.gestionprojet.model.dto.EmployeDto;
+import com.ocp.gestionprojet.model.entity.EmployeEntity;
+import com.ocp.gestionprojet.model.entity.UserEntity;
 
 public interface EmployeService {
 
@@ -13,10 +15,9 @@ public interface EmployeService {
 
     void delete(Integer id);
 
-
-    EmployeDto addEmployeToEquipe(EmployeDto employeDto, Integer eqpId) throws EntityNotFoundException;
+    EmployeEntity addEmployeToEquipe(EmployeDto employeDto, Integer eqpId , UserEntity user) throws EntityNotFoundException;
 
     List<EmployeDto> findEmployeByEquipeId(Integer eqpId);
-    
+
     List<EmployeDto> findByChef(Integer chefId);
 }

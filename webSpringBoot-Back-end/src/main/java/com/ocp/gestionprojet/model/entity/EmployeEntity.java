@@ -16,7 +16,7 @@ import lombok.Setter;
 @Getter
 @Setter
 
-public class EmployeEntity extends Person {
+public class EmployeEntity extends Person  {
 
     private String position;
 
@@ -26,12 +26,15 @@ public class EmployeEntity extends Person {
     private EquipeEntity equipe;
 
     @OneToMany(mappedBy = "employe", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<TacheEntity> taches=new ArrayList<>();
+    private List<TacheEntity> taches = new ArrayList<>();
 
     @OneToOne(mappedBy = "employe")
     private RapportEntity rapport;
-
-    
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", nullable = false, referencedColumnName = "id")
+    private UserEntity user;
+    @OneToMany(mappedBy = "employe", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CommentaireEntity> commentaires=new ArrayList<>();
 
 
 }

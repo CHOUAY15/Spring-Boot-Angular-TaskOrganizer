@@ -13,7 +13,9 @@ public interface DepartementMapper {
 
     @Mapping(target = "equipes", ignore = true)
     @Mapping(target = "chefs", ignore = true)
+    @Mapping(target = "localisation", source = "localisation")
     DepartementEntity toEntity(DepartementDto departementDto);
 
+    @Mapping(target = "localisation", source = "localisation")
     DepartementDto toDto(DepartementEntity departementEntity);
 }

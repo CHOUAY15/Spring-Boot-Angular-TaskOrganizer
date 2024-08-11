@@ -1,5 +1,16 @@
 <div class="tache-header">
-    <div class="titre">{{ tache.titre }}</div>
+  <div class="tache-name-p">
+    <div class="priorite" [ngClass]="{
+          'haute': tache.priorite === 'haute',
+          'moyenne': tache.priorite === 'moyenne',
+          'basse': tache.priorite === 'basse'
+        }">
+      {{ tache.priorite }}
+    </div>
+    <div class="titre">
+      {{ tache.titre }}
+    </div>
+  </div>
     <div class="tache-menu">
       <button class="eye-button" (click)="toggleAdditionalInfo()">
         <mat-icon>visibility</mat-icon>

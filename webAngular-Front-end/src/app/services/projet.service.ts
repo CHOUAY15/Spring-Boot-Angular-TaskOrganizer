@@ -4,19 +4,24 @@ import { forkJoin, from, map, Observable, switchMap } from 'rxjs';
 import { Projet } from '../model/projet';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { ProjectSubmited, ProjectWithOpenState } from '../model/projetSubmitData';
+import { AuthService } from './auth.service';
 @Injectable({
   providedIn: 'root'
 })
 export class ProjetService {
   private basePath = '/projets';
+  chefId:number;
 
   constructor(
     private http: HttpClient,
-    private storage: AngularFireStorage
-  ) {}
+    private storage: AngularFireStorage,private authService:AuthService
+  ) {
+
+    this.chefId=authService.getCurrentUser().person.id
+  }
 
   getProjetsByTeamId(equipeId: string): Observable<Projet[]> {
-    return this.http.get<Projet[]>(`http://localhost:4000/projets/eqpId/${equipeId}`);
+    return this.http.get<Projet[]>(`http://localhost:4000/api/projets/eqpId/${equipeId}`);
   }
 
   addProjectWithFiles(project: ProjectSubmited, files: File[], eqpId: string): Observable<Projet> {
@@ -41,19 +46,20 @@ export class ProjetService {
   }
 
   addProject(project: ProjectSubmited, eqpId: string): Observable<any> {
-    return this.http.post(`http://localhost:4000/projets/eqpId/${eqpId}`, project);
+    return this.http.post(`http://localhost:4000/api/projets/eqpId/${eqpId}`, project);
   }
 
-
+  
   getProjetsByChef(): Observable<ProjectWithOpenState[]> {
-    return this.http.get<ProjectWithOpenState[]>(`http://localhost:4000/projets/chefId/12`);
+    
+    return this.http.get<ProjectWithOpenState[]>(`http://localhost:4000/api/projets/chefId/${this.chefId}`);
   }
 
   getFileUrl(path: string): Observable<string> {
     return this.storage.ref(path).getDownloadURL();
   }
   deleteProjet(prjtId:number):Observable<any>{
-    return this.http.delete(`http://localhost:4000/projets/id/${prjtId}`);
+    return this.http.delete(`http://localhost:4000/api/projets/id/${prjtId}`);
 
 
   }

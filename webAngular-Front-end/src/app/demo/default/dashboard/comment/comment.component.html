@@ -1,0 +1,45 @@
+<div class="comment" [ngClass]="{ reply: isReply }">
+  <img
+    [src]="
+      comment.sender.avatar
+        ? comment.sender.avatar
+        : comment.sender.sexe === 'Femme'
+          ? 'assets/images/profile/femme.png'
+          : 'assets/images/profile/homme.png'
+    "
+    alt="User avatar"
+    class="avatar"
+  />
+  <div class="comment-content">
+    <span *ngIf="comment.estImportant" [ngClass]="{ 'important-text': comment.estImportant }"><strong>important!</strong></span>
+    <div class="comment-header">
+      <span class="sender-name">{{ comment.sender.nom }} {{ comment.sender.prenom }}</span>
+      <span class="sender-name">{{ comment.sender.position }}</span>
+
+      <span class="comment-time">{{ comment.dateCreation | date: 'short' }}</span>
+    </div>
+    <p class="comment-text">{{ comment.texte }}</p>
+    <div class="comment-actions" *ngIf="!isReply">
+      <button (click)="toggleReply()" class="reply-button">Reply</button>
+    </div>
+    <div class="reaction-section" *ngIf="isReply">
+      <button class="reaction-button" (click)="toggleReactions()" [matTooltip]="comment.reactions !== 'none' ? comment.reactions : 'React'">
+      <mat-icon>{{ getReactionIcon(comment.reactions) }}</mat-icon>
+      </button>
+      <div class="reaction-options" *ngIf="showReactions">
+        <button *ngFor="let reaction of reactions" (click)="setReaction(reaction)" [matTooltip]="reaction">
+          <mat-icon>{{ getReactionIcon(reaction) }}</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="isReplying" class="reply-form">
+      <textarea [(ngModel)]="replyText" placeholder="Write a reply..."></textarea>
+      <button (click)="addReply()" class="send-reply-button">Send</button>
+    </div>
+
+    <div class="replies" *ngIf="comment.responses && comment.responses.length > 0">
+      <app-comment *ngFor="let reply of comment.responses" [comment]="reply" [idComment]="comment.id" [isReply]="true"></app-comment>
+    </div>
+  </div>
+</div>

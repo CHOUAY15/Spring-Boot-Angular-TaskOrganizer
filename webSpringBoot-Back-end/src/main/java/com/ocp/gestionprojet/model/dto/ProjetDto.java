@@ -15,14 +15,11 @@ import lombok.NoArgsConstructor;
 
 public class ProjetDto {
     private Integer id;
-
     private String nom;
-
     private Date dateDebut;
-
     private Date dateFin;
-
     private String description;
+    private boolean etatAvancement;
     private List<LivrableDto> livrables;
 
 }

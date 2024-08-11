@@ -294,17 +294,61 @@ table {
   }
 }
 
-.voir {
-  display: flex;
-  align-items: center;
-  border: none;
-  background-color: transparent;
+.underline-link {
+  text-decoration: underline;
+  color: #00B98E;
   cursor: pointer;
-  font-size: clamp(14px, 1.4vw, 16px);
-  color: $green;
+  font-weight: bold;  /* Optional: Sets the text color, e.g., a shade of blue */
+}
 
-  mat-icon {
-    margin-right: 8px;
-    font-size: clamp(16px, 1.6vw, 18px);
-  }
+.etat-termine {
+  color: #00B98E; /* Green color for 'terminé' */
+  font-weight: bold;
+}
+
+.etat-en-cours {
+  color: #FFA500; /* Orange color for 'en cours' */
+  font-weight: bold;
+}
+.modal {
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.078);
+  display: flex;
+  justify-content: center;
+  align-items: center;  
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  width: 600px;
+  text-align: center;
+}
+
+.modal-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.cancel-btn, .confirm-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.cancel-btn {
+  background-color: #ccc;
+}
+
+.confirm-btn {
+  background-color: #f44336;
+  color: white;
 }

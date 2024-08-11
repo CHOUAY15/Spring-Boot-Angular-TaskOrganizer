@@ -4,19 +4,18 @@ import java.util.Date;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-
-public class ProjetResponseDto {
-    private String nom;
-    private Date dateDebut;
-    private List <LivrableDto> livrables;
-    private String description;
-
+public class CommentaireDto {
+    private Integer id; 
+    private String texte;
+    private Date dateCreation;
+    private EmployeDto sender; 
+    private Boolean estImportant;
+    private List<RepondreDto> responses;
 }
+

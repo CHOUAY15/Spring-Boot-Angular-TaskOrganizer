@@ -15,5 +15,7 @@ public interface LivrableMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "projet", ignore = true)
+    @Mapping(target = "dateCreation", ignore = true)
+
     LivrableEntity toEntity(LivrableDto livrableDto);
 }

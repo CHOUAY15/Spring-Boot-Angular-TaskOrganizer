@@ -15,8 +15,6 @@ import { ProjetService } from 'src/app/services/projet.service';
   styleUrls: ['./dialog-projet.component.scss']
 })
 export class DialogProjetComponent implements OnInit {
-
-
   @Output() close = new EventEmitter<void>();
   @Output() projectAdded = new EventEmitter<Projet>();
   @Input() equipeId: string;
@@ -26,6 +24,9 @@ export class DialogProjetComponent implements OnInit {
   livrables: Deliverable[] = [];
   files: File[] = [];
   selectedFile: File | null = null;
+  isLoading: boolean = false;
+  successMessage: string | null = null;
+  errorMessage: string | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -46,18 +47,19 @@ export class DialogProjetComponent implements OnInit {
       nom: ['', [Validators.required, Validators.minLength(3)]],
       description: ['', Validators.required],
       livrable: [''],
-      dateFin: [null, [Validators.required, this.dateValidator]]
+      dateFin: [null, [Validators.required, this.dateValidator()]]
     });
   }
+
   dateValidator(): ValidatorFn {
-    return (control: AbstractControl): {[key: string]: any} | null => {
+    return (control: AbstractControl): ValidationErrors | null => {
       if (!control.value) {
-        return null; 
+        return null;
       }
       const today = new Date();
-      today.setHours(0, 0, 0, 0); 
+      today.setHours(0, 0, 0, 0);
       const inputDate = new Date(control.value);
-  
+
       if (inputDate <= today) {
         return { 'dateInvalid': true };
       }
@@ -78,17 +80,15 @@ export class DialogProjetComponent implements OnInit {
       }
     }
   }
+
   validateFile(file: File): boolean {
-    
-    // Vérifier l'extension du fichier
     const fileNameParts = file.name.split('.');
     const extension = fileNameParts[fileNameParts.length - 1].toLowerCase();
     if (extension !== 'pdf') {
       return false;
     }
 
-
-    if (file.size > 10 * 1024 * 1024) { 
+    if (file.size > 10 * 1024 * 1024) {
       return false;
     }
 
@@ -116,7 +116,7 @@ export class DialogProjetComponent implements OnInit {
     const livrable = this.projetForm.get('livrable')?.value;
     if (livrable) {
       this.livrables.push({ nom: livrable, path: '' });
-      this.files.push(new File([], '')); // Placeholder file
+      this.files.push(new File([], ''));
       this.projetForm.get('livrable')?.reset();
     }
   }
@@ -127,7 +127,11 @@ export class DialogProjetComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if  (this.projetForm.valid && this.equipeId && this.livrables.length > 0 )  {
+    if (this.projetForm.valid && this.equipeId && this.livrables.length > 0) {
+      this.isLoading = true;
+      this.successMessage = null;
+      this.errorMessage = null;
+
       const formValue = this.projetForm.value;
       const projectToSubmit: ProjectSubmited = {
         nom: formValue.nom,
@@ -139,18 +143,22 @@ export class DialogProjetComponent implements OnInit {
       this.projetService.addProjectWithFiles(projectToSubmit, this.files, this.equipeId).subscribe(
         (newProject: Projet) => {
           console.log('New project added:', newProject);
-          this.projectAdded.emit(newProject);
-          this.close.emit();
+          this.isLoading = false;
+          this.successMessage = "Projet ajouté avec succès!";
+          setTimeout(() => {
+            this.projectAdded.emit(newProject);
+            this.close.emit();
+          }, 2000);
         },
         error => {
           console.error('Error while adding project:', error);
+          this.isLoading = false;
+          this.errorMessage = "Erreur de connexion. Veuillez réessayer.";
         }
       );
-    }
-    else{
+    } else {
       this.projetForm.markAllAsTouched();
       if (this.livrables.length === 0) {
-        // You might want to show an error message for livrables
         console.error('At least one livrable is required');
       }
       if (!this.selectedFile) {
@@ -160,7 +168,6 @@ export class DialogProjetComponent implements OnInit {
         const control = this.projetForm.get(key);
         control?.markAsTouched();
       });
-
     }
   }
 }

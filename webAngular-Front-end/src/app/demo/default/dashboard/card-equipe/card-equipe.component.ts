@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { CardEquipe } from 'src/app/model/card-equipe';
@@ -5,7 +6,7 @@ import { CardEquipe } from 'src/app/model/card-equipe';
 @Component({
   selector: 'app-card-equipe',
   standalone: true,
-  imports: [],
+  imports: [DatePipe],
   templateUrl: './card-equipe.component.html',
   styleUrl: './card-equipe.component.scss'
 })
@@ -19,11 +20,11 @@ export class CardEquipeComponent {
 
 
   goToEmployes():void {
-    this.router.navigateByUrl(`equipe/${this.cardEquipe.nom}/${this.cardEquipe.id}/employes`);
+    this.router.navigateByUrl(`chef/equipe/${this.cardEquipe.nom}/${this.cardEquipe.id}/employes`);
   }
   
   goToProjets():void {
-    this.router.navigateByUrl(`equipe/${this.cardEquipe.nom}/${this.cardEquipe.id}/projets`);
+    this.router.navigateByUrl(`chef/equipe/${this.cardEquipe.nom}/${this.cardEquipe.id}/projets`);
   }
 
 

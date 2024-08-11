@@ -1,0 +1,90 @@
+// header.component.scss
+.modern-header {
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    transition: all 0.3s ease;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+  
+    &.scrolled {
+      background: #00b98e33;    
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+      h1,
+      .navbar-nav .nav-link,
+      .btn-primary {
+        color: white !important;
+      }
+  
+      .navbar-toggler-icon {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23FFFFFF' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+      }
+  
+      .btn-primary {
+        background-color: white;
+        color: #00b98e !important;
+      }
+    }
+  
+  
+  }
+  
+  .navbar {
+    padding: 15px 0;
+    transition: all 0.3s ease;
+  }
+  
+  .navbar-brand h1 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #00b98e;
+    margin: 0;
+    transition: all 0.3s ease;
+  }
+  
+  .navbar-nav .nav-link {
+    color: #0e2e50;
+    font-weight: 500;
+    padding: 10px 15px;
+    transition: all 0.3s ease;
+  
+    &:hover {
+      color: #00b98e;
+    }
+  }
+  
+  .btn-primary {
+    background-color: #00b98e;
+    border-color: #ececec;
+    padding: 10px 20px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    color: #ffffff;
+    border-radius: 30px;
+  }
+  
+  .navbar-toggler {
+    border: none;
+    padding: 0;
+  
+    &:focus {
+      box-shadow: none;
+    }
+  }
+  
+  .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%2300b98e' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+  }
+  
+  // Center the header
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  a{
+    cursor: pointer
+  }
