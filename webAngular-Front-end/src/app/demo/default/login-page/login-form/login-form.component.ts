@@ -65,13 +65,13 @@ export class LoginFormComponent implements OnInit {
   redirectBasedOnRole(role: string) {
     switch (role) {
       case 'CHEF':
-        this.router.navigate(['/acceuil']);
+        this.router.navigate(['/chef']);
         break;
       case 'USER':
-        this.router.navigate(['/employe']);
+        this.router.navigate(['/employee/home']);
         break;
       default:
-        this.router.navigate(['/']);
+        this.router.navigate(['/guest']);
     }
   }
 

@@ -18,5 +18,6 @@ public class EmployeDto extends PersonDto {
 
     private String position;
     private RapportDto rapport;
+    private EquipeDto equipe;
 
 }

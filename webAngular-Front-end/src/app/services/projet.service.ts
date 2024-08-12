@@ -64,7 +64,7 @@ export class ProjetService {
 
   }
   getProjetByTeam(equipeId: string): Observable<ProjectWithOpenState[]> {
-    return this.http.get<ProjectWithOpenState[]>(`http://localhost:4000/projets/eqpId/10`);
+    return this.http.get<ProjectWithOpenState[]>(`http://localhost:4000/api/projets/eqpId/${equipeId}`);
   }
 
 }

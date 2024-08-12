@@ -1,0 +1,139 @@
+:host {
+    display: block;
+    min-height: 100vh;
+    font-family: 'Roboto', Arial, sans-serif;
+    padding: 20px;
+    width: 900px;
+  }
+
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+
+  .image-card, .info-card {
+    transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+
+  .image-card {
+    width: 300px;
+    height: 300px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: floatAnimation 3s ease-in-out infinite;
+  }
+
+  .image-card img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .image-card:hover img {
+    transform: scale(1.1);
+  }
+
+  .info-card {
+    flex: 1;
+    padding: 32px;
+    max-width: 600px;
+    animation: fadeInAnimation 1s ease-out;
+  }
+
+  .info-card:hover {
+    box-shadow: 0 15px 35px rgba(0, 185, 142, 0.2);
+    transform: translateY(-10px);
+  }
+
+  h2 {
+    color: #2c3e50;
+    border-bottom: 3px solid #00B98E;
+    padding-bottom: 16px;
+    margin-top: 0;
+    font-size: 1.75rem;
+    transition: color 0.3s ease;
+  }
+
+  .info-card:hover h2 {
+    color: #00B98E;
+  }
+
+  .info-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+  }
+
+  .info-equipe-section, .info-chef-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .info-chef-section {
+    background-color: #f7f7f7;
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid #e0e0e0;
+    transition: background-color 0.3s ease;
+  }
+
+  .info-chef-section:hover {
+    background-color: #e6f7f2;
+  }
+
+  .info-item {
+    margin-bottom: 16px;
+  }
+
+  .info-item strong {
+    color: #00B98E;
+    font-weight: 700;
+  }
+
+  .info-item p {
+    margin: 8px 0;
+    line-height: 1.6;
+    color: #555555;
+  }
+
+  .team-name {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #2c3e50;
+    transition: color 0.3s ease;
+  }
+
+  .info-card:hover .team-name {
+    color: #00B98E;
+  }
+
+  @keyframes floatAnimation {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  @keyframes fadeInAnimation {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 768px) {
+    .container {
+      flex-direction: column;
+    }
+
+    .image-card, .info-card {
+      width: 100%;
+      max-width: none;
+    }
+  }

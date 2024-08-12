@@ -8,8 +8,14 @@ import { GuestGuard } from './guards/guest.guard';
 import { RoleGuard } from './guards/role.guard';
 import { AuthGuard } from './guards/auth.guard';
 import { NotFoundComponent } from './theme/layouts/not-found/not-found.component';
+import { RootRedirectGuard } from './guards/redirect.guard';
 
 const routes: Routes = [
+  {
+    path: '',
+    canActivate: [RootRedirectGuard],
+    children: [] // This route will be handled by the guard
+  },
   {
     path: 'chef',
     component: AdminComponent,
@@ -47,7 +53,8 @@ const routes: Routes = [
           },
           {
             path: 'taches/:id/commentaires',
-            loadComponent: () => import('./demo/default/dashboard/comments-section/comments-section.component').then((m) => m.CommentsSectionComponent)
+            loadComponent: () =>
+              import('./demo/default/dashboard/comments-section/comments-section.component').then((m) => m.CommentsSectionComponent)
           },
           {
             path: 'rapports',
@@ -69,38 +76,37 @@ const routes: Routes = [
           }
         ]
       }
-    ]},
-  // },  {
-  //   path: 'employe',
-  //   component: EmployeLayoutComponent,
-  //   canActivate: [AuthGuard, RoleGuard],
-  //   data: { expectedRole: 'USER' },
-  //   children: [
-  //     {
-  //       path: '',
-  //       children: [
-  //         {
-  //           path: '',
-  //           redirectTo: 'acceuil',
-  //           pathMatch: 'full'
-  //         },
-  //         {
-  //           path: 'acceuil',
-  //           loadComponent: () => import('./demo/default/employe/landing-page/landing-page.component').then((c) => c.LandingPageComponent)
-  //         },
-         
-  //         {
-  //           path: '**',
-  //           component: NotFoundComponent
-  //         }
-  //       ]
-  //     }
-  //   ]
-  // },
-
+    ]
+  },
+  {
+    path: 'employee',
+    component: EmployeLayoutComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { expectedRole: 'USER' },
+    children: [
+      {
+        path: '',
+        redirectTo: 'home',
+        pathMatch: 'full'
+      },
+      {
+        path: 'home',
+        loadComponent: () => import('./demo/default/employe/landing-page/landing-page.component').then((c) => c.LandingPageComponent)
+      },
+      {
+        path: 'projets',
+        loadComponent: () => import('./demo/default/employe/list-projets/list-projets.component').then((c) => c.ListProjetsComponent)
+      },
+      {
+        path: 'taches',
+        loadComponent: () => import('./demo/default/employe/employe-taches/employe-taches.component').then((c) => c.EmployeTachesComponent)
+      }
+      // ... other employee routes
+    ]
+  },
   // Guest routes
   {
-    path: '',
+    path: 'guest',
     component: GuestComponent,
     canActivate: [GuestGuard],
     children: [
@@ -111,12 +117,16 @@ const routes: Routes = [
       {
         path: 'login',
         loadComponent: () => import('./demo/default/login-page/login-form/login-form.component').then((m) => m.LoginFormComponent)
-      },
-      {
-        path: '404',
-        component: NotFoundComponent
       }
     ]
+  },
+  {
+    path: '404',
+    component: NotFoundComponent
+  },
+  {
+    path: '**',
+    redirectTo: '/404'
   }
 ];
 

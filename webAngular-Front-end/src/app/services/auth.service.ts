@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { CardEquipe } from '../model/card-equipe';
 
  export interface LoginResponse {
   accessToken: string;
@@ -20,6 +21,7 @@ import { tap } from 'rxjs/operators';
     cin: string;
     sexe: string;
     departementNom: string;
+    equipe:CardEquipe;
   };
 }
 

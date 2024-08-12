@@ -109,3 +109,25 @@
   .team-carousel .row {
     animation: slideLeft 0.5s ease-out;
   }
+  .equipe-container {
+    width: 60%;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+}
+
+.equipe-info, .chef-info {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 20px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+}
+
+.equipe-info p, .chef-info p {
+    margin: 5px 0;
+}
+
+h2 {
+    color: #333;
+    margin-bottom: 10px;
+}
