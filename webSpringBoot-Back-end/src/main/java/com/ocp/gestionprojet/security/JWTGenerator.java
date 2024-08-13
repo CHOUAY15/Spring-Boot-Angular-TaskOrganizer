@@ -7,8 +7,8 @@ import org.springframework.security.authentication.AuthenticationCredentialsNotF
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
-import com.ocp.gestionprojet.model.entity.UserEntity;
-import com.ocp.gestionprojet.repository.UserRepository;
+import com.ocp.gestionprojet.api.model.entity.UserEntity;
+import com.ocp.gestionprojet.api.repository.UserRepository;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

@@ -37,18 +37,24 @@ export const NavigationItems: NavigationItem[] = [
     ]
   },
   {
-    id: 'demandes',
-    title: 'Demandes d\'aide',
+    id: 'employes',
+    title: 'Employes et tâches',
     type: 'group',
     icon: 'icon-navigation',
     children: [
       {
-        id: 'remarque',
-        title: 'Demandes',
+        id: 'employes',
+        title: 'Employes',
         type: 'item',
         classes: 'nav-item',
         url: '/login',
-        target: true,
+        breadcrumbs: false
+      }, {
+        id: 'taches',
+        title: 'Tâches',
+        type: 'item',
+        classes: 'nav-item',
+        url: '/login',
         breadcrumbs: false
       },
       

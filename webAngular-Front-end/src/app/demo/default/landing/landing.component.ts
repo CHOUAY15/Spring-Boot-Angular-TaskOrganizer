@@ -1,10 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FooterComponent } from "../../../theme/layouts/guest/footer/footer.component";
 
 
 @Component({
   selector: 'app-landing',
   standalone: true,
-  imports: [],
+  imports: [FooterComponent],
   templateUrl: './landing.component.html',
   styleUrl: './landing.component.scss'
 })

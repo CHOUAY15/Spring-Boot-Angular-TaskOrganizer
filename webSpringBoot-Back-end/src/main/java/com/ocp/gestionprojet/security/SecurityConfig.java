@@ -14,7 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.ocp.gestionprojet.service.impl.UserDetailsServiceImpl;
+import com.ocp.gestionprojet.api.service.impl.UserDetailsServiceImpl;
 
 import org.springframework.security.authentication.AuthenticationManager;
 
@@ -40,14 +40,30 @@ public class SecurityConfig {
                 .and()
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/login").permitAll()
-                        .requestMatchers("/api/departements/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/api/equipes/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/api/equipes/**").hasAnyRole("ADMIN", "CHEF")
-                        .requestMatchers(HttpMethod.GET, "/api/employes/**").hasAnyRole("ADMIN", "CHEF", "USER")
-                        .requestMatchers("/api/projets/**").hasAnyRole("ADMIN", "CHEF","USER")
 
-                        .requestMatchers("/api/taches/**").hasAnyRole("ADMIN", "CHEF")
-                        .requestMatchers("/api/commentaires/**").hasAnyRole("ADMIN", "CHEF")
+                        .requestMatchers("/api/departments/**").hasRole("ADMIN")
+
+                        .requestMatchers(HttpMethod.POST, "/api/teams/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/teams/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/teams/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/teams/**").hasAnyRole("ADMIN", "CHEF", "USER")
+
+                        .requestMatchers(HttpMethod.POST, "/api/members/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/members/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/members/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/members/**").hasAnyRole("ADMIN", "CHEF", "USER")
+
+                        .requestMatchers(HttpMethod.POST, "/api/projects/**").hasAnyRole("ADMIN", "CHEF")
+                        .requestMatchers(HttpMethod.PUT, "/api/projects/**").hasAnyRole("ADMIN", "CHEF")
+                        .requestMatchers(HttpMethod.DELETE, "/api/projects/**").hasAnyRole("ADMIN", "CHEF")
+                        .requestMatchers(HttpMethod.GET, "/api/projects/**").hasAnyRole("ADMIN", "CHEF","USER")
+
+
+
+                        .requestMatchers(HttpMethod.POST, "/api/tasks/**").hasAnyRole("ADMIN","CHEF")
+                        .requestMatchers(HttpMethod.PUT, "/api/tasks/**").hasAnyRole("ADMIN","CHEF","USER")
+                        .requestMatchers(HttpMethod.DELETE, "/api/tasks/**").hasAnyRole("ADMIN","CHEF")
+                        .requestMatchers(HttpMethod.GET, "/api/tasks/**").hasAnyRole("ADMIN", "CHEF", "USER")                        .requestMatchers("/api/commentaires/**").hasAnyRole("ADMIN", "CHEF")
 
                         .anyRequest().authenticated())
                 .httpBasic().disable();
