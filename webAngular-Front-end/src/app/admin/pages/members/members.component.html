@@ -1,0 +1,27 @@
+
+  
+  
+  <ng-container *ngIf="(loading$ | async) === false; else loadingTemplate">
+      <ng-container *ngIf="(error$ | async) === false; else errorTemplate">
+        <ng-container *ngIf="(members$ | async) as members">
+          <div class="team-grid" *ngIf="members.length > 0; else noEmployes">
+             <app-member-table [members]="members"></app-member-table>
+          </div>
+          <ng-template #noEmployes>
+            <div class="centered-message">
+              Aucun membre pour l'instant !
+            </div>
+          </ng-template>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+    
+    <ng-template #loadingTemplate>
+      <div class="centered-message loading-message">
+        <app-spinner-g></app-spinner-g>
+      </div>
+    </ng-template>
+    
+    <ng-template #errorTemplate>
+      <app-error-message></app-error-message>
+    </ng-template>

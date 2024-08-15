@@ -12,7 +12,7 @@ import lombok.*;
 
 @Data
 @Entity
-@Table(name = "equipes")
+@Table(name = "team")
 @NoArgsConstructor
 @AllArgsConstructor
 

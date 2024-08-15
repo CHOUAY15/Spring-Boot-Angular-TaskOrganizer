@@ -1,18 +1,20 @@
 // Angular Import
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavigationEnd, Router, RouterModule, Event } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 
 // project import
-import { NavigationItem, NavigationItems } from 'src/app/theme/layouts/admin-layout/navigation/navigation';
+import { NavigationItem, getNavigationItems } from 'src/app/theme/layouts/admin-layout/navigation/navigation';
 
 // icons
 import { IconModule, IconService } from '@ant-design/icons-angular';
 import { GlobalOutline, NodeExpandOutline } from '@ant-design/icons-angular/icons';
 
+// services
+import { AuthenticationService } from 'src/app/core/services/authentication.service';
+
 interface titleType {
-  // eslint-disable-next-line
   url: any;
   title: string;
   breadcrumbs: unknown;
@@ -29,28 +31,31 @@ interface titleType {
   templateUrl: './breadcrumb.component.html',
   styleUrls: ['./breadcrumb.component.scss']
 })
-export class BreadcrumbComponent {
+export class BreadcrumbComponent implements OnInit {
   // public props
   @Input() type: string;
   @Input() dashboard = true;
   @Input() Component = false;
 
   navigations: NavigationItem[];
-  ComponentNavigations: NavigationItem[];
   breadcrumbList: Array<string> = [];
   navigationList!: titleType[];
-  componentList!: titleType[];
 
   // constructor
   constructor(
     private route: Router,
     private titleService: Title,
-    private iconService: IconService
+    private iconService: IconService,
+    private authService: AuthenticationService
   ) {
-    this.navigations = NavigationItems;
     this.type = 'theme1';
-    this.setBreadcrumb();
     this.iconService.addIcon(...[GlobalOutline, NodeExpandOutline]);
+  }
+
+  ngOnInit() {
+    const userRole = this.authService.getUserRole();
+    this.navigations = getNavigationItems(userRole);
+    this.setBreadcrumb();
   }
 
   // public method
@@ -82,7 +87,6 @@ export class BreadcrumbComponent {
         ];
       }
       if ((navItem.type === 'group' || navItem.type === 'collapse') && 'children' in navItem) {
-        // eslint-disable-next-line
         const breadcrumbList = this.filterNavigation(navItem.children!, activeLink);
         if (breadcrumbList.length > 0) {
           breadcrumbList.unshift({

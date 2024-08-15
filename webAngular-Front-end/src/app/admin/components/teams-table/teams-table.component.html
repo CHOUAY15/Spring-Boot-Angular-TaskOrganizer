@@ -1,0 +1,76 @@
+<div class="projet-table-container">
+    <div class="table-header">
+      <mat-form-field>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Filtre" />
+      </mat-form-field>
+    </div>
+  
+    <ng-container *ngIf="dataSource.data.length > 0; else noTeams">
+      <table mat-table [dataSource]="dataSource" matSort>
+        <ng-container matColumnDef="nom">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header><strong>Nom</strong></th>
+          <td mat-cell *matCellDef="let team" [attr.data-label]="'Nom'">{{ team.name }}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="description">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header><strong>Description</strong></th>
+          <td mat-cell *matCellDef="let team" [attr.data-label]="'Description'">{{ team.description }}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="dateCreation">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header><strong>Date de création</strong></th>
+          <td mat-cell *matCellDef="let team" [attr.data-label]="'Date de création'">{{ team.creationDate | date }}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="nmbrMembres">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header><strong>Nombre de membres</strong></th>
+          <td mat-cell *matCellDef="let team" [attr.data-label]="'Nombre de membres'">{{ team.teamNbr }}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="manager">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header><strong>Chef</strong></th>
+            <td mat-cell *matCellDef="let team" [attr.data-label]="'Chef'"
+                [ngClass]="{'no-manager': !team.manager?.name}">
+              {{ team.manager?.name ? team.manager.name : 'Pas de chef' }}
+              {{ team.manager?.lastName ? team.manager.lastName : '' }}
+
+            </td>
+          </ng-container>
+          
+          
+  
+        <ng-container matColumnDef="nomDepartement">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header><strong>Département</strong></th>
+          <td mat-cell *matCellDef="let team" [attr.data-label]="'Département'">{{ team.departmentName }}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef class="actions-header"><strong>Actions</strong></th>
+          <td mat-cell *matCellDef="let team" [attr.data-label]="'Actions'">
+            <div class="action-buttons">
+              <button class="supprimer" (click)="deleteTeam(team.id)">supprimer</button>
+              <button class="modifier" mat-button>modifier</button>
+            </div>
+          </td>
+        </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+  
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+    </ng-container>
+  
+    <ng-template #noTeams></ng-template>
+  
+    <div class="modal" *ngIf="showConfirmModal">
+      <div class="modal-content">
+        <h2>Confirmer la suppression</h2>
+        <p>Êtes-vous sûr de vouloir supprimer cette équipe ?</p>
+        <div class="modal-actions">
+          <button class="cancel-btn" (click)="cancelDelete()">Annuler</button>
+          <button class="confirm-btn" (click)="confirmDelete()">Supprimer</button>
+        </div>
+      </div>
+    </div>
+  </div>

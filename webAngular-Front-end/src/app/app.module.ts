@@ -22,10 +22,10 @@ import localeFr from '@angular/common/locales/fr';
 import { environment } from 'src/environments/environment';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
-import { httpInterceptorProviders } from './interceptors';
-import { AuthGuard } from './guards/auth.guard';
-import { RoleGuard } from './guards/role.guard';
-import { GuestGuard } from './guards/guest.guard';
+import { httpInterceptorProviders } from './core/interceptors';
+import { AuthGuard } from './core/guards/auth.guard';
+import { RoleGuard } from './core/guards/role.guard';
+import {GuestGuard} from './core/guards/guest.guard'
 
 
 // Enregistrer la locale française

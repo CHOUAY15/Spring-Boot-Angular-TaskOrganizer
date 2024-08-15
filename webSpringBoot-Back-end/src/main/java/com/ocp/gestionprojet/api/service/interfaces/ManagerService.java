@@ -23,4 +23,6 @@ public interface ManagerService {
 
     // Find and return a list of all managers
     List<ManagerDto> findAll();
+        // Find and return a list of all managers
+        List<ManagerDto> findByDepartmentId(Integer deptId);
 }

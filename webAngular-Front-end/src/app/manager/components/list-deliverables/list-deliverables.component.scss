@@ -1,0 +1,283 @@
+/* projet-documents.component.css */
+:host {
+    --primary-color: #2c3e50;
+    --secondary-color: #3498db;
+    --accent-color: #e74c3c;
+    --background-color: #ecf0f1;
+    --folder-color: #f39c12;
+    --text-color: #333333;
+    --delete-color: #e74c3c;
+    --add-color: #27ae60;
+    font-family: 'Roboto', 'Arial', sans-serif;
+    font-size: clamp(12px, 1.2vw, 14px);
+    color: var(--text-color);
+  }
+  
+  .projet-list,
+  .document-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .projet-item {
+    margin-bottom: 15px;
+    background-color: #fff;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  }
+  
+  .projet-folder {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .projet-folder:hover {
+    background-color: #f5f5f5;
+  }
+  
+  .projet-info {
+    display: flex;
+    align-items: center;
+  }
+  
+  .projet-info i {
+    color: var(--folder-color);
+    margin-right: 10px;
+    font-size: clamp(16px, 1.8vw, 18px);
+  }
+  
+  .projet-nom {
+    font-weight: 500;
+    font-size: clamp(14px, 1.5vw, 16px);
+  }
+  
+  .projet-meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+  
+  .projet-date {
+    font-size: clamp(10px, 1.2vw, 12px);
+    color: #777;
+  }
+  
+  .btn-add-pdf {
+    background-color: var(--add-color);
+    color: white;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: clamp(10px, 1.2vw, 12px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    width: 0;
+    overflow: hidden;
+  }
+  
+  .projet-folder:hover .btn-add-pdf {
+    opacity: 1;
+    width: auto;
+    margin-left: 10px;
+  }
+  
+  .btn-add-pdf:hover {
+    background-color: #2ecc71;
+  }
+  
+  .btn-add-pdf i {
+    font-size: clamp(12px, 1.4vw, 14px);
+  }
+  
+  .document-list {
+    padding: 0 15px 15px;
+  }
+  
+  .document-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 4px;
+    margin-bottom: 5px;
+    flex-wrap: wrap;
+  }
+  
+  .document-item i {
+    color: var(--accent-color);
+    margin-right: 10px;
+    font-size: clamp(16px, 1.8vw, 18px);
+  }
+  
+  .document-name {
+    flex-grow: 1;
+    font-size: clamp(14px, 1.5vw, 16px);
+  }
+  
+  .document-date {
+    font-size: clamp(10px, 1.2vw, 12px);
+    color: #777;
+    margin-right: 10px;
+  }
+  
+  .document-actions {
+    display: flex;
+    gap: 5px;
+    margin-top: 5px;
+    justify-content: flex-end;
+    width: 100%;
+  }
+  
+  .btn-open-pdf,
+  .btn-delete-pdf {
+    border: none;
+    padding: 4px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: clamp(10px, 1.2vw, 12px);
+  }
+  
+  .btn-open-pdf {
+    background-color: var(--secondary-color);
+    color: white;
+  }
+  
+  .btn-open-pdf:hover {
+    background-color: #2980b9;
+  }
+  
+  .btn-delete-pdf {
+    background-color: var(--delete-color);
+    color: white;
+  }
+  
+  .btn-delete-pdf:hover {
+    background-color: #c0392b;
+  }
+  
+  @media (max-width: 768px) {
+    :host {
+      font-size: 14px;
+    }
+  
+    .projet-container {
+      padding: 10px;
+    }
+  
+    h2 {
+      font-size: clamp(18px, 4vw, 20px);
+    }
+  
+    .projet-folder {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .projet-meta {
+      margin-top: 10px;
+      width: 100%;
+      justify-content: space-between;
+    }
+  
+    .btn-add-pdf {
+      opacity: 1;
+      width: auto;
+    }
+  
+    .document-item {
+      flex-wrap: wrap;
+    }
+  
+    .document-actions {
+      width: 100%;
+      justify-content: flex-end;
+      margin-top: 5px;
+    }
+  }
+  .filter-container {
+    margin-bottom: 20px;
+    padding: 10px;
+    max-width: 250px; // Reduced width
+    margin-left: 0; // Align to the left
+  
+    .filter-input {
+      width: 100%;
+      padding: 8px 15px; // Reduced padding
+      font-size: 14px; // Smaller font size
+      border: 1px solid #ddd; // Thinner border
+      border-radius: 20px; // Slightly reduced border-radius
+      outline: none;
+      transition: all 0.3s ease-in-out;
+      background-color: white;
+      color: #333;
+  
+      &:focus {
+        border-color: #4a90e2;
+        box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+      }
+  
+      &::placeholder {
+        color: #999;
+        font-size: 12px; // Smaller placeholder text
+      }
+    }
+  }
+  
+  // Optional: Add some responsiveness
+  @media (max-width: 768px) {
+    .filter-container {
+      padding: 8px;
+      max-width: 200px; // Even smaller on mobile devices
+  
+      .filter-input {
+        font-size: 12px;
+        padding: 6px 12px;
+      }
+    }
+  }
+  
+  // Optional: Add a search icon
+  .filter-container {
+    position: relative;
+  
+    &::after {
+      content: '\f002'; // FontAwesome search icon
+      font-family: 'Font Awesome 5 Free';
+      font-weight: 900;
+      position: absolute;
+      right: 20px; // Moved closer to the edge
+      top: 50%;
+      transform: translateY(-50%);
+      color: #999;
+      font-size: 14px; // Smaller icon
+    }
+  }
+  .document-row {
+    display: flex;
+    justify-content: space-between; /* Distributes space between the name and actions */
+    align-items: center; /* Vertically centers the content */
+    width: 100%; /* Ensures the row spans the full width of the container */
+  }
+  
+  .document-name {
+    flex: 1; /* Allows the name to take up available space */
+  }
+  
+  .document-actions {
+    display: flex;
+    gap: 10px; /* Adds space between the buttons */
+  }
+  

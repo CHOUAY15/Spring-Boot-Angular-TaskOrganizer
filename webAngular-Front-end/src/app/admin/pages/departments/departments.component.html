@@ -1,0 +1,51 @@
+<!-- projets.component.html -->
+
+<div class="projects-container">
+  <div class="header-container">
+    <div class="breadcrumb">
+      <span class="current">Departements</span>
+    </div>
+    <button class="add-project-button" (click)="addProject()">+ Ajouter un departement</button>
+  </div>
+
+  <ng-container *ngIf="(loading$ | async) === false; else loadingTemplate">
+    <ng-container *ngIf="(error$ | async) === false; else errorTemplate">
+      <ng-container *ngIf="departments$ | async as departments">
+        <div class="team-grid" *ngIf="departments.length > 0; else noDepartments">
+          <app-department-table
+            [departments]="departments"
+            (addProject)="addProject()"
+            (departmntDeleted)="onDepartmentDeleted()"
+          ></app-department-table>
+        </div>
+        <ng-template #noDepartments>
+          <div class="centered-message">Aucune departement pour l'instant !</div>
+        </ng-template>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+
+  <ng-template #loadingTemplate>
+    <div class="centered-message loading-message">
+      <app-spinner-g></app-spinner-g>
+    </div>
+  </ng-template>
+
+  <ng-template #errorTemplate>
+    <app-error-message></app-error-message>
+  </ng-template>
+
+
+
+  <app-dialog-add-department
+    *ngIf="showDialog"
+    (close)="handleClose()"
+    (departmentAdd)="onDepartementAdd($event)"
+  ></app-dialog-add-department>
+</div>
+<app-feed-back
+  *ngIf="showFeedback"
+  (closed)="closeFeedback()"
+  [message]="feedbackMessage"
+  (animationDone)="showFeedback = false"
+></app-feed-back>

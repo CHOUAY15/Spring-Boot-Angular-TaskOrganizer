@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { AuthService } from 'src/app/services/auth.service';
-
+import { AuthenticationService } from 'src/app/core/services/authentication.service';
 @Component({
   selector: 'app-not-found',
   standalone: true,
@@ -13,7 +12,7 @@ export class NotFoundComponent implements OnInit {
   homeLink: string = '/';
   buttonText: string = 'Retour à l\'accueil';
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthenticationService) {}
 
   ngOnInit() {
     const userRole = this.authService.getUserRole();

@@ -95,6 +95,8 @@ public class MemberServiceImpl implements MemberService {
         updateMemberFromDto(member, memberDto);
         member.setTeam(team);
         member.setUser(user);
+        team.setTeamNbr(team.getTeamNbr()+1);
+        teamRepository.save(team);
 
         // Save the new member entity
         return memberRepository.save(member);
@@ -147,5 +149,16 @@ public class MemberServiceImpl implements MemberService {
         member.setAvatar(dto.getAvatar());
         member.setGender(dto.getGender());
         member.setPosition(dto.getPosition());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<MemberDto> findAll() {
+        // TODO Auto-generated method stub
+        List<MemberEntity> members = memberRepository.findAll();
+        return members.stream()
+                .map(personnelMapper::toDto)
+                .collect(Collectors.toList());
+      
     }
 }

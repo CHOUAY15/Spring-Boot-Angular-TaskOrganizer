@@ -1,0 +1,50 @@
+<!-- teams.component.html -->
+
+<div class="projects-container">
+    <div class="header-container">
+      <div class="breadcrumb">
+        <span class="current">Equipes</span>
+      </div>
+      <button class="add-project-button" (click)="addTeam()">+ ajouter une  equipe</button>
+    </div>
+  
+    <ng-container *ngIf="(loading$ | async) === false; else loadingTemplate">
+      <ng-container *ngIf="(error$ | async) === false; else errorTemplate">
+        <ng-container *ngIf="teams$ | async as teams">
+          <div class="team-grid" *ngIf="teams.length > 0; else noTeams">
+            <app-team-table
+            [teams]="teams"
+              (addTeam)="addTeam()"
+              (teamDeleted)="onTeamDeleted()"
+            ></app-team-table>
+          </div>
+          <ng-template #noTeams>
+            <div class="centered-message">aucune equipe pour l'instant!</div>
+          </ng-template>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+  
+    <ng-template #loadingTemplate>
+      <div class="centered-message loading-message">
+        <app-spinner-g></app-spinner-g>
+      </div>
+    </ng-template>
+  
+    <ng-template #errorTemplate>
+      <app-error-message></app-error-message>
+    </ng-template>
+  
+    <app-dialog-add-team
+      *ngIf="showDialog"
+      (close)="handleClose()"
+      (teamAdded)="onTeamAdded($event)"
+    ></app-dialog-add-team>
+  </div>
+  
+  <app-feed-back
+    *ngIf="showFeedback"
+    (closed)="closeFeedback()"
+    [message]="feedbackMessage"
+    (animationDone)="showFeedback = false"
+  ></app-feed-back>

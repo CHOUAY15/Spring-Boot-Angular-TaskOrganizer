@@ -61,4 +61,9 @@ public class DepartmentServiceImpl implements DepartmentService {
         return departmentMapper.toDto(savedDepartment);
     }
 
+    @Override
+    public void delete(Integer id) {
+    departmentRepository.deleteById(id);
+    }
+
 }

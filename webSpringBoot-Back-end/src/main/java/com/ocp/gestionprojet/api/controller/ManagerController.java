@@ -73,4 +73,9 @@ public class ManagerController {
     public ResponseEntity<List<ManagerDto>> findAll() {
         return new ResponseEntity<>(managerService.findAll(), HttpStatus.OK);
     }
+
+      @GetMapping("/deptId/{deptId}")
+    public ResponseEntity<List<ManagerDto>> findByDepartment(@PathVariable("deptId") Integer deptId) {
+        return new ResponseEntity<>(managerService.findByDepartmentId(deptId), HttpStatus.OK);
+    }
 }

@@ -117,7 +117,7 @@
               <div>
                 <a class="dropdown-item">
                   <i class="text-muted" antIcon theme="outline" type="{{ task.icon }}"></i>
-                  <span>{{ task.title }}</span>
+                  <span [routerLink]="['/manager/profil']" routerLinkActive="router-link-active" >{{ task.title }}</span>
                 </a>
               </div>
             }

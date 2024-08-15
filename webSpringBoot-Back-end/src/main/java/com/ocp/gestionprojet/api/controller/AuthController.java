@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,11 +48,10 @@ public class AuthController {
      * @param teamId ID of the team to which the manager will be assigned.
      * @return ResponseEntity with a success message or error message based on the registration result.
      */
-    @PostMapping("register/manager/teamId/{teamId}")
-    public ResponseEntity<String> registerChef(@RequestBody RegisterManagerDto registerDto,
-            @PathVariable("teamId") Integer teamId) {
+    @PostMapping("register/manager")
+    public ResponseEntity<String> registerChef(@RequestBody RegisterManagerDto registerDto) {
         try {
-            userService.registerChef(registerDto, teamId); 
+            userService.registerChef(registerDto); 
             return ResponseEntity.ok("Chef registered successfully!"); 
         } catch (UserAlreadyExistsException e) {
             return ResponseEntity.badRequest().body("Username is taken!");
@@ -69,11 +67,10 @@ public class AuthController {
      * @param teamId ID of the team to which the member will be assigned.
      * @return ResponseEntity with a success message or error message based on the registration result.
      */
-    @PostMapping("register/member/teamId/{teamId}")
-    public ResponseEntity<String> registerEmploye(@RequestBody RegisterMemberDto registerDto,
-            @PathVariable("teamId") Integer teamId) {
+    @PostMapping("register/member")
+    public ResponseEntity<String> registerEmploye(@RequestBody RegisterMemberDto registerDto) {
         try {
-            userService.registerEmploye(registerDto, teamId); 
+            userService.registerEmploye(registerDto); 
             return ResponseEntity.ok("User registered successfully!"); 
         } catch (UserAlreadyExistsException e) {
             return ResponseEntity.badRequest().body("Username is taken!"); 

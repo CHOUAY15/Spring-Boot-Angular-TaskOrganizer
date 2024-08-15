@@ -14,7 +14,6 @@ public class RegisterManagerDto {
 
 
     private ManagerDto manager;
-    private String password;
 
 
     

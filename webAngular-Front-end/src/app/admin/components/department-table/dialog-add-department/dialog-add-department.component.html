@@ -1,0 +1,104 @@
+<div class="dialog-overlay">
+    <div class="notification-container">
+      <div *ngIf="successMessage" class="notification success">
+        {{ successMessage }}
+      </div>
+    
+      <div *ngIf="errorMessage" class="notification error">
+        {{ errorMessage }}
+      </div>
+    </div>
+    
+    <div class="dialog-container">
+      <form [formGroup]="departemntForm" (ngSubmit)="onSubmit()" class="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
+        <h2 class="text-2xl font-bold mb-6 text-gray-800">Nouvelle Departement</h2>
+  
+        <div class="mb-4">
+          <label for="nom" class="block text-sm font-medium text-gray-700">
+            nom
+            <span style="color: red">*</span>
+          </label>
+          <input
+            type="text"
+            id="nom"
+            formControlName="nom"
+            [ngClass]="{ 'input-error': departemntForm.get('nom')?.invalid && (departemntForm.get('nom')?.dirty || departemntForm.get('nom')?.touched) }"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+          />
+          <div
+            *ngIf="departemntForm.get('nom')?.invalid && (departemntForm.get('nom')?.dirty || departemntForm.get('nom')?.touched)"
+            class="error-message"
+          >
+            <div *ngIf="departemntForm.get('nom')?.errors?.['required']">Le titre est requis.</div>
+            <div *ngIf="departemntForm.get('nom')?.errors?.['minlength']">Le titre doit contenir au moins 3 caractères.</div>
+          </div>
+        </div>
+  
+        <div class="mb-4">
+            <label for="localisation" class="block text-sm font-medium text-gray-700">
+                Localisation
+              <span style="color: red">*</span>
+            </label>
+            <input
+              type="text"
+              id="localisation"
+              formControlName="localisation"
+              [ngClass]="{ 'input-error': departemntForm.get('localisation')?.invalid && (departemntForm.get('localisation')?.dirty || departemntForm.get('localisation')?.touched) }"
+              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            />
+            <div
+              *ngIf="departemntForm.get('localisation')?.invalid && (departemntForm.get('localisation')?.dirty || departemntForm.get('localisation')?.touched)"
+              class="error-message"
+            >
+              <div *ngIf="departemntForm.get('localisation')?.errors?.['required']">Le titre est requis.</div>
+            </div>
+          </div>
+          <div class="mb-4">
+            <label for="nom" class="block text-sm font-medium text-gray-700">
+                Contact
+              <span style="color: red">*</span>
+            </label>
+            <input
+              type="text"
+              id="contact"
+              formControlName="contact"
+              [ngClass]="{ 'input-error': departemntForm.get('contact')?.invalid && (departemntForm.get('contact')?.dirty || departemntForm.get('contact')?.touched) }"
+              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            />
+            <div
+              *ngIf="departemntForm.get('contact')?.invalid && (departemntForm.get('contact')?.dirty || departemntForm.get('contact')?.touched)"
+              class="error-message"
+            >
+              <div *ngIf="departemntForm.get('contact')?.errors?.['required']">Le titre est requis.</div>
+            </div>
+          </div>
+     
+  
+        <div class="mt-6 flex justify-between">
+          <button
+            type="submit"
+            [disabled]="isSubmitting"
+            class="flex-grow mr-2 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <span *ngIf="!isLoading">Créer le departement</span>
+            <span *ngIf="isLoading" class="flex items-center justify-center">
+              <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              <span class="ml-2">Chargement...</span>
+            </span>
+          </button>
+  
+          <button
+            type="button"
+            (click)="onCloseClick()"
+            [disabled]="isSubmitting"
+            class="flex-grow ml-2 py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            Annuler
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>

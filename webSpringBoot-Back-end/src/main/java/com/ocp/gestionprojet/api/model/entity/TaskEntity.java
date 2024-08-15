@@ -1,8 +1,7 @@
 package com.ocp.gestionprojet.api.model.entity;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -53,7 +52,6 @@ public class TaskEntity {
     @JoinColumn(name = "project_id", nullable = false)
     private ProjectEntity project;
 
-    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<CommentEntity> comments = new ArrayList<>();
+   
 
 }

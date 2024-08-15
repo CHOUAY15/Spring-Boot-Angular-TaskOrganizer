@@ -1,5 +1,7 @@
 package com.ocp.gestionprojet.api.service.impl;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -26,6 +28,7 @@ import com.ocp.gestionprojet.api.model.entity.MemberEntity;
 import com.ocp.gestionprojet.api.model.entity.UserEntity;
 import com.ocp.gestionprojet.api.repository.UserRepository;
 import com.ocp.gestionprojet.api.service.interfaces.AdminService;
+import com.ocp.gestionprojet.api.service.interfaces.EmailService;
 import com.ocp.gestionprojet.api.service.interfaces.ManagerService;
 import com.ocp.gestionprojet.api.service.interfaces.MemberService;
 import com.ocp.gestionprojet.api.service.interfaces.UserService;
@@ -51,6 +54,8 @@ public class UserServiceImpl implements UserService {
     private MemberService memberService;
     @Autowired
     private AdminService adminService;
+     @Autowired
+    private EmailService emailService;
 
     // Authenticate a user and generate an authentication token
     @Override
@@ -119,35 +124,48 @@ public class UserServiceImpl implements UserService {
     // Register a new manager (chef) and associate them with a team
     @Override
     @Transactional
-    public void registerChef(RegisterManagerDto registerDto, Integer eqpId)
+    public void registerChef(RegisterManagerDto registerDto)
             throws UserAlreadyExistsException, EntityNotFoundException {
         if (userRepository.existsByEmail(registerDto.getManager().getEmail())) {
             throw new UserAlreadyExistsException("Username is taken!");
         }
 
-        UserEntity user = createUserEntityToChef(registerDto);
+        String generatedPassword = generateRandomPassword();
+        UserEntity user = createUserEntityToChef(registerDto, generatedPassword);
         userRepository.save(user);
 
         ManagerEntity savedChefEntity = managerService.addManagerToTeam(
                 registerDto.getManager(), user);
         user.setManager(savedChefEntity);
         userRepository.save(user);
+
+        sendPasswordByEmail(user.getEmail(), generatedPassword);
     }
 
     // Create a UserEntity for a manager (chef) with the provided data
     @Override
-    public UserEntity createUserEntityToChef(RegisterManagerDto registerDto) {
+    public UserEntity createUserEntityToChef(RegisterManagerDto registerDto, String password) {
         UserEntity user = new UserEntity();
         user.setEmail(registerDto.getManager().getEmail());
-        user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
+        user.setPassword(passwordEncoder.encode(password));
         user.setRole(RolesUser.CHEF);
         return user;
+    }
+    private String generateRandomPassword() {
+        return UUID.randomUUID().toString().substring(0, 8);
+    }
+
+    private void sendPasswordByEmail(String email, String password) {
+        String subject = "Votre nouveau mot de passe";
+        String message = "Voici votre nouveau mot de passe: " + password + 
+                         "\nVeuillez le changer après votre première connexion.";
+        emailService.sendSimpleMessage(email, subject, message);
     }
 
     // Register a new employee and associate them with a team
     @Override
     @Transactional
-    public void registerEmploye(RegisterMemberDto registerDto, Integer eqpId)
+    public void registerEmploye(RegisterMemberDto registerDto)
             throws UserAlreadyExistsException, EntityNotFoundException {
         if (userRepository.existsByEmail(registerDto.getMember().getEmail())) {
             throw new UserAlreadyExistsException("Username is taken!");
@@ -166,7 +184,7 @@ public class UserServiceImpl implements UserService {
     public UserEntity createUserEntityToEmploye(RegisterMemberDto registerDto) {
         UserEntity user = new UserEntity();
         user.setEmail(registerDto.getMember().getEmail());
-        user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
+        user.setPassword(passwordEncoder.encode("@"+registerDto.getMember().getCin()+"@"));
         user.setRole(RolesUser.USER);
         return user;
     }

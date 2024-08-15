@@ -1,0 +1,9 @@
+<div *ngIf="message" class="feedback-message" [ngClass]="{'success': isSuccess, 'error': !isSuccess}">
+    <div class="content">
+      <div class="icon-container">
+        <i class="fas" [ngClass]="{'fa-check-circle': isSuccess, 'fa-exclamation-circle': !isSuccess}"></i>
+      </div>
+      <p class="message">{{ message }}</p>
+      <button class="ok-button" (click)="close()">OK</button>
+    </div>
+  </div>

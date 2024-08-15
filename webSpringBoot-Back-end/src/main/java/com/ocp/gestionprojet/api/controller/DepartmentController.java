@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,24 +27,35 @@ public class DepartmentController {
     /**
      * Retrieves a list of all departments.
      *
-     * @return ResponseEntity with a list of DepartmentDto objects and HTTP status 200 OK.
+     * @return ResponseEntity with a list of DepartmentDto objects and HTTP status
+     *         200 OK.
      */
     @GetMapping("")
     public ResponseEntity<List<DepartmentDto>> findAll() {
-        // Call the service method to retrieve all departments and return the result with HTTP 200 status
+        // Call the service method to retrieve all departments and return the result
+        // with HTTP 200 status
         return new ResponseEntity<>(departmentService.findAll(), HttpStatus.OK);
     }
 
     /**
      * Creates a new department.
      *
-     * @param departmentDto DTO containing the details of the department to be created.
-     * @return ResponseEntity with the created DepartmentDto and HTTP status 201 Created.
+     * @param departmentDto DTO containing the details of the department to be
+     *                      created.
+     * @return ResponseEntity with the created DepartmentDto and HTTP status 201
+     *         Created.
      */
     @PostMapping("")
     public ResponseEntity<DepartmentDto> saveDepartement(@RequestBody DepartmentDto departmentDto) {
-        // Call the service method to save the new department and return the result with HTTP 201 status
+        // Call the service method to save the new department and return the result with
+        // HTTP 201 status
         DepartmentDto savedDepartmentDto = departmentService.save(departmentDto);
         return new ResponseEntity<>(savedDepartmentDto, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/id/{id}")
+    public ResponseEntity<?> delete(@PathVariable("id") Integer id) {
+        departmentService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }

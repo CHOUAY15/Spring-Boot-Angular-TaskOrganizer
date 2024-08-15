@@ -2,8 +2,8 @@
 
 <div class="user-circles">
   <div *ngFor="let user of displayedUsers; let i = index" class="user-circle">
-    <img [src]="user.sexe === 'Homme' ? '../../../../../assets/images/profile/homme.png' : '../../../../../assets/images/profile/femme.png'" 
-         [alt]="user.sexe === 'Homme' ? 'Default Male Avatar' : 'Default Female Avatar'">
+    <img [src]="user.gender === 'Homme' ? '../../../../../assets/images/profile/homme.png' : '../../../../../assets/images/profile/femme.png'" 
+         [alt]="user.gender === 'Homme' ? 'Default Male Avatar' : 'Default Female Avatar'">
   </div>
   <div *ngIf="remainingUsers > 0" class="user-circle remaining">
     +{{ remainingUsers }}

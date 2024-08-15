@@ -1,0 +1,40 @@
+
+<div class="tache-header">
+    <div class="tache-name-p">
+      <div class="priorite" [ngClass]="{
+            'haute': task.priority === 'haute',
+            'moyenne': task.priority === 'moyenne',
+            'basse': task.priority === 'basse'
+          }">
+        {{ task.priority }}
+      </div>
+      <div class="titre">
+        {{ task.title }}
+      </div>
+    </div>
+      <div class="tache-menu">
+        <!-- <button class="eye-button" (click)="toggleAdditionalInfo()">
+          <mat-icon>visibility</mat-icon>
+        </button> -->
+        <button class="tache-menu-button" (click)="toggleMenu($event)">
+          <mat-icon class="horizontal-icon">more_vert</mat-icon>
+        </button>
+        <div class="tache-menu-dropdown" [class.show]="isMenuOpen" #menu>
+          <ul>
+            <li (click)="editTask()">Edit</li>
+            <li (click)="deleteTask()">Delete</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="tache-content">
+      <span class="membre"><div class="circle-icon"><img [src]="task.membre.gender === 'Homme' ? '../../../../../assets/images/profile/homme.png' : '../../../../../assets/images/profile/femme.png'" 
+        [alt]="task.membre.gender === 'Homme' ? 'Default Male Avatar' : 'Default Female Avatar'"></div> {{task.membre.name}} {{ task.membre.lastName }}</span>
+     
+      <div class="tache-footer">
+        <span class="date"><mat-icon>event</mat-icon> {{task.startDate| date:'dd/MM/yyyy'}}</span>
+        <span class="duree"><mat-icon>schedule</mat-icon> {{task.dayNbrs}} jours</span>
+      </div>
+    
+    </div>
+  

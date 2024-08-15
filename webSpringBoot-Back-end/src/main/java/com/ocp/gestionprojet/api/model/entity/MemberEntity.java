@@ -33,8 +33,6 @@ public class MemberEntity extends Person  {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", nullable = false, referencedColumnName = "id")
     private UserEntity user;
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CommentEntity> comments=new ArrayList<>();
-
+   
 
 }

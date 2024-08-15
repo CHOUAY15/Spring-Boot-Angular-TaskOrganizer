@@ -26,4 +26,8 @@ public interface MemberService {
 
     // Find and return a list of members managed by a specific manager
     List<MemberDto> findByManager(Integer mgrId);
+
+    List<MemberDto> findAll();
+
+    
 }

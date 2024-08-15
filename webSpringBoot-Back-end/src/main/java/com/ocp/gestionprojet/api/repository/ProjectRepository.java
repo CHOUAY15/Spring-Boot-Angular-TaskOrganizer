@@ -9,6 +9,7 @@ import com.ocp.gestionprojet.api.model.entity.ProjectEntity;
 public interface ProjectRepository  extends JpaRepository <ProjectEntity ,Integer>{
     List<ProjectEntity> findByTeamId(Integer teamId);
     List<ProjectEntity> findByManagerId(Integer managerId);
+    long countByProgressStatusTrue();
     
     
 }

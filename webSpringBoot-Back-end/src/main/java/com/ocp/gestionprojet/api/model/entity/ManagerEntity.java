@@ -1,6 +1,6 @@
 package com.ocp.gestionprojet.api.model.entity;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -37,8 +37,5 @@ public class ManagerEntity extends Person {
     @JoinColumn(name = "user_id", nullable = false, referencedColumnName = "id")
     private UserEntity user;
 
-    @OneToMany(mappedBy = "manager", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ResponseEntity> responses=new ArrayList<>() ;
-   
 
 }

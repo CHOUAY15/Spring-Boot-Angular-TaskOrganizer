@@ -1,0 +1,13 @@
+<div class="card">
+    <div class="icon">
+      <i class="fas {{ icon }}"></i>
+    </div>
+    <div class="content">
+      <h3>{{ title }}</h3>
+      <p class="value">{{ value }}</p>
+      <p class="percentage" [ngClass]="{'positive': percentage > 0, 'negative': percentage < 0}">
+        {{ percentage > 0 ? '+' : '' }}{{ percentage }}%
+      </p>
+      <p class="comment">{{ comment }}</p>
+    </div>
+  </div>

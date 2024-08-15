@@ -4,11 +4,11 @@ import { RouterModule, Routes } from '@angular/router';
 import { AdminComponent } from './theme/layouts/admin-layout/admin-layout.component';
 import { EmployeLayoutComponent } from './theme/layouts/employe-layout/employe-layout.component';
 import { GuestComponent } from './theme/layouts/guest/guest.component';
-import { GuestGuard } from './guards/guest.guard';
-import { RoleGuard } from './guards/role.guard';
-import { AuthGuard } from './guards/auth.guard';
+import { GuestGuard } from './core/guards/guest.guard';
+import { RoleGuard } from './core/guards/role.guard';
+import { AuthGuard } from './core/guards/auth.guard';
 import { NotFoundComponent } from './theme/layouts/not-found/not-found.component';
-import { RootRedirectGuard } from './guards/redirect.guard';
+import { RootRedirectGuard } from './core/guards/redirect.guard';
 
 const routes: Routes = [
   {
@@ -17,7 +17,7 @@ const routes: Routes = [
     children: [] // This route will be handled by the guard
   },
   {
-    path: 'chef',
+    path: 'manager',
     component: AdminComponent,
     canActivate: [AuthGuard, RoleGuard],
     data: { expectedRole: 'CHEF' },
@@ -27,48 +27,48 @@ const routes: Routes = [
         children: [
           {
             path: '',
-            redirectTo: 'dashboard',
+            redirectTo: 'teams',
             pathMatch: 'full'
           },
           {
-            path: 'dashboard',
-            loadComponent: () => import('./demo/default/dashboard/dashboard.component').then((c) => c.DefaultComponent)
+            path: 'teams',
+            loadComponent: () => import('./manager/pages/teams/teams.component').then((c) => c.TeamsComponent)
           },
           {
-            path: 'equipe/:nomEquipe/:id/employes',
-            loadComponent: () => import('./demo/default/dashboard/employes/employes.component').then((m) => m.EmployesComponent)
+            path: 'team/:teamName/:id/members',
+            loadComponent: () => import('./manager/pages/members/members.component').then((m) => m.MembersComponent)
           },
           {
-            path: 'employe/:id',
-            loadComponent: () =>
-              import('./demo/default/dashboard/employe-profil/employe-profil.component').then((m) => m.EmployeProfilComponent)
+            path: 'member/:id',
+            loadComponent: () => import('./manager/pages/member/member.component').then((m) => m.MemberComponent)
           },
           {
-            path: 'equipe/:nomEquipe/:id/projets',
-            loadComponent: () => import('./demo/default/dashboard/projets/projets.component').then((m) => m.ProjetsComponent)
+            path: 'team/:teamName/:id/projects',
+            loadComponent: () => import('./manager/pages/projects/projects.component').then((m) => m.ProjectsComponent)
           },
           {
-            path: 'projets/:eqpId/:nomProjet/:id/taches',
-            loadComponent: () => import('./demo/default/dashboard/taches/taches.component').then((m) => m.TachesComponent)
+            path: 'projects/:teamId/:projectName/:id/tasks',
+            loadComponent: () => import('./manager/pages/tasks/tasks.component').then((m) => m.TasksComponent)
           },
           {
-            path: 'taches/:id/commentaires',
-            loadComponent: () =>
-              import('./demo/default/dashboard/comments-section/comments-section.component').then((m) => m.CommentsSectionComponent)
-          },
-          {
-            path: 'rapports',
-            loadComponent: () =>
-              import('./demo/default/dashboard/rapports-employe/rapports-employe.component').then((m) => m.RapportsEmployeComponent)
+            path: 'reports',
+            loadComponent: () => import('./manager/pages/reports/reports.component').then((m) => m.ReportsComponent)
           },
           {
             path: 'documents',
-            loadComponent: () =>
-              import('./demo/default/dashboard/documents-projet/documents-projet.component').then((m) => m.DocumentsProjetComponent)
+            loadComponent: () => import('./manager/pages/deliverables/deliverables.component').then((m) => m.DeliverablesComponent)
           },
           {
-            path: 'sample-page',
-            loadComponent: () => import('./demo/other/sample-page/sample-page.component')
+            path: 'membres',
+            loadComponent: () => import('./manager/pages/all-members/all-members.component').then((m) => m.AllMembersComponent)
+          },
+          {
+            path: 'tasks',
+            loadComponent: () => import('./manager/pages/tasks/tasks.component').then((m) => m.TasksComponent)
+          },
+          {
+            path: 'profil',
+            loadComponent: () => import('./manager/pages/profil/profil.component').then((m) => m.ProfilComponent)
           },
           {
             path: '**',
@@ -79,7 +79,7 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'employee',
+    path: 'member',
     component: EmployeLayoutComponent,
     canActivate: [AuthGuard, RoleGuard],
     data: { expectedRole: 'USER' },
@@ -91,16 +91,65 @@ const routes: Routes = [
       },
       {
         path: 'home',
-        loadComponent: () => import('./demo/default/employe/landing-page/landing-page.component').then((c) => c.LandingPageComponent)
+        loadComponent: () => import('./member/pages/team/team.component').then((c) => c.TeamComponent)
       },
       {
         path: 'projets',
-        loadComponent: () => import('./demo/default/employe/list-projets/list-projets.component').then((c) => c.ListProjetsComponent)
+        loadComponent: () => import('./member/pages/projects/projects.component').then((c) => c.ProjectsComponent)
       },
       {
         path: 'taches',
-        loadComponent: () => import('./demo/default/employe/employe-taches/employe-taches.component').then((c) => c.EmployeTachesComponent)
+        loadComponent: () => import('./member/pages/tasks/tasks.component').then((c) => c.TasksComponent)
+      },
+      {
+        path: 'profile',
+        loadComponent: () => import('./member/pages/profil/profil.component').then((c) => c.ProfilComponent)
+      },
+      {
+        path: 'reports',
+        loadComponent: () => import('./member/pages/reports/reports.component').then((c) => c.ReportsComponent)
       }
+    ]
+  },
+  {
+    path: 'admin',
+    component: AdminComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { expectedRole: 'ADMIN' },
+    children: [
+      {
+        path: '',
+        redirectTo: 'dashboard',
+        pathMatch: 'full'
+      },
+      {
+        path: 'dashboard',
+        loadComponent: () => import('./admin/pages/dashboard/dashboard.component').then((c) => c.DashboardComponent)
+      },
+      {
+        path: 'departments',
+        loadComponent: () => import('./admin/pages/departments/departments.component').then((c) => c.DepartmentsComponent)
+      },
+      {
+        path: 'teams',
+        loadComponent: () => import('./admin/pages/teams/teams.component').then((c) => c.TeamsComponent)
+      },
+      {
+        path: 'managers',
+        loadComponent: () => import('./admin/pages/managers/managers.component').then((c) => c.ManagersComponent)
+      },
+      {
+        path: 'members',
+        loadComponent: () => import('./admin/pages/members/members.component').then((c) => c.MembersComponent)
+      },
+      {
+        path: 'member/:id',
+        loadComponent: () => import('./admin/pages/member/member.component').then((m) => m.MemberComponent)
+      },
+      {
+        path: 'manager/:id',
+        loadComponent: () => import('./admin/pages/manager/manager-profil.component').then((m) => m.ManagerProfilComponent)
+      },
       // ... other employee routes
     ]
   },
@@ -112,11 +161,11 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        loadComponent: () => import('./demo/default/landing/landing.component').then((m) => m.LandingComponent)
+        loadComponent: () => import('./guest/pages/landing/landing.component').then((m) => m.LandingComponent)
       },
       {
         path: 'login',
-        loadComponent: () => import('./demo/default/login-page/login-form/login-form.component').then((m) => m.LoginFormComponent)
+        loadComponent: () => import('./guest/pages/login/login.component').then((m) => m.LoginComponent)
       }
     ]
   },

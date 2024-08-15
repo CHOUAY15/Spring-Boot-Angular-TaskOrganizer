@@ -4,7 +4,7 @@ import { CommonModule, Location, LocationStrategy } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 // project import
-import { NavigationItem, NavigationItems } from '../navigation';
+import { NavigationItem, getNavigationItems } from '../navigation';
 import { environment } from 'src/environments/environment';
 import { SharedModule } from 'src/app/theme/shared/shared.module';
 import { NavCollapseComponent } from './nav-collapse/nav-collapse.component';
@@ -24,6 +24,7 @@ import {
   BgColorsOutline,
   AntDesignOutline
 } from '@ant-design/icons-angular/icons';
+import { AuthenticationService } from 'src/app/core/services/authentication.service';
 
 @Component({
   selector: 'app-nav-content',
@@ -42,14 +43,14 @@ export class NavContentComponent implements OnInit {
   title = 'Demo application for version numbering';
   currentApplicationVersion = environment.appVersion;
 
-  navigation = NavigationItems;
   windowWidth = window.innerWidth;
 
   // Constructor
   constructor(
     private location: Location,
     private locationStrategy: LocationStrategy,
-    private iconService: IconService
+    private iconService: IconService,
+    private authService: AuthenticationService
   ) {
     this.iconService.addIcon(
       ...[
@@ -64,7 +65,6 @@ export class NavContentComponent implements OnInit {
         QuestionOutline
       ]
     );
-    this.navigations = NavigationItems;
   }
 
   // Life cycle events
@@ -72,6 +72,12 @@ export class NavContentComponent implements OnInit {
     if (this.windowWidth < 1025) {
       (document.querySelector('.coded-navbar') as HTMLDivElement).classList.add('menupos-static');
     }
+    
+    // Get user role and set navigation items
+    const userRole = this.authService.getUserRole();
+    this.navigations = getNavigationItems(userRole);
+    
+    this.fireOutClick();
   }
 
   fireOutClick() {

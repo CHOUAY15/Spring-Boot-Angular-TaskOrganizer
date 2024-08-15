@@ -1,0 +1,158 @@
+<div class="dialog-overlay">
+  <div class="notification-container">
+    <div *ngIf="successMessage" class="notification success">
+      {{ successMessage }}
+    </div>
+  
+    <div *ngIf="errorMessage" class="notification error">
+      {{ errorMessage }}
+    </div>
+  </div>
+  
+  <div class="dialog-container">
+    <form [formGroup]="projetForm" (ngSubmit)="onSubmit()" class="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
+      <h2 class="text-2xl font-bold mb-6 text-gray-800">Nouvelle Projet</h2>
+
+      <div class="mb-4">
+        <label for="nom" class="block text-sm font-medium text-gray-700">
+          Titre
+          <span style="color: red">*</span>
+        </label>
+        <input
+          type="text"
+          id="nom"
+          formControlName="nom"
+          [ngClass]="{ 'input-error': projetForm.get('nom')?.invalid && (projetForm.get('nom')?.dirty || projetForm.get('nom')?.touched) }"
+          class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+        />
+        <div
+          *ngIf="projetForm.get('nom')?.invalid && (projetForm.get('nom')?.dirty || projetForm.get('nom')?.touched)"
+          class="error-message"
+        >
+          <div *ngIf="projetForm.get('nom')?.errors?.['required']">Le titre est requis.</div>
+          <div *ngIf="projetForm.get('nom')?.errors?.['minlength']">Le titre doit contenir au moins 3 caractères.</div>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <label for="description" class="block text-sm font-medium text-gray-700">
+          Description Et Objectifs
+          <span style="color: red">*</span>
+        </label>
+        <textarea
+          id="description"
+          formControlName="description"
+          rows="3"
+          [ngClass]="{
+            'input-error':
+              projetForm.get('description')?.invalid && (projetForm.get('description')?.dirty || projetForm.get('description')?.touched)
+          }"
+          class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+        ></textarea>
+        <div
+          *ngIf="projetForm.get('description')?.invalid && (projetForm.get('description')?.dirty || projetForm.get('description')?.touched)"
+          class="error-message"
+        >
+          La description est requise.
+        </div>
+      </div>
+      <div class="mb-4">
+        <label for="dateFin" class="block text-sm font-medium text-gray-700">
+          Date de Fin
+          <span style="color: #dc2626">*</span>
+        </label>
+        <input
+          type="date"
+          id="dateFin"
+          formControlName="dateFin"
+          [min]="minDate"
+          [ngClass]="{
+            'input-error': projetForm.get('dateFin')?.invalid && (projetForm.get('dateFin')?.dirty || projetForm.get('dateFin')?.touched)
+          }"
+          class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+        />
+        <div
+          *ngIf="projetForm.get('dateFin')?.invalid && (projetForm.get('dateFin')?.dirty || projetForm.get('dateFin')?.touched)"
+          class="error-message"
+        >
+          <div *ngIf="projetForm.get('dateFin')?.errors?.['required']">La date de fin est requise.</div>
+          <div *ngIf="projetForm.get('dateFin')?.errors?.['dateInvalid']">La date de fin doit être postérieure à aujourd'hui.</div>
+        </div>
+      </div>
+      <div class="mb-6">
+        <label for="livrable" class="block text-sm font-medium text-gray-700 mb-2">
+          Livrables
+          <span class="text-red-500">*</span>
+        </label>
+        <div class="flex">
+          <input
+            type="text"
+            (change)="onFileSelected($event)"
+            id="livrable"
+            accept=".pdf"
+            formControlName="livrable"
+            class="mt-1 block w-full rounded-l-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            placeholder="Entrez le nom de livrable"
+            placeholder="Entrez le nom de livrable"
+          />
+          <button
+            type="button"
+            (click)="addLivrable()"
+            class="mt-1 px-4 py-2 bg-indigo-600 text-black rounded-r-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition duration-150 ease-in-out"
+          >
+            Ajouter
+          </button>
+        </div>
+        <ul class="mt-4 space-y-2">
+          <li
+            *ngFor="let livrable of livrables; let i = index"
+            class="flex justify-between items-center bg-gray-50 p-2 rounded-md shadow-sm border border-gray-200"
+          >
+            <span class="text-sm font-medium text-gray-700">{{ livrable.name }}</span>
+            <div class="flex items-center space-x-2">
+              <input
+                type="file"
+                (change)="onFileChange($event, i)"
+                class="text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 transition duration-150 ease-in-out"
+              />
+              <button
+                type="button"
+                (click)="removeLivrable(i)"
+                class="text-red-600 hover:text-red-800 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition duration-150 ease-in-out"
+              >
+                Supprimer
+              </button>
+            </div>
+          </li>
+        </ul>
+        <div *ngIf="livrables.length === 0 && projetForm.touched" class="error-message">Au moins un livrable est requis.</div>
+      </div>
+
+      <div class="mt-6 flex justify-between">
+        <button
+          type="submit"
+          [disabled]="isSubmitting"
+          class="flex-grow mr-2 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          <span *ngIf="!isLoading">Créer le projet</span>
+          <span *ngIf="isLoading" class="flex items-center justify-center">
+            <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <span class="ml-2">Chargement...</span>
+          </span>
+        </button>
+
+        <button
+          type="button"
+          (click)="onCloseClick()"
+          [disabled]="isSubmitting"
+          class="flex-grow ml-2 py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          Annuler
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

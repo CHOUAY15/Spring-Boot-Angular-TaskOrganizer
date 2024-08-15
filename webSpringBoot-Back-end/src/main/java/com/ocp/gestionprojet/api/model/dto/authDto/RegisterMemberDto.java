@@ -16,7 +16,6 @@ public class RegisterMemberDto {
 
 
     private MemberDto member;
-    private String password;
 
     
 }

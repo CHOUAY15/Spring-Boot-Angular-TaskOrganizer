@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Employee } from 'src/app/model/employe';
-import { EmployeService } from '../../../services/employe.service';
+import { MemberService } from 'src/app/core/services/member.service';
+import { Member } from 'src/app/shared/models/member';
 
 @Component({
   selector: 'app-user-circles',
@@ -9,19 +9,19 @@ import { EmployeService } from '../../../services/employe.service';
 })
 export class UserCirclesComponent implements OnInit {
   @Input() equipeId: string;
-  users: Employee[] = [];
-  displayedUsers: Employee[] = [];
+  users: Member[] = [];
+  displayedUsers: Member[] = [];
   remainingUsers: number = 0;
 
-  constructor(private employeService: EmployeService) {}
+  constructor(private employeService: MemberService) {}
 
   ngOnInit() {
     this.loadEmployes();
   }
 
   loadEmployes() {
-    this.employeService.getEmployeesByTeamId(this.equipeId).subscribe(
-      (employees: Employee[]) => {
+    this.employeService.findByTeam(this.equipeId).subscribe(
+      (employees: Member[]) => {
         this.users = employees;
         this.updateDisplayedUsers();
       },

@@ -91,4 +91,8 @@ public class MemberController {
         memberService.delete(id);
         return ResponseEntity.noContent().build();
     }
+       @GetMapping("")
+    public ResponseEntity<List<MemberDto>> findAll() {
+        return new ResponseEntity<>(memberService.findAll(), HttpStatus.OK);
+    }
 }

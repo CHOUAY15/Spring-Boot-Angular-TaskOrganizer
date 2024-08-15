@@ -11,4 +11,6 @@ public interface DepartmentService {
 
     // Save a new or updated department
     DepartmentDto save(DepartmentDto departementDto);
+    void delete(Integer id);
+
 }

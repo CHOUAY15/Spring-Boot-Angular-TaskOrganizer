@@ -24,12 +24,12 @@ public interface UserService {
 
     AuthResponseDto buildAuthResponse(String token, UserEntity user, PersonDto personDto);
 
-    void registerChef(RegisterManagerDto registerDto, Integer deptId)
+    void registerChef(RegisterManagerDto registerDto)
             throws UserAlreadyExistsException, EntityNotFoundException;
 
-    UserEntity createUserEntityToChef(RegisterManagerDto registerDto);
+    UserEntity createUserEntityToChef(RegisterManagerDto registerDto,String password);
 
-    void registerEmploye(RegisterMemberDto registerDto, Integer eqpId)
+    void registerEmploye(RegisterMemberDto registerDto)
             throws UserAlreadyExistsException, EntityNotFoundException;
 
     UserEntity createUserEntityToEmploye(RegisterMemberDto registerDto);

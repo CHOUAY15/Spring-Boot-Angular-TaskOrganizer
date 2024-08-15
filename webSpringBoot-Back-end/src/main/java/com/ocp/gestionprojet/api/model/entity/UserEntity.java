@@ -13,7 +13,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "users")
+@Table(name = "user")
 public class UserEntity {
 
     @Id
@@ -38,6 +38,8 @@ public class UserEntity {
 
     @OneToOne(mappedBy = "user")
     private AdminEntity admin;
+    
+    private boolean passwordUpdated = false;
 
 
 }

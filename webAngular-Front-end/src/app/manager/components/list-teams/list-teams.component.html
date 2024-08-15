@@ -1,0 +1,48 @@
+<h1>Équipes</h1>
+<div class="controls-container">
+  <div class="filter-container">
+    <input 
+      type="text" 
+      [(ngModel)]="filterText" 
+      (ngModelChange)="filterTeams()"
+      placeholder="Nom de l'équipe ou département"
+      class="filter-input"
+    >
+  </div>
+  <ng-container *ngIf="totalPages > 1">
+    <div class="pagination">
+      <button (click)="previousPage()" [disabled]="currentPage === 1" class="pagination-button">
+        <mat-icon>chevron_left</mat-icon>
+      </button>
+      <span class="page-info">{{ currentPage }} / {{ totalPages }}</span>
+      <button (click)="nextPage()" [disabled]="currentPage === totalPages" class="pagination-button">
+        <mat-icon>chevron_right</mat-icon>
+      </button>
+    </div>
+  </ng-container>
+</div>
+
+<ng-container *ngIf="(loading$ | async) === false; else loadingTemplate">
+  <ng-container *ngIf="(error$ | async) === false; else errorTemplate">
+    <ng-container *ngIf="(teams$ | async) as teams">
+      <div class="team-grid" *ngIf="teams.length > 0; else noTeams">
+        <app-card-team *ngFor="let team of teams" [cardTeam]="team"></app-card-team>
+      </div>
+      <ng-template #noTeams>
+        <div class="centered-message">
+          Aucune équipe !
+        </div>
+      </ng-template>
+    </ng-container>
+  </ng-container>
+</ng-container>
+
+<ng-template #loadingTemplate>
+  <div class="centered-message loading-message">
+    <app-spinner-g></app-spinner-g>
+  </div>
+</ng-template>
+
+<ng-template #errorTemplate>
+  <app-error-message></app-error-message>
+</ng-template>

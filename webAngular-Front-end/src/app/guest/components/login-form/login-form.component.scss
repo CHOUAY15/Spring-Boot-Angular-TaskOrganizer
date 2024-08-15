@@ -1,0 +1,122 @@
+.login-form {
+    background: rgba(255, 255, 255, 0.15);
+    padding: 3rem;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    width: 400px;
+  
+    h2 {
+      margin-top: 0;
+      margin-bottom: 2rem;
+      color: white;
+      font-family: 'Dongle', sans-serif;
+      font-size: 3rem;
+      text-align: center;
+    }
+  
+    .form-group {
+      position: relative;
+      margin-bottom: 2rem;
+  
+      input {
+        width: 100%;
+        padding: 1rem;
+        font-size: 1rem;
+        color: white;
+        background-color: transparent;
+        border: none;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+        outline: none;
+        transition: border-color 0.3s ease;
+  
+        &:focus {
+          border-color: #3b5998;
+        }
+  
+        &:focus + label,
+        &:not(:placeholder-shown) + label {
+          top: -20px;
+          font-size: 0.8rem;
+          color: #ffffff;
+        }
+      }
+  
+      label {
+        position: absolute;
+        top: 1rem;
+        left: 0;
+        font-size: 1rem;
+        color: rgba(255, 255, 255, 0.7);
+        pointer-events: none;
+        transition: 0.3s ease all;
+      }
+    }
+  
+    button {
+      width: 100%;
+      padding: 1rem;
+      border: none;
+      border-radius: 50px;
+      background: #00b98e;
+      color: white;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition:
+        background 0.3s ease,
+        transform 0.1s ease;
+  
+      &:hover {
+        background: #3bd4ae;
+      }
+  
+      &:active {
+        transform: scale(0.98);
+      }
+    }
+  
+    .forgot-password {
+      text-align: center;
+      margin-top: 1rem;
+  
+      a {
+        color: rgba(255, 255, 255, 0.7);
+        text-decoration: none;
+        font-size: 0.9rem;
+        transition: color 0.3s ease;
+  
+        &:hover {
+          color: #3bd4ae;
+        }
+      }
+    }
+  }
+  .error-message {
+    color: red;
+    font-size: 0.8em;
+    margin-top: 5px;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  input.ng-invalid.ng-touched {
+    border-color: red;
+  }
+  .spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(255,255,255,.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 1s ease-in-out infinite;
+  }
+  
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+  
+  
+  

@@ -10,11 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ocp.gestionprojet.api.exception.EntityNotFoundException;
 import com.ocp.gestionprojet.api.mapper.PersonnelMapper;
 import com.ocp.gestionprojet.api.model.dto.managerDto.ManagerDto;
-import com.ocp.gestionprojet.api.model.entity.DepartmentEntity;
 import com.ocp.gestionprojet.api.model.entity.ManagerEntity;
+import com.ocp.gestionprojet.api.model.entity.TeamEntity;
 import com.ocp.gestionprojet.api.model.entity.UserEntity;
-import com.ocp.gestionprojet.api.repository.DepartmentRepository;
 import com.ocp.gestionprojet.api.repository.ManagerRepository;
+import com.ocp.gestionprojet.api.repository.TeamRepository;
 import com.ocp.gestionprojet.api.service.interfaces.ManagerService;
 
 @Service
@@ -27,14 +27,15 @@ public class ManagerServiceImpl implements ManagerService {
     private PersonnelMapper personnelMapper;
 
     @Autowired
-    private DepartmentRepository departmentRepository;
+    private TeamRepository teamRepository;
 
     /**
      * Retrieves a manager by its ID.
      *
      * @param id ID of the manager to retrieve.
      * @return ManagerDto containing manager data.
-     * @throws EntityNotFoundException if the manager with the given ID is not found.
+     * @throws EntityNotFoundException if the manager with the given ID is not
+     *                                 found.
      */
     @Override
     @Transactional(readOnly = true)
@@ -49,7 +50,8 @@ public class ManagerServiceImpl implements ManagerService {
      *
      * @param managerDto DTO containing updated manager data.
      * @return Updated ManagerDto.
-     * @throws EntityNotFoundException if the manager with the given ID is not found.
+     * @throws EntityNotFoundException if the manager with the given ID is not
+     *                                 found.
      */
     @Override
     @Transactional
@@ -80,21 +82,24 @@ public class ManagerServiceImpl implements ManagerService {
      * Adds a new manager to a department based on the provided ManagerDto.
      *
      * @param managerDto DTO containing manager data and department information.
-     * @param user User entity associated with the manager.
+     * @param user       User entity associated with the manager.
      * @return The newly created ManagerEntity.
-     * @throws EntityNotFoundException if the department with the given ID is not found.
+     * @throws EntityNotFoundException if the department with the given ID is not
+     *                                 found.
      */
     @Override
     @Transactional
     public ManagerEntity addManagerToTeam(ManagerDto managerDto, UserEntity user) throws EntityNotFoundException {
-        DepartmentEntity department = departmentRepository.findById(managerDto.getDepartmentId())
+        TeamEntity teamEntity = teamRepository.findById(managerDto.getTeamId())
                 .orElseThrow(() -> new EntityNotFoundException("Department not found"));
 
         ManagerEntity manager = new ManagerEntity();
         // Set manager properties from DTO
         updateManagerFromDto(manager, managerDto);
-        manager.setDepartment(department);
         manager.setUser(user);
+        manager.setDepartment(teamEntity.getDepartment());
+        teamEntity.setManager(manager);
+        teamRepository.save(teamEntity);
 
         // Save the new manager entity
         return managerRepository.save(manager);
@@ -118,7 +123,7 @@ public class ManagerServiceImpl implements ManagerService {
      * Updates the properties of a ManagerEntity based on the provided ManagerDto.
      *
      * @param manager ManagerEntity to update.
-     * @param dto DTO containing new manager data.
+     * @param dto     DTO containing new manager data.
      */
     private void updateManagerFromDto(ManagerEntity manager, ManagerDto dto) {
         manager.setName(dto.getName());
@@ -130,6 +135,15 @@ public class ManagerServiceImpl implements ManagerService {
         manager.setAdresse(dto.getAdresse());
         manager.setAvatar(dto.getAvatar());
         manager.setGender(dto.getGender());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ManagerDto> findByDepartmentId(Integer deptId) {
+        List<ManagerEntity> managers = managerRepository.findByDepartmentId(deptId);
+        return managers.stream()
+                .map(personnelMapper::toDto)
+                .collect(Collectors.toList());
     }
 
 }

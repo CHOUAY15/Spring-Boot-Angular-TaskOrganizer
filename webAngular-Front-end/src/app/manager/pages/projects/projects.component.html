@@ -1,0 +1,55 @@
+<!-- projets.component.html -->
+
+<div class="projects-container">
+  <div class="header-container">
+    <div class="breadcrumb">
+      <a routerLink="/">{{ this.teamName }}</a>
+      <span class="separator">/</span>
+      <span class="current">projets</span>
+    </div>
+    <button class="add-project-button" (click)="addProject()">+ Ajouter un projet</button>
+  </div>
+
+  <ng-container *ngIf="(loading$ | async) === false; else loadingTemplate">
+    <ng-container *ngIf="(error$ | async) === false; else errorTemplate">
+      <ng-container *ngIf="projects$ | async as projects">
+        <app-user-circles [equipeId]="teamId"></app-user-circles>
+
+        <div class="team-grid" *ngIf="projects.length > 0; else noProjets">
+          <app-project-table
+            [projects]="projects"
+            [teamId]="teamId"
+            (addProject)="addProject()"
+            (projectDeleted)="onProjectDeleted()"
+          ></app-project-table>
+        </div>
+        <ng-template #noProjets>
+          <div class="centered-message">Aucun projet pour l'instant !</div>
+        </ng-template>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+
+  <ng-template #loadingTemplate>
+    <div class="centered-message loading-message">
+      <app-spinner-g></app-spinner-g>
+    </div>
+  </ng-template>
+
+  <ng-template #errorTemplate>
+    <app-error-message></app-error-message>
+  </ng-template>
+
+  <app-dialog-add-project
+    *ngIf="showDialog"
+    [teamId]="teamId"
+    (close)="handleClose()"
+    (projectAdded)="onProjectAdded($event)"
+  ></app-dialog-add-project>
+</div>
+<app-feed-back
+*ngIf="showFeedback"
+(closed)="closeFeedback()"
+[message]="feedbackMessage"
+(animationDone)="showFeedback = false"
+></app-feed-back>

@@ -1,0 +1,35 @@
+<div class="card">
+  <h6 class="card-title">
+    <i class="fas fa-users users-icon"></i>
+    équipe: {{ cardTeam.name }}
+  </h6>
+  <div class="card-content">
+    <p class="card-description">
+      <strong>Objectifs : </strong>
+      <span [ngClass]="{'truncate': !showFullDescription}">{{ cardTeam.description }}</span>
+      <a *ngIf="cardTeam.description.length > 100" (click)="toggleDescription()" class="read-more">
+        {{ showFullDescription ? 'Lire moins' : 'Lire plus' }}
+      </a>
+    </p>
+
+    <p class="card-description">
+      <strong>Date de création : </strong>
+      <span>{{ cardTeam.creationDate | date }}</span>
+    </p>
+
+    <p class="card-description">
+      <strong>Nombre de membres: </strong>
+      <span>{{ cardTeam.teamNbr }}</span>
+    </p>
+
+    <p class="card-description">
+      <strong>Département : </strong>
+      <span>{{ cardTeam.departmentName }}</span>
+    </p>
+  </div>
+
+  <div class="card-actions">
+    <button class="btn btn-primary" (click)="goToMembers()">Membres</button>
+    <button class="btn btn-secondary" (click)="goToProjects()">Projets</button>
+  </div>
+</div>

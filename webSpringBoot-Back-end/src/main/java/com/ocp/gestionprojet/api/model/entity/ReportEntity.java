@@ -19,7 +19,7 @@ import jakarta.persistence.TemporalType;
 import lombok.Data;
 @Data
 @Entity
-@Table(name = "rapports")
+@Table(name = "report")
 
 
 
