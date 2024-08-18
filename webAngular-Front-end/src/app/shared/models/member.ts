@@ -5,7 +5,7 @@ import { Team } from './team';
 export class Member extends Person {
   position: string;
   departmentId: number;
-  team: Team;
+
   report: Report;
   isOpen?:boolean;
 
@@ -21,14 +21,13 @@ export class Member extends Person {
     cin: string,
     gender: SexePerson,
 
-    team: Team,
     report: Report,
     position?: string
   ) {
     super(id, name, lastName, age, telephone, email, adresse, avatar, cin, gender);
 
     this.position = position;
-    this.team = team;
+   
     this.report = report;
   }
 }

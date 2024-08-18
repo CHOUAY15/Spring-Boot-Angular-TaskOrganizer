@@ -9,20 +9,18 @@
         </button>
         <div class="collapse navbar-collapse" [class.show]="!isMenuCollapsed">
           <ul class="navbar-nav ms-auto">
+           
             <li class="nav-item">
-              <a (click)="scrollToSection('home')" class="nav-link">Accueil</a>
-            </li>
-            <li class="nav-item">
-              <a [routerLink]="['/employee/projets']" class="nav-link">Projets</a>
+              <a [routerLink]="['/member/projets']" class="nav-link">Projets</a>
             </li>
             <li class="nav-item">
               <a (click)="scrollToSection('services')" class="nav-link">Rapports</a>
             </li>
             <li class="nav-item">
-              <a (click)="scrollToSection('contact')" class="nav-link">Contact votre chef</a>
+              <a [routerLink]="['/member/profil']" class="nav-link">Profile</a>
             </li>
           </ul>
-          <a [routerLink]="['/login']" class="btn btn-primary">Se déconnecter</a>
+          <a  (click)="logOut()" class="btn btn-primary">Se déconnecter</a>
         </div>
       </div>
     </nav>

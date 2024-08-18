@@ -31,8 +31,8 @@ export class TaskService {
     return this.http.get<TaskData[]>(`${this.apiUrl}/mbrId/${this.employeeId}`);
   }
 
-  updateTaskStatus(taskId: number, newStatus: string): Observable<TaskData> {
-    return this.http.put<TaskData>(`${this.apiUrl}/id/${taskId}`, { status: newStatus });
+  updateTask(id: number, taskData: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/id/${id}`, taskData);
   }
 
   getTaskById(taskId: string): Observable<TaskData> {
@@ -41,5 +41,10 @@ export class TaskService {
 
   deleteTask(taskId: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/id/${taskId}`);
+  }
+
+  findTaskByMemberInProject(mbrId: number, prjtId: string): Observable<TaskData[]> {
+    const url = `${this.apiUrl}/mbrId/${mbrId}/prjtId/${prjtId}`;
+    return this.http.get<TaskData[]>(url);
   }
 }

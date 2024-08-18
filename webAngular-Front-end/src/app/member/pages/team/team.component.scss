@@ -1,0 +1,173 @@
+:root {
+  --primary-color: #00B98E;
+  --primary-color-dark: #009f7a; /* Darker shade for hover effects */
+  --secondary-color: #f4f4f4;
+  --text-color: #333;
+  --light-text-color: #6c757d;
+  --border-color: #e0e0e0;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+.team-section {
+  padding: 4rem 0;
+  background-color: var(--secondary-color);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.team-info {
+  max-width: 600px;
+  margin: 0 auto 2rem;
+}
+
+.section-title {
+  font-size: 2rem;
+  color: var(--text-color);
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.team-carousel {
+  position: relative;
+}
+
+.team-members {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  transition: transform 0.5s ease;
+}
+
+.team-member {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 1.5rem;
+  text-align: center;
+  box-shadow: 0 5px 15px var(--shadow-color);
+  transition: all 0.3s ease;
+  flex: 0 0 calc(33.333% - 2rem);
+  max-width: calc(33.333% - 2rem);
+}
+
+.team-member.active {
+  transform: scale(1.05);
+  box-shadow: 0 10px 25px var(--shadow-color);
+}
+
+.member-image {
+  width: 150px;
+  height: 150px;
+  margin: 0 auto 1rem;
+  overflow: hidden;
+  border-radius: 50%;
+  border: 3px solid var(--primary-color);
+}
+
+.member-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.team-member:hover .member-image img {
+  transform: scale(1.1);
+}
+
+.member-name {
+  font-size: 1.25rem;
+  color: var(--text-color);
+  margin-bottom: 0.5rem;
+}
+
+.member-email {
+  font-size: 0.9rem;
+  color: var(--light-text-color);
+}
+
+.carousel-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+}
+
+.control-btn {
+  background-color: var(--primary-color);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.control-btn:hover {
+  background-color: var(--primary-color-dark); /* Using the darker shade for hover */
+}
+
+.carousel-indicators {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 1rem;
+}
+
+.indicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--border-color);
+  margin: 0 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.indicator.active {
+  background-color: var(--primary-color);
+  transform: scale(1.2);
+}
+
+@media (max-width: 992px) {
+  .team-member {
+    flex: 0 0 calc(50% - 2rem);
+    max-width: calc(50% - 2rem);
+  }
+}
+
+@media (max-width: 768px) {
+  .team-member {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+
+  .team-members {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .section-title {
+    font-size: 1.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .member-image {
+    width: 120px;
+    height: 120px;
+  }
+
+  .member-name {
+    font-size: 1.1rem;
+  }
+
+  .member-email {
+    font-size: 0.8rem;
+  }
+}

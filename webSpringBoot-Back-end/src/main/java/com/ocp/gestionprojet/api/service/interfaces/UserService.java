@@ -12,6 +12,7 @@ import com.ocp.gestionprojet.api.model.dto.authDto.RegisterMemberDto;
 import com.ocp.gestionprojet.api.model.dto.personDto.PersonDto;
 import com.ocp.gestionprojet.api.model.entity.UserEntity;
 
+import java.util.List;
 /**
  * Interface defining the contract for user-related operations, including
  * authentication, registration, and user management.
@@ -95,7 +96,7 @@ public interface UserService {
      * @param registerDto The DTO containing the registration details.
      * @return The created UserEntity.
      */
-    UserEntity createUserEntityToMember(RegisterMemberDto registerDto);
+    UserEntity createUserEntityToMember(RegisterMemberDto registerDto,String password);
 
     /**
      * Registers a new admin.
@@ -120,4 +121,7 @@ public interface UserService {
      * @param newPassword The new password to be set.
      */
     public void updatePassword(String username, String newPassword);
+
+
+    public int registerMembersFromCsv(List<RegisterMemberDto> members);
 }

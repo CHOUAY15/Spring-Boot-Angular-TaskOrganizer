@@ -1,3 +1,5 @@
+import { Team } from "./team";
+
 export enum SexePerson {
   Homme = 'Homme',
   Femme = 'Femme'
@@ -20,6 +22,7 @@ export abstract class Person {
   avatar: string;
 
   cin: string;
+  team?:Team
 
   gender: SexePerson;
   constructor(

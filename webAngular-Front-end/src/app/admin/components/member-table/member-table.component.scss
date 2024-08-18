@@ -1,101 +1,146 @@
 @use '@angular/material' as mat;
 
-$primary-green: #00B98E; // Primary green
-
-$light-green: #86d1a3;
+$primary-blue: #00B98E;
+$light-blue: #bbdefb;
 $hover-blue: #e3f2fd;
+$red: #f44336;
+$yellow: #ffeb3b;
+$green: #00B98E;
+$orange: #ff9800;
 
-.employee-table-container {
-  padding: 20px;
-  background-color: #f5f5f5;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  overflow-x: auto; // Add horizontal scroll for small screens
+:host {
+  font-size: clamp(14px, 1.2vw, 16px);
 }
 
-.mat-form-field {
-  font-size: 14px;
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.add-task-button {
+  background-color: $green;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: clamp(12px, 1.2vw, 14px);
+
+  &:hover {
+    background-color: darken($green, 10%);
+  }
+}
+
+.projet-table-container {
+  padding: 20px;
+ 
+  overflow-x: auto;
+}
+
+.mat-mdc-form-field {
+  font-size: clamp(12px, 1.2vw, 14px);
   width: 100%;
   margin-bottom: 20px;
-
-  .mat-input-element {
-    color: $primary-green;
-  }
-
-  .mat-form-field-label {
-    color: $primary-green;
-  }
-
-  .mat-form-field-underline {
-    background-color: $primary-green;
-  }
 }
 
-table {
+.mat-mdc-table {
   width: 100%;
+  background-color: white;
   border-collapse: separate;
   border-spacing: 0;
+  border: 1px solid $light-blue;
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  
-  td.mat-column-actions {
-    text-align: center; // Center the content of the actions column
+
+  .mat-mdc-header-row {
+    background-color: $primary-blue;
   }
 
-  th.mat-header-cell {
-    background-color: $primary-green;
+  .mat-mdc-header-cell {
     color: white;
     font-weight: bold;
-    padding: 16px;
-    text-align: left;
+    font-size: clamp(14px, 1.4vw, 16px);
+    border-right: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 16px !important;
+
+    &:last-child {
+      border-right: none;
+    }
   }
 
-  td.mat-cell {
-    padding: 16px;
-    border-bottom: 1px solid $light-green;
-  }
+  .mat-mdc-row {
+    &:nth-child(even) {
+      background-color: #f8f8f8;
+    }
 
-  tr.mat-row {
     &:hover {
       background-color: $hover-blue;
     }
+  }
 
-    &:last-child td {
-      border-bottom: none;
+  .mat-mdc-cell {
+    font-size: clamp(12px, 1.2vw, 14px);
+    border-right: 1px solid $light-blue;
+    border-bottom: 1px solid $light-blue;
+    padding: 16px !important;
+
+    &:last-child {
+      border-right: none;
     }
+  }
+
+  .mat-mdc-row:last-child .mat-mdc-cell {
+    border-bottom: none;
   }
 }
 
-
-.mat-column-avatar {
-  width: 80px;
-  padding-right: 8px;
-}
-
-.avatar-img {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  object-fit: cover;
+.mat-column-actions {
+  text-align: center;
 }
 
 .action-buttons {
   display: flex;
-  justify-content: center; // Center horizontally
-  align-items: center; // Center vertically
+  justify-content: center;
+  align-items: center;
   gap: 8px;
-  
+
   button {
-    color: #00B98E;
+    color: white;
     border: none;
     padding: 8px 16px;
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    
-    &:hover {
-      color: darken($primary-green, 10%);
+    font-size: clamp(12px, 1.2vw, 14px);
+
+    &.supprimer {
+      background-color: $red;
+
+      &:hover {
+        background-color: darken($red, 10%);
+      }
+    }
+
+    &.modifier {
+      background-color: #1976d2;
+      color: rgb(255, 255, 255);
+
+      &:hover {
+        background-color: darken($primary-blue, 10%);
+      }
+    }
+    &.voir {
+      background-color: #00B98E;
+      color: rgb(255, 255, 255);
+
+      &:hover {
+        background-color: darken($primary-blue, 10%);
+      }
     }
   }
 }
@@ -104,91 +149,165 @@ table {
   text-align: center;
 }
 
-.mat-paginator {
-  border-top: 1px solid $light-green;
+.mat-mdc-paginator {
+  border-top: 1px solid $light-blue;
+}
+
+.status-a-faire {
+  color: $orange;
+  font-weight: 900;
+}
+
+.status-en-cours {
+  color: $yellow;
+  font-weight: 900;
+}
+
+.status-terminee {
+  color: $green;
+  font-weight: 900;
+}
+
+.status-noterminee {
+  color: $red;
+  font-weight: 900;
+}
+
+.underline-link {
+  text-decoration: underline;
+  color: #00B98E;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.etat-termine {
+  color: #00B98E;
+  font-weight: bold;
+}
+
+.etat-en-cours {
+  color: #FFA500;
+  font-weight: bold;
+}
+
+.modal {
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.078);
+  display: flex;
+  justify-content: center;
+  align-items: center;  
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  width: 600px;
+  text-align: center;
+}
+
+.modal-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.cancel-btn, .confirm-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.cancel-btn {
+  background-color: #ccc;
+}
+
+.confirm-btn {
+  background-color: #f44336;
+  color: white;
 }
 
 // Responsive styles
 @media screen and (max-width: 768px) {
-  .employee-table-container {
+  .projet-table-container {
     padding: 10px;
   }
 
-  table {
-    display: block;
+  .table-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
 
-    thead {
-      display: none; // Hide table header on small screens
+  .add-task-button {
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .mat-mdc-table {
+    .mat-mdc-header-row {
+      display: none;
     }
 
-    tbody {
-      display: block;
-    }
-
-    tr {
-      display: block;
-      margin-bottom: 16px;
-      border: 1px solid $light-green;
-      border-radius: 8px;
-      overflow: hidden;
-    }
-
-    td {
+    .mat-mdc-row {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px;
-      text-align: right;
-      border-bottom: 1px solid $light-green;
-
-      &:before {
-        content: attr(data-label);
-        float: left;
-        font-weight: bold;
-        text-transform: uppercase;
-        color: $primary-green;
-      }
+      flex-direction: column;
+      padding: 8px 0;
+      border-bottom: 1px solid $light-blue;
 
       &:last-child {
         border-bottom: none;
       }
     }
-  }
 
-  .mat-column-avatar {
-    width: 100%;
-    padding-right: 0;
-    justify-content: center;
+    .mat-mdc-cell {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border: none;
+      padding: 8px 16px !important;
 
-    &:before {
-      content: none;
+      &:before {
+        content: attr(data-label);
+        font-weight: bold;
+        text-transform: uppercase;
+        color: $primary-blue;
+      }
     }
-  }
-
-  .avatar-img {
-    margin: 0 auto;
   }
 
   .action-buttons {
     flex-direction: column;
-    align-items: center; // Center buttons vertically on small screens
-    
+    align-items: stretch;
+
     button {
-      width: 100%; // Make buttons full width on small screens
+      width: 100%;
       margin-bottom: 8px;
     }
   }
 }
-.voir {
-  display: flex;
-  align-items: center;
-  border: none;
-  background-color: transparent;
-  cursor: pointer;
-  font-size: 16px;
-  color: #00B98E;/* Couleur de texte de votre choix */
-}
 
-.voir mat-icon {
-  margin-right: 8px; /* Espacement entre l'icône et le texte */
+@media screen and (max-width: 480px) {
+  .projet-table-container {
+    padding: 5px;
+  }
+
+  .mat-mdc-table {
+    font-size: 12px;
+  }
+
+  .mat-mdc-cell {
+    padding: 8px !important;
+  }
+}
+.avatar-img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
 }

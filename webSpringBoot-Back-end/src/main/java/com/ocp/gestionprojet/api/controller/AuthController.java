@@ -1,6 +1,9 @@
 package com.ocp.gestionprojet.api.controller;
 
 import java.security.Principal;
+import java.util.List;
+import java.util.ArrayList;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,8 +14,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.multipart.MultipartFile;
+import java.io.InputStreamReader;
 import com.ocp.gestionprojet.api.exception.EntityNotFoundException;
 import com.ocp.gestionprojet.api.exception.UserAlreadyExistsException;
 import com.ocp.gestionprojet.api.exception.handler.MessageResponse;
@@ -22,8 +27,15 @@ import com.ocp.gestionprojet.api.model.dto.authDto.PasswordUpdateRequest;
 import com.ocp.gestionprojet.api.model.dto.authDto.RegisterAdminDto;
 import com.ocp.gestionprojet.api.model.dto.authDto.RegisterManagerDto;
 import com.ocp.gestionprojet.api.model.dto.authDto.RegisterMemberDto;
+import com.ocp.gestionprojet.api.model.dto.memberDto.MemberDto;
+import com.ocp.gestionprojet.api.model.dto.teamDto.TeamResponseDto;
 import com.ocp.gestionprojet.api.model.entity.UserEntity;
 import com.ocp.gestionprojet.api.service.interfaces.UserService;
+import com.ocp.gestionprojet.shared.SexePerson;
+
+import java.io.BufferedReader;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/auth")
@@ -86,6 +98,8 @@ public class AuthController {
         }
     }
 
+    
+
     /**
      * Authenticates a user and provides an authentication token if successful.
      *
@@ -121,6 +135,65 @@ public ResponseEntity<?> updatePassword(@RequestBody PasswordUpdateRequest reque
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new MessageResponse("An error occurred while updating the password"));
     }
 }
+
+ @PostMapping("register/csv")
+    public ResponseEntity<String> registerMembersFromCsv(@RequestParam("file") MultipartFile file) {
+        if (file.isEmpty()) {
+            return ResponseEntity.badRequest().body("Please select a CSV file to upload.");
+        }
+
+        try {
+            List<RegisterMemberDto> members = parseCsvFile(file);
+            int successCount = userService.registerMembersFromCsv(members);
+            return ResponseEntity.ok(successCount + " members registered successfully from CSV.");
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to process CSV file: " + e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error processing CSV: " + e.getMessage());
+        }
+    }
+
+    private List<RegisterMemberDto> parseCsvFile(MultipartFile file) throws IOException {
+    List<RegisterMemberDto> members = new ArrayList<>();
+    try (BufferedReader br = new BufferedReader(new InputStreamReader(file.getInputStream()))) {
+        String line;
+        boolean firstLine = true;
+        while ((line = br.readLine()) != null) {
+            if (firstLine) {
+                firstLine = false;
+                continue; // Skip header line
+            }
+            String[] values = line.split(",");
+            if (values.length >= 5) {
+                RegisterMemberDto dto = new RegisterMemberDto();
+                MemberDto memberDto = new MemberDto(); // Create a new MemberDto
+
+                memberDto.setName(values[0].trim());
+                memberDto.setLastName(values[1].trim());
+                memberDto.setEmail(values[2].trim());
+                memberDto.setCin(values[3].trim());
+
+                TeamResponseDto teamResponseDto = new TeamResponseDto();
+                teamResponseDto.setId(Integer.parseInt(values[4].trim()));
+                
+                memberDto.setTeam(teamResponseDto);
+                
+                memberDto.setGender(SexePerson.fromString(values[5]));
+
+                
+
+               
+                dto.setMember(memberDto); // Set the MemberDto to RegisterMemberDto
+
+                members.add(dto);
+            }
+        }
+    }
+    return members;
+}
+
+
 
 
 

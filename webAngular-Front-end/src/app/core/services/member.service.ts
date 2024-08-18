@@ -42,7 +42,7 @@ export class MemberService {
   }
 
  
-  delete(id: string): Observable<void> {
+  delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/id/${id}`);
   }
 
@@ -53,6 +53,13 @@ export class MemberService {
 
   findAll(): Observable<Member[]> {
     return this.http.get<Member[]>(`${this.apiUrl}`);
+  }
+
+  addToTeam(member: any): Observable<string> {
+    return this.http.post('http://localhost:4000/auth/register/member', member, { responseType: 'text' });
+  }
+  uploadCSV(formData: FormData): Observable<any> {
+    return this.http.post(`http://localhost:4000/auth/register/csv`, formData);
   }
 
 }

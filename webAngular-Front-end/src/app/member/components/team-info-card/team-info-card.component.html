@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="image-card">
+    <img src="assets/images/group.png" alt="Team Image">
+  </div>
+  <div class="info-card">
+    <h2>Equipe : <span class="team-name">{{ equipe.name }}</span></h2>
+    <div class="info-container">
+      <div class="info-item">
+        <strong>Objectifs:</strong>
+        <p>{{ equipe.description }}</p>
+      </div>
+      <div class="info-item">
+        <strong>Nombre d'employés:</strong>
+        <p>{{ equipe.teamNbr }}</p>
+      </div>
+      <div class="info-item">
+        <strong>Date de création:</strong>
+        <p>{{ equipe.creationDate| date:'longDate' }}</p>
+      </div>
+      <div class="info-chef-section">
+        <div class="info-item">
+          <strong>Gestionnaire de L'équipe :</strong>
+          <p>{{ equipe.manager.name }} {{ equipe.manager.lastName }}</p>
+        </div>
+        <div class="info-item">
+          <strong>Email:</strong>
+          <p>{{ equipe.manager.email }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

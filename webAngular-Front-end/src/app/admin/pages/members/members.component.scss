@@ -1,44 +1,145 @@
+.projects-container {
+  padding: 24px;
+  font-family: 'Roboto', sans-serif;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.breadcrumb {
+  font-size: 18px;
+  color: #333;
+}
+
+.breadcrumb .current {
+  font-weight: 600;
+  color: #000000;
+}
+
+.add-project-button, .import-csv-button {
+  padding: 12px 24px;
+  background-color: #00B98E;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.add-project-button:hover, .import-csv-button:hover {
+  background-color: #00A17C;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.import-csv-button {
+  background-color: #4A90E2;
+  margin-left: 10px;
+}
+
+.import-csv-button:hover {
+  background-color: #3A7BC8;
+}
+
+p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #555;
+  margin-bottom: 24px;
+  padding: 16px;
+  background-color: #f8f9fa;
+  border-left: 4px solid #00B98E;
+  border-radius: 4px;
+}
+
+.team-grid {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.centered-message-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 16px;
+}
+
 .centered-message {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 50vh; /* This will center vertically in the viewport */
-    font-size: 1.2em;
-    color: #333;
+  color: #666;
+  font-size: 18px;
+  margin: 0;
+  font-style: italic;
+}
+
+.loading-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+}
+
+app-spinner-g {
+  color: #00B98E;
+}
+
+app-error-message {
+  margin-top: 24px;
+}
+
+.side-add-button {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  padding: 12px 24px;
+  background-color: #00B98E;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.side-add-button:hover {
+  background-color: #00A17C;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+@media (max-width: 768px) {
+  .header-container {
+    flex-direction: column;
+    align-items: flex-start;
   }
-  .loading-message {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 200px;
+
+  .add-project-button, .import-csv-button {
+    margin-top: 16px;
+    width: 100%;
   }
-  .breadcrumb {
-    display: flex;
-    align-items: center;
-    font-size: 16px;
-    margin-bottom: 20px;
-    color: #333;
+
+  .import-csv-button {
+    margin-left: 0;
+    margin-top: 10px;
   }
-  
-  .breadcrumb a {
-    color: #000000;
-    text-decoration: none;
-    transition: color 0.3s ease;
-  }x
-  
-  .breadcrumb a:hover {
-    color: #09352a;
-  }
-  
-  .breadcrumb .separator {
-    margin: 0 10px;
-    color: #666;
-  }
-  
-  .breadcrumb .current {
-    font-weight: 600;
-    color: #000000;
-  }
-  
-  
-  
+}

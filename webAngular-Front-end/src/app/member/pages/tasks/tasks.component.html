@@ -1,1 +1,22 @@
-<p>tasks works!</p>
+
+  
+  <ng-container *ngIf="(loading$ | async) === false; else loadingTemplate">
+    <ng-container *ngIf="(error$ | async) === false; else errorTemplate">
+      <ng-container *ngIf="tasks$ | async as tasks">
+        <div class="team-grid">
+          <app-list-tasks [tasks]="tasks$ | async"  [idMembre]="idMembre"></app-list-tasks>
+        </div>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+  
+  <ng-template #loadingTemplate>
+    <div class="centered-message loading-message">
+      <app-spinner-g></app-spinner-g>
+    </div>
+  </ng-template>
+  
+  <ng-template #errorTemplate>
+    <app-error-message></app-error-message>
+  </ng-template>
+  

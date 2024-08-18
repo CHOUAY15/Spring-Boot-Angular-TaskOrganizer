@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ocp.gestionprojet.api.exception.EntityNotFoundException;
+import com.ocp.gestionprojet.api.model.dto.memberDto.MemberDto;
 import com.ocp.gestionprojet.api.model.dto.teamDto.TeamRequestDto;
 import com.ocp.gestionprojet.api.model.dto.teamDto.TeamResponseDto;
 import com.ocp.gestionprojet.api.service.interfaces.TeamService;
@@ -109,5 +110,10 @@ public class TeamController {
     @GetMapping("/secId/{secId}")
     public ResponseEntity<List<TeamResponseDto>> findBySection(@PathVariable("secId") Integer secId) {
         return new ResponseEntity<>(teamService.findBySection(secId), HttpStatus.OK);
+    }
+      @GetMapping("/id/{id}")
+    public ResponseEntity<TeamResponseDto> findById(@PathVariable("id") Integer id) throws EntityNotFoundException {
+        TeamResponseDto teamDto = teamService.findById(id);
+        return new ResponseEntity<>(teamDto, HttpStatus.OK);
     }
 }

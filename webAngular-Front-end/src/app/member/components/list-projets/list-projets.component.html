@@ -1,0 +1,30 @@
+<!-- projet-documents.component.html -->
+<div class="projet-container">
+    <h5>Les projets de l'équipe</h5>
+    <ul class="projet-list">
+      <li *ngFor="let projet of projets$| async" class="projet-item">
+        <div class="projet-folder" (click)="toggleProjet(projet)">
+          <div class="projet-info">
+            <i class="fas" [ngClass]="{'fa-folder': !projet.isOpen, 'fa-folder-open': projet.isOpen}"></i>
+            <span class="projet-nom">{{ projet.name }}</span>
+          </div>
+          <div class="projet-meta">
+            <span class="projet-date">Créé le :{{ projet.startDate| date:'dd/MM/yyyy' }}</span>
+            <button *ngIf="projet.isOpen" class="btn-add-pdf" (click)="goToTaches(projet)" title="taches">
+             Mes tâches
+            </button>
+          </div>
+        </div>
+        <p *ngIf="projet.isOpen"> <strong>Description</strong>: {{ projet.description }}</p>
+        <ul class="document-list" *ngIf="projet.isOpen">
+          <li *ngFor="let doc of projet.deliverables" class="document-item">
+            <i class="fas fa-file-pdf"></i>
+            <span class="document-name">{{ doc.name }}</span>
+            <div class="document-actions">
+              <button (click)="viewFile(doc)"class="btn-open-pdf">Ouvrir</button>
+            </div>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>

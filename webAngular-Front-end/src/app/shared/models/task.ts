@@ -1,6 +1,6 @@
 import { Member } from "./member";
 
-enum StatutTache {
+export enum StatutTache {
     A_Faire = "A_Faire",
     En_Cours = "En_Cours",
     Termine = "Termine",

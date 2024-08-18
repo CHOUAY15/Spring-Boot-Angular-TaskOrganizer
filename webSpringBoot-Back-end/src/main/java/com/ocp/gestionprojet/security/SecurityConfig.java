@@ -40,6 +40,8 @@ public class SecurityConfig {
                 .and()
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/api/upload").permitAll()
+
 
                         .requestMatchers("/api/departments/**").hasRole("ADMIN")
 

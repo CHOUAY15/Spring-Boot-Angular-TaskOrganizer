@@ -1,1 +1,183 @@
-<p>dialog-add-member works!</p>
+<div class="dialog-overlay">
+    <div class="dialog-container">
+      <form [formGroup]="managerForm" (ngSubmit)="onSubmit()" class="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
+        <h2 class="text-2xl font-bold mb-6 text-gray-800">Nouveau Manager</h2>
+  
+        <div class="mb-4">
+          <label for="name" class="block text-sm font-medium text-gray-700">
+            Nom
+            <span style="color: red">*</span>
+          </label>
+          <input
+            type="text"
+            id="name"
+            formControlName="name"
+            [ngClass]="{ 'input-error': managerForm.get('name')?.invalid && (managerForm.get('name')?.dirty || managerForm.get('name')?.touched) }"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+          />
+          <div
+            *ngIf="managerForm.get('name')?.invalid && (managerForm.get('name')?.dirty || managerForm.get('name')?.touched)"
+            class="error-message"
+          >
+            <div *ngIf="managerForm.get('name')?.errors?.['required']">Le nom est requis.</div>
+            <div *ngIf="managerForm.get('name')?.errors?.['minlength']">Le nom doit contenir au moins 2 caractères.</div>
+          </div>
+        </div>
+  
+        <div class="mb-4">
+          <label for="lastName" class="block text-sm font-medium text-gray-700">
+            Prénom
+            <span style="color: red">*</span>
+          </label>
+          <input
+            type="text"
+            id="lastName"
+            formControlName="lastName"
+            [ngClass]="{ 'input-error': managerForm.get('lastName')?.invalid && (managerForm.get('lastName')?.dirty || managerForm.get('lastName')?.touched) }"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+          />
+          <div
+            *ngIf="managerForm.get('lastName')?.invalid && (managerForm.get('lastName')?.dirty || managerForm.get('lastName')?.touched)"
+            class="error-message"
+          >
+            <div *ngIf="managerForm.get('lastName')?.errors?.['required']">Le prénom est requis.</div>
+            <div *ngIf="managerForm.get('lastName')?.errors?.['minlength']">Le prénom doit contenir au moins 2 caractères.</div>
+          </div>
+        </div>
+  
+        <div class="mb-4">
+          <label for="email" class="block text-sm font-medium text-gray-700">
+            Email
+            <span style="color: red">*</span>
+          </label>
+          <input
+            type="email"
+            id="email"
+            formControlName="email"
+            [ngClass]="{ 'input-error': managerForm.get('email')?.invalid && (managerForm.get('email')?.dirty || managerForm.get('email')?.touched) }"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+          />
+          <div
+            *ngIf="managerForm.get('email')?.invalid && (managerForm.get('email')?.dirty || managerForm.get('email')?.touched)"
+            class="error-message"
+          >
+            <div *ngIf="managerForm.get('email')?.errors?.['required']">L'email est requis.</div>
+            <div *ngIf="managerForm.get('email')?.errors?.['email']">Veuillez entrer une adresse email valide.</div>
+            <div *ngIf="managerForm.get('email')?.errors?.['emailExists']" style="color: red;">Cet email existe déjà.</div>
+          </div>
+        </div>
+  
+        <div class="mb-4">
+          <label for="cin" class="block text-sm font-medium text-gray-700">
+            CIN
+            <span style="color: red">*</span>
+          </label>
+          <input
+            type="text"
+            id="cin"
+            formControlName="cin"
+            [ngClass]="{ 'input-error': managerForm.get('cin')?.invalid && (managerForm.get('cin')?.dirty || managerForm.get('cin')?.touched) }"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+          />
+          <div
+            *ngIf="managerForm.get('cin')?.invalid && (managerForm.get('cin')?.dirty || managerForm.get('cin')?.touched)"
+            class="error-message"
+          >
+            <div *ngIf="managerForm.get('cin')?.errors?.['required']">Le CIN est requis.</div>
+            <div *ngIf="managerForm.get('cin')?.errors?.['pattern']">Le CIN doit être au format AA123456.</div>
+            <div *ngIf="managerForm.get('cin')?.errors?.['cinExists']" style="color: red;">Ce CIN existe déjà.</div>
+  
+          </div>
+        </div>
+  
+        <div class="mb-4">
+          <label for="gender" class="block text-sm font-medium text-gray-700">
+            Gender
+            <span style="color: red">*</span>
+          </label>
+          <select
+            id="gender"
+            formControlName="gender"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+          >
+            <option value="">Gender</option>
+            
+              <option *ngFor="let gender of genders" [value]="gender">{{ gender | titlecase }}</option>
+            
+            
+          </select>
+        </div>
+  
+        <div class="mb-4">
+          <label for="secionId" class="block text-sm font-medium text-gray-700">
+            Section
+            <span style="color: red">*</span>
+          </label>
+          <select
+            id="secionId"
+            formControlName="secionId"
+            (change)="onSectionChange()"
+            [ngClass]="{ 'input-error': managerForm.get('secionId')?.invalid && (managerForm.get('secionId')?.dirty || managerForm.get('secionId')?.touched) }"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+          >
+            <option value="">Sélectionnez une section</option>
+            <option *ngFor="let sec of sections" [value]="sec.id">{{ sec.name }}</option>
+          </select>
+          <div
+            *ngIf="managerForm.get('secionId')?.invalid && (managerForm.get('secionId')?.dirty || managerForm.get('secionId')?.touched)"
+            class="error-message"
+          >
+             section est requis.
+          </div>
+        </div>
+  
+        <div class="mb-4">
+            <label for="teamId" class="block text-sm font-medium text-gray-700">
+             Equipe
+             <span style="color: red">*</span>
+            </label>
+            <select
+              id="teamId"
+              formControlName="teamId"
+              [ngClass]="{ 'input-error': managerForm.get('teamId')?.invalid && (managerForm.get('teamId')?.dirty || managerForm.get('teamId')?.touched) }"
+
+              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            >
+              <option value="">Sélectionnez equipe </option>
+              <option *ngFor="let team of teams" [value]="team.id"> {{ team.name }}</option>
+            </select>
+            <div
+            *ngIf="managerForm.get('teamId')?.invalid && (managerForm.get('teamId')?.dirty || managerForm.get('teamId')?.touched)"
+            class="error-message"
+          >
+             equipe est requis.
+          </div>
+          </div>
+  
+        <div class="mt-6 flex justify-between">
+          <button
+            type="submit"
+            [disabled]="!managerForm.valid || isSubmitting "
+            class="flex-grow mr-2 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <span *ngIf="!isSubmitting ">Créer le membre</span>
+            <span *ngIf="isSubmitting " class="flex items-center justify-center">
+              <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              <span class="ml-2">Chargement...</span>
+            </span>
+          </button>
+  
+          <button
+            type="button"
+            (click)="onCloseClick()"
+            class="flex-grow ml-2 py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          >
+            Annuler
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>

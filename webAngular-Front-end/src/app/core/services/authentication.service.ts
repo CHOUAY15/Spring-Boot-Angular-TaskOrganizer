@@ -21,12 +21,15 @@ export class AuthenticationService {
   public currentUser: Observable<LoginResponse | null>;
   private apiUrl = "http://localhost:4000"
   private tokenExpirationTimer: any;
+  private encryptionKey = 'AZERYh17'; // Replace with a secure key
 
   constructor(
     private http: HttpClient,
     private router: Router
   ) {
-    this.currentUserSubject = new BehaviorSubject<LoginResponse | null>(JSON.parse(localStorage.getItem('currentUser') || 'null'));
+    const userApp = localStorage.getItem('userApp');
+    const decryptedUser = userApp ? this.decrypt(userApp) : null;
+    this.currentUserSubject = new BehaviorSubject<LoginResponse | null>(JSON.parse(decryptedUser || 'null'));
     this.currentUser = this.currentUserSubject.asObservable();
     this.initTokenExpirationCheck();
   }
@@ -34,11 +37,11 @@ export class AuthenticationService {
   login(email: string, password: string): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.apiUrl}/auth/login`, { email, password }).pipe(
       tap((response) => {
-        localStorage.setItem('currentUser', JSON.stringify(response));
+        const userApp = this.encrypt(JSON.stringify(response));
+        localStorage.setItem('userApp', userApp);
         this.currentUserSubject.next(response);
         this.startTokenExpirationTimer(response.accessToken);
   
-        // Apply password status check only for 'CHEF' and 'USER'
         if (response.role === 'CHEF' || response.role === 'USER') {
           this.checkPasswordStatus().subscribe(
             passwordUpdated => {
@@ -50,23 +53,26 @@ export class AuthenticationService {
             }
           );
         } else {
-          // Directly redirect for other roles (e.g., ADMIN)
           this.redirectBasedOnRole(response.role);
         }
       })
     );
   }
-  
 
   logout() {
-    localStorage.removeItem('currentUser');
+    localStorage.removeItem('userApp');
     this.currentUserSubject.next(null);
     this.stopTokenExpirationTimer();
     this.router.navigate(['/guest/login']);
   }
 
   getCurrentUser(): LoginResponse | null {
-    return this.currentUserSubject.value;
+    const userApp = localStorage.getItem('userApp');
+    if (userApp) {
+      const decryptedUser = this.decrypt(userApp);
+      return JSON.parse(decryptedUser);
+    }
+    return null;
   }
 
   isAuthenticated(): boolean {
@@ -129,7 +135,8 @@ export class AuthenticationService {
   refreshToken(): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.apiUrl}/auth/refresh-token`, {}).pipe(
       tap((response) => {
-        localStorage.setItem('currentUser', JSON.stringify(response));
+        const userApp = this.encrypt(JSON.stringify(response));
+        localStorage.setItem('userApp', userApp);
         this.currentUserSubject.next(response);
         this.startTokenExpirationTimer(response.accessToken);
       })
@@ -151,7 +158,7 @@ export class AuthenticationService {
     return this.http.post(`${this.apiUrl}/auth/update-password`, { newPassword });
   }
 
-   redirectBasedOnRole(role: string) {
+  redirectBasedOnRole(role: string) {
     switch (role) {
       case 'CHEF':
         this.router.navigate(['/manager']);
@@ -165,5 +172,22 @@ export class AuthenticationService {
       default:
         this.router.navigate(['/guest']);
     }
+  }
+
+  private encrypt(text: string): string {
+    let result = '';
+    for (let i = 0; i < text.length; i++) {
+      result += String.fromCharCode(text.charCodeAt(i) ^ this.encryptionKey.charCodeAt(i % this.encryptionKey.length));
+    }
+    return btoa(result); // Base64 encode the result
+  }
+
+  private decrypt(encryptedText: string): string {
+    const text = atob(encryptedText); // Base64 decode
+    let result = '';
+    for (let i = 0; i < text.length; i++) {
+      result += String.fromCharCode(text.charCodeAt(i) ^ this.encryptionKey.charCodeAt(i % this.encryptionKey.length));
+    }
+    return result;
   }
 }

@@ -73,7 +73,7 @@ export class ProjectTableComponent implements OnChanges, AfterViewInit {
   }
 
   goToTasks(project: Project): void {
-    this.router.navigateByUrl(`manager/projects/${project.name}/${project.id}/tasks`);
+    this.router.navigateByUrl(`manager/projects/${this.teamId}/${project.name}/${project.id}/tasks`);
   }
 
   deleteProject(projectId: number): void {

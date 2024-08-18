@@ -14,6 +14,7 @@ import { TaskData } from 'src/app/shared/models/task';
 })
 export class CartTaskComponent implements OnInit, OnDestroy {
   @Input() task: TaskData;
+  @Input() membre :boolean;
   @ViewChild('menu', { static: false }) menu: ElementRef;
   @Output() taskDeleted = new EventEmitter<number>();
 

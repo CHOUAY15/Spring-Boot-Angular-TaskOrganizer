@@ -39,24 +39,23 @@ public class TaskServiceImpl implements TaskService {
     public TaskResponseDto update(TaskRequestDto taskRequestDto, Integer id) throws EntityNotFoundException {
         // Fetches the existing TaskEntity by id, throws exception if not found
         TaskEntity existingTaskEntity = taskRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("task not found with id: " + id));
-
-        // Updates the properties of the existing task entity with values from the DTO
-        existingTaskEntity.setDescription(taskRequestDto.getDescription());
-        existingTaskEntity.setDayNbrs(taskRequestDto.getDayNbrs());
-        existingTaskEntity.setStatus(taskRequestDto.getStatus());
-        existingTaskEntity.setPriority(taskRequestDto.getPriority());
-        existingTaskEntity.setTitle(taskRequestDto.getTitle());
-
+                .orElseThrow(() -> new EntityNotFoundException("Task not found with id: " + id));
+    
         // Fetches the MemberEntity by id, throws exception if not found
         MemberEntity memberEntity = memberRepository.findById(taskRequestDto.getMembreId())
-                .orElseThrow(() -> new EntityNotFoundException("member not found "));
+                .orElseThrow(() -> new EntityNotFoundException("Member not found with id: " + taskRequestDto.getMembreId()));
+    
+        // Update existingTaskEntity with non-null properties from taskRequestDto
+        taskMapper.updateEntityFromDto(taskRequestDto, existingTaskEntity);
+    
+        // Set the member entity
         existingTaskEntity.setMember(memberEntity);
-
-        // Saves the updated task entity and maps it to a DTO
+    
+        // Save the updated task entity and map it to a DTO
         TaskEntity updatedTask = taskRepository.save(existingTaskEntity);
         return taskMapper.toDto(updatedTask);
     }
+    
 
     @Override
     public void delete(Integer id) {

@@ -1,1 +1,38 @@
-<p>team works!</p>
+<div class="team-section">
+  <div class="container">
+    <div class="team-info">
+      <app-team-info-card [equipe]="equipe"></app-team-info-card>
+    </div>
+    
+    <h2 class="section-title">Rencontrez les membres de votre équipe</h2>
+
+    <div class="team-carousel">
+      <div class="team-members">
+        <div class="team-member" *ngFor="let member of visibleMembers; let i = index" [class.active]="i === 1">
+          <div class="member-image">
+            <img
+              [src]="member.gender === 'Femme' ? '../../../../../assets/images/profile/femme.png' : '../../../../../assets/images/profile/homme.png'"
+              [alt]="member.name"
+              class="img-fluid rounded-circle"
+            />
+          </div>
+          <h3 class="member-name">{{ member.name }}</h3>
+          <p class="member-email">{{ member.email }}</p>
+        </div>
+      </div>
+      
+      <div class="carousel-controls">
+        <button class="control-btn prev" (click)="prevSlide()" aria-label="Previous">&lt;</button>
+        <div class="carousel-indicators">
+          <span
+            *ngFor="let member of teamMembers; let i = index"
+            class="indicator"
+            [class.active]="i === currentIndex"
+            (click)="onSlideClick(i)"
+          ></span>
+        </div>
+        <button class="control-btn next" (click)="nextSlide()" aria-label="Next">&gt;</button>
+      </div>
+    </div>
+  </div>
+</div>

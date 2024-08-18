@@ -17,5 +17,7 @@ public class ReportDto {
     private String name;
     private String path;
     private Date creationDate;
+    private Integer membreId;
+    private Integer projetId;
     
 }

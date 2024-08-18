@@ -1,5 +1,6 @@
 package com.ocp.gestionprojet.api.service.impl;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -171,21 +172,23 @@ public class UserServiceImpl implements UserService {
         if (userRepository.existsByEmail(registerDto.getMember().getEmail())) {
             throw new UserAlreadyExistsException("Username is taken!");
         }
+        String generatedPassword = generateRandomPassword();
 
-        UserEntity user = createUserEntityToMember(registerDto);
+        UserEntity user = createUserEntityToMember(registerDto,generatedPassword);
         userRepository.save(user);
         MemberEntity savedEmployeEntity = memberService.addMemberToTeam(registerDto.getMember(), user);
         user.setMember(savedEmployeEntity);
 
         userRepository.save(user);
+        sendPasswordByEmail(user.getEmail(), generatedPassword);
     }
 
     // Create a UserEntity for an employee with the provided data
     @Override
-    public UserEntity createUserEntityToMember(RegisterMemberDto registerDto) {
+    public UserEntity createUserEntityToMember(RegisterMemberDto registerDto,String password) {
         UserEntity user = new UserEntity();
         user.setEmail(registerDto.getMember().getEmail());
-        user.setPassword(passwordEncoder.encode("@"+registerDto.getMember().getCin()+"@"));
+        user.setPassword(passwordEncoder.encode(password));
         user.setRole(RolesUser.USER);
         return user;
     }
@@ -229,6 +232,21 @@ public class UserServiceImpl implements UserService {
         user.setPasswordUpdated(true);
 
         userRepository.save(user);
+    }
+
+    @Override
+    public int registerMembersFromCsv(List<RegisterMemberDto> members) {
+        int successCount = 0;
+        for (RegisterMemberDto registerDto : members) {
+            try {
+                registerMember(registerDto);
+                successCount++;
+            } catch (Exception e) {
+                // Log the error and continue with the next member
+                System.err.println("Error registering member: " + e.getMessage());
+            }
+        }
+        return successCount;
     }
 
 }

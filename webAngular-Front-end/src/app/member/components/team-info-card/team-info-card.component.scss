@@ -1,0 +1,66 @@
+.container {
+  display: flex;
+  gap: 2rem;
+  background-color: #ffffff;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.image-card {
+  flex: 0 0 40%;
+}
+
+.image-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 0.25rem;
+}
+
+.info-card {
+  flex: 1;
+}
+
+h2 {
+  margin-top: 0;
+  border-bottom: 2px solid #00B98E;
+  padding-bottom: 0.5rem;
+}
+
+.team-name {
+  color: #00B98E;
+}
+
+.info-item {
+  margin-bottom: 1rem;
+}
+
+.info-item strong {
+  color: #00B98E;
+  display: inline-block;
+  margin-right: 0.5rem;
+}
+
+.info-item p {
+  display: inline-block;
+  margin: 0;
+}
+
+.info-chef-section {
+  background-color: #f8f9fa;
+  border-radius: 0.25rem;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+  
+  .image-card {
+    margin-bottom: 1rem;
+  }
+}

@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { AuthenticationService } from 'src/app/core/services/authentication.service';
 
 @Component({
   selector: 'app-header-employe',
@@ -10,7 +11,10 @@ import { RouterLink } from '@angular/router';
   styleUrl: './header-employe.component.scss'
 })
 export class HeaderEmployeComponent implements AfterViewInit {
+
   @ViewChild('header') headerElement!: ElementRef;
+
+  constructor(private authService:AuthenticationService,private route:Router){}
 
   isMenuCollapsed = true;
   isScrolledToBottom = false;
@@ -42,5 +46,9 @@ export class HeaderEmployeComponent implements AfterViewInit {
       element.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
     }
     this.isMenuCollapsed = true; // Close the menu after clicking
+  }
+  logOut():void{
+    this.authService.logout();
+    this.route.navigateByUrl("/")
   }
 }

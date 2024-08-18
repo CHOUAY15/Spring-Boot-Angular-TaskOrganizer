@@ -61,7 +61,7 @@ const routes: Routes = [
         loadComponent: () => import('./manager/pages/projects/projects.component').then((c) => c.ProjectsComponent)
       },
       {
-        path: 'projects/:projectName/:id/tasks',
+        path: 'projects/:teamId/:projectName/:id/tasks',
         loadComponent: () => import('./manager/pages/tasks/tasks.component').then((c) => c.TasksComponent)
       },
       {
@@ -90,6 +90,18 @@ const routes: Routes = [
       {
         path: 'home',
         loadComponent: () => import('./member/pages/team/team.component').then((c) => c.TeamComponent)
+      },
+      {
+        path: 'projets',
+        loadComponent: () => import('./member/pages/projects/projects.component').then((c) => c.ProjectsComponent)
+      },
+      {
+        path: ':id/taches',
+        loadComponent: () => import('./member/pages/tasks/tasks.component').then((c) => c.TasksComponent)
+      },
+      {
+        path: 'profil',
+        loadComponent: () => import('./member/pages/profil/profil.component').then((c) => c.ProfilComponent)
       },
       // ... other member routes ...
     ]

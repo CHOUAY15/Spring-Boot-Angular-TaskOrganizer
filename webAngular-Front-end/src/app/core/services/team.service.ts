@@ -45,4 +45,8 @@ export class TeamService {
   addTeamToSection(team: Team): Observable<Team> {
     return this.http.post<Team>(this.apiUrl, team);
   }
+
+  findById(id:number): Observable<Team> {
+    return this.http.get<Team>(`${this.apiUrl}/id/${id}`);
+  }
 }

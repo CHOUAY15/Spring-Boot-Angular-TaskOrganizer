@@ -64,4 +64,6 @@ public interface TeamService {
      * @return List of TeamResponseDto objects representing the teams in the specified section.
      */
     List<TeamResponseDto> findBySection(Integer secId);
+
+    TeamResponseDto findById(Integer tmId) throws EntityNotFoundException;
 }

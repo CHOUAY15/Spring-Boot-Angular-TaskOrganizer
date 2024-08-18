@@ -57,7 +57,7 @@ public class TaskController {
      * @throws EntityNotFoundException if the task with the specified ID is not found.
      */
     @PutMapping("/id/{id}")
-    public ResponseEntity<TaskResponseDto> update(@PathVariable("id") Integer id, @Valid @RequestBody TaskRequestDto taskRequestDto) throws EntityNotFoundException {
+    public ResponseEntity<TaskResponseDto> update(@PathVariable("id") Integer id,  @RequestBody TaskRequestDto taskRequestDto) throws EntityNotFoundException {
         TaskResponseDto updatedTaskDto = taskService.update(taskRequestDto, id);
         return new ResponseEntity<>(updatedTaskDto, HttpStatus.ACCEPTED);
     }

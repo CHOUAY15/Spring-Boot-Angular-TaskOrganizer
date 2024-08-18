@@ -126,4 +126,15 @@ public class TeamServiceImpl implements TeamService {
                 .map(teamMapper::toDto)
                 .collect(Collectors.toList());
     }
+
+
+    @Override
+    public TeamResponseDto findById(Integer tmId) throws EntityNotFoundException {
+        TeamEntity teamEntity=teamRepository.findById(tmId)
+        .orElseThrow(() -> new EntityNotFoundException("Manager not found"));
+        return teamMapper.toDto(teamEntity);
+
+    
+      
+    }
 }
