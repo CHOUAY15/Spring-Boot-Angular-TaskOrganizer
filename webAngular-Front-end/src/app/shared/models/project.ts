@@ -8,6 +8,7 @@ export class Project {
     description: string;
     progressStatus: boolean;
     deliverables: Deliverable[];
+    isOpen?:boolean
 
     constructor(
         id: number | undefined,

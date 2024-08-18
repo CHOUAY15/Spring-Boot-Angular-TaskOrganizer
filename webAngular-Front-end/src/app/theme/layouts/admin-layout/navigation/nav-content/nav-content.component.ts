@@ -25,7 +25,8 @@ import {
   AntDesignOutline,
   TeamOutline,
   BookOutline,
-  UserOutline
+  UserOutline,
+  BookFill
 } from '@ant-design/icons-angular/icons';
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
 
@@ -68,7 +69,8 @@ export class NavContentComponent implements OnInit {
         QuestionOutline,
         TeamOutline,
         BookOutline,
-        UserOutline
+        UserOutline,
+        BookFill
       ]
     );
   }

@@ -29,14 +29,14 @@
         </div>
         <div class="employe-meta">
           <span class="employe-date" *ngIf="employe.report; else notOpen">
-            <!-- Deposé le : {{ employe.report?.cre | date: 'dd/MM/yyyy' }} -->
+            Deposé le : {{ employe.report?.creationDate| date: 'dd/MM/yyyy' }}
           </span>
         </div>
         <ng-template #notOpen>
           <p style="font-size: small;">Aucun rapport pour l'instant.</p>
         </ng-template>
       </div>
-      <!-- <ul class="document-list" *ngIf="employe.isOpen && employe.report">
+      <ul class="document-list" *ngIf="employe.isOpen && employe.report">
         <li class="document-item">
           <span class="document-row">
             <i class="fas fa-file-pdf"></i>
@@ -46,7 +46,7 @@
             </div>
         </span>
         </li>
-      </ul> -->
+      </ul>
     </li>
   </ul>
   

@@ -50,7 +50,7 @@ const AdminNavigationItems: NavigationItem[] = [
         url: '/admin/sections',
         icon: 'profile',
         breadcrumbs: false
-      }, 
+      },
       {
         id: 'équipes',
         title: 'Equipes',
@@ -85,7 +85,6 @@ const AdminNavigationItems: NavigationItem[] = [
         url: '/admin/managers',
         icon: 'user',
         breadcrumbs: false
-
       },
       {
         id: 'membres',
@@ -95,8 +94,7 @@ const AdminNavigationItems: NavigationItem[] = [
         url: '/admin/members',
         icon: 'user',
         breadcrumbs: false
-
-      },
+      }
     ]
   },
   {
@@ -140,25 +138,9 @@ const ChefNavigationItems: NavigationItem[] = [
         type: 'item',
         classes: 'nav-item',
         url: '/',
-        icon: 'profile',
+        icon: 'team',
         breadcrumbs: false
       }
-    ]
-  },
-  {
-    id: 'taches',
-    title: 'Tâches',
-    type: 'group',
-    icon: 'icon-navigation',
-    children: [
-      {
-        id: 'taches',
-        title: 'Tâches',
-        type: 'item',
-        classes: 'nav-item',
-        url: '/chef/taches',
-        breadcrumbs: false
-      },
     ]
   },
   {
@@ -168,19 +150,56 @@ const ChefNavigationItems: NavigationItem[] = [
     icon: 'icon-navigation',
     children: [
       {
+        id: 'projets',
+        title: 'Projets',
+        type: 'item',
+        classes: 'nav-item',
+        url: '/chef/projets',
+        breadcrumbs: false,
+        icon: 'profile'
+      }, {
+        id: 'taches',
+        title: 'Tâches',
+        type: 'item',
+        classes: 'nav-item',
+        url: '/chef/projets',
+        breadcrumbs: false,
+        icon: 'profile'
+      },  {
+        id: 'membre',
+        title: 'Membres',
+        type: 'item',
+        classes: 'nav-item',
+        url: '/chef/projets',
+        breadcrumbs: false,
+        icon: 'user'
+      }
+    ]
+  },
+  {
+    id: 'livrables',
+    title: 'Livrables',
+    type: 'group',
+    icon: 'icon-navigation',
+    children: [
+      {
         id: 'rapports',
         title: 'Rapports',
         type: 'item',
         classes: 'nav-item',
-        url: '/chef/rapports',
+        url: '/manager/rapports',
+        breadcrumbs: false,
+        icon: 'book'
       },
       {
         id: 'documents',
         title: 'Documents',
         type: 'item',
         classes: 'nav-item',
-        url: '/chef/documents',
-      },
+        icon: 'book',
+        breadcrumbs: false,
+        url: '/manager/documents'
+      }
     ]
   },
   {

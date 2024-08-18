@@ -12,18 +12,18 @@
   <ul class="projet-list">
       <li *ngFor="let projet of filteredProjects" class="projet-item">
         <div class="projet-folder" (click)="toggleProject(projet)">
-          <!-- <div class="projet-info">
+          <div class="projet-info">
             <i class="fas" [ngClass]="{'fa-folder': !projet.isOpen, 'fa-folder-open': projet.isOpen}"></i>
             <span class="projet-nom">{{ projet.name }}</span>
-          </div> -->
-          <!-- <div class="projet-meta">
+          </div>
+          <div class="projet-meta">
             <span class="projet-date">Créé le :{{ projet.startDate| date:'dd/MM/yyyy' }}</span>
             <button *ngIf="projet.isOpen" class="btn-add-pdf" (click)="addPDF(projet, $event)" title="Ajouter un nouveau document">
              Ajouter
             </button>
-          </div> -->
+          </div>
         </div>
-        <!-- <ul class="document-list" *ngIf="projet.isOpen">
+        <ul class="document-list" *ngIf="projet.isOpen">
           <li *ngFor="let doc of projet.deliverables" class="document-item">
           
             <span class="document-row">
@@ -35,6 +35,6 @@
               </div>
           </span>
           </li>
-        </ul> -->
+        </ul>
       </li>
     </ul>

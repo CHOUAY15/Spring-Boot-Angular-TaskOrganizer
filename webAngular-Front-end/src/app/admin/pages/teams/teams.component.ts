@@ -88,13 +88,13 @@ export class TeamsComponent implements OnInit, OnDestroy {
     this.loadTeams();
     this.showDialog = false;
     this.showFeedback = true;
-    this.feedbackMessage = 'Team added successfully!';
+    this.feedbackMessage = ' équipe ajoutée avec succès!!';
   }
   
   onTeamDeleted(): void {
     this.loadTeams();
     this.showFeedback = true;
-    this.feedbackMessage = 'Team deleted successfully!';
+    this.feedbackMessage = 'équipe supprimée avec succès!!';
   }
 
   ngOnDestroy(): void {

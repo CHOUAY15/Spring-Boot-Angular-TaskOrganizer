@@ -1,1 +1,32 @@
-<p>deliverables works!</p>
+<!-- projet-documents.component.html -->
+<div class="projet-container">
+
+
+    <ng-container *ngIf="(loading$ | async) === false; else loadingTemplate">
+      <ng-container *ngIf="(error$ | async) === false; else errorTemplate">
+        <ng-container *ngIf="(projets$ | async) as projets">
+         
+  
+          <div class="team-grid" *ngIf="projets.length > 0; else noProjets">
+            <app-list-deliverables [projects]="projets"></app-list-deliverables>
+          </div>
+          <ng-template #noProjets>
+            <div class="centered-message">
+              Aucun projet pour l'instant !
+            </div>
+          </ng-template>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+    
+    <ng-template #loadingTemplate>
+      <div class="centered-message loading-message">
+        <app-spinner-g></app-spinner-g>
+      </div>
+    </ng-template>
+    
+    <ng-template #errorTemplate>
+      <app-error-message></app-error-message>
+    </ng-template>
+  
+  </div>

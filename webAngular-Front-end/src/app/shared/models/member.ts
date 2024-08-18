@@ -1,4 +1,5 @@
 import { Person, SexePerson } from './person';
+import { Report } from './report';
 import { Team } from './team';
 
 export class Member extends Person {
@@ -6,6 +7,7 @@ export class Member extends Person {
   departmentId: number;
   team: Team;
   report: Report;
+  isOpen?:boolean;
 
   constructor(
     id: number,

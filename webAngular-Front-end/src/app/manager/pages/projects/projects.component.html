@@ -7,8 +7,9 @@
       <span class="separator">/</span>
       <span class="current">projets</span>
     </div>
-    <button class="add-project-button" (click)="addProject()">+ Ajouter un projet</button>
   </div>
+  <p>Ajouter des projets aux équipes que vous gérez.</p>
+
 
   <ng-container *ngIf="(loading$ | async) === false; else loadingTemplate">
     <ng-container *ngIf="(error$ | async) === false; else errorTemplate">
@@ -16,6 +17,9 @@
         <app-user-circles [equipeId]="teamId"></app-user-circles>
 
         <div class="team-grid" *ngIf="projects.length > 0; else noProjets">
+          <div class="button-container">
+            <button class="add-project-button" (click)="addProject()">Ajouter un projet</button>
+          </div>
           <app-project-table
             [projects]="projects"
             [teamId]="teamId"
@@ -24,7 +28,10 @@
           ></app-project-table>
         </div>
         <ng-template #noProjets>
-          <div class="centered-message">Aucun projet pour l'instant !</div>
+          <div class="centered-message-container">
+            <div class="centered-message">Aucun projet pour l'instant !</div>
+            <button class="add-project-button" (click)="addProject()">Ajouter</button>
+          </div>
         </ng-template>
       </ng-container>
     </ng-container>

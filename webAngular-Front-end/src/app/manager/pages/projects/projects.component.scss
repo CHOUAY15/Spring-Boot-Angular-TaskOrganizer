@@ -1,142 +1,146 @@
 .projects-container {
+  padding: 24px;
+  font-family: 'Roboto', sans-serif;
+  max-width: 1200px;
+  margin: 0 auto;
+}
 
-    padding: 6px;
-    padding-top: 20px;
-    
-  
-    
-  }
-  
-  .breadcrumb {
-    display: flex;
-    align-items: center;
-    font-size: 16px;
-    margin-bottom: 20px;
-    color: #333;
-  }
-  
-  .breadcrumb a {
-    color: #000000;
-    text-decoration: none;
-    transition: color 0.3s ease;
-  }x
-  
-  .breadcrumb a:hover {
-    color: #09352a;
-  }
-  
-  .breadcrumb .separator {
-    margin: 0 10px;
-    color: #666;
-  }
-  
-  .breadcrumb .current {
-    font-weight: 600;
-    color: #000000;
-  }
-  
-  .team-grid {
-    background-color: rgba(0, 0, 0, 0.144);
-    border-radius: 8px;
-    padding: 1px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  }
-  
-  .centered-message {
-    text-align: center;
-    color: #666;
-    font-size: 18px;
-    margin: 40px 0;
-  }
-  
-  .loading-message {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 200px;
-  }
-  
-  app-spinner-g {
-    color: #00B98E;
-  }
-  
-  app-error-message {
-    margin-top: 20px;
-  }
-  .user-circles {
-    display: flex;
-    align-items: center;
-  }
-  
-  .user-circle {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    overflow: hidden;
-    margin-right: -15px;
-    border: 2px solid white;
-  }
-  
-  .user-circle img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  
-  .user-circle.remaining {
-    background-color: #e0e0e0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: bold;
-    color: #333;
-  }
-  
-  .projects-container {
-    padding: 20px;
-  }
-  
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.breadcrumb {
+  font-size: 18px;
+  color: #333;
+}
+
+.breadcrumb .current {
+  font-weight: 600;
+  color: #000000;
+}
+
+.add-project-button {
+  padding: 12px 24px;
+  background-color: #00B98E;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.add-project-button:hover {
+  background-color: #00A17C;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #555;
+  margin-bottom: 24px;
+  padding: 16px;
+  background-color: #f8f9fa;
+  border-left: 4px solid #00B98E;
+  border-radius: 4px;
+}
+
+.team-grid {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 16px; /* Adjust spacing between items as needed */
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end; /* Aligns button to the right */
+}
+
+.centered-message-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 16px; /* Space between text and button */
+}
+
+.centered-message {
+  color: #666;
+  font-size: 18px;
+  margin: 0;
+  font-style: italic;
+}
+
+.loading-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+}
+
+app-spinner-g {
+  color: #00B98E;
+}
+
+app-error-message {
+  margin-top: 24px;
+}
+
+.user-circles {
+  display: flex;
+  align-items: center;
+}
+
+.user-circle {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: -12px;
+  border: 2px solid white;
+  transition: transform 0.3s ease;
+}
+
+.user-circle:hover {
+  transform: scale(1.1);
+  z-index: 1;
+}
+
+.user-circle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.user-circle.remaining {
+  background-color: #e0e0e0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  color: #333;
+  font-size: 14px;
+}
+
+@media (max-width: 768px) {
   .header-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+    flex-direction: column;
+    align-items: flex-start;
   }
-  
-  .breadcrumb {
-    font-size: 18px;
-    
-    a {
-   
-      text-decoration: none;
-      
-      &:hover {
-        text-decoration: underline;
-      }
-    }
-    
-    .separator {
-      margin: 0 5px;
-      color: #6c757d;
-    }
-    
-    .current {
-      font-weight: bold;
-    }
-  }
-  
+
   .add-project-button {
-    padding: 10px 20px;
-    background-color: #00B98E;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-  
-    &:hover {
-      background-color: #00755a;
-    }
+    margin-top: 16px;
+    width: 100%;
   }
-  
+}

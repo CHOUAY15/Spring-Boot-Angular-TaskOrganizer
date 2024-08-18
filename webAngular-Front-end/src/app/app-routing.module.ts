@@ -52,7 +52,28 @@ const routes: Routes = [
         path: 'teams',
         loadComponent: () => import('./manager/pages/teams/teams.component').then((c) => c.TeamsComponent)
       },
-      // ... other manager routes ...
+      {
+        path: 'team/:teamName/:id/members',
+        loadComponent: () => import('./manager/pages/members/members.component').then((c) => c.MembersComponent)
+      },
+      {
+        path: 'team/:teamName/:id/projects',
+        loadComponent: () => import('./manager/pages/projects/projects.component').then((c) => c.ProjectsComponent)
+      },
+      {
+        path: 'projects/:projectName/:id/tasks',
+        loadComponent: () => import('./manager/pages/tasks/tasks.component').then((c) => c.TasksComponent)
+      },
+      {
+        path: 'rapports',
+        loadComponent: () => import('./manager/pages/reports/reports.component').then((c) => c.ReportsComponent)
+      },
+      {
+        path: 'documents',
+        loadComponent: () => import('./manager/pages/deliverables/deliverables.component').then((c) => c.DeliverablesComponent)
+      },
+
+     
     ]
   },
   {

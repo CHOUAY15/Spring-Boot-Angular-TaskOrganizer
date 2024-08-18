@@ -93,14 +93,14 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     this.loadProjects();
     this.showDialog = false;
     this.showFeedback = true;
-    this.feedbackMessage = 'Project added successfully!';
+    this.feedbackMessage = 'Projet ajoutée avec succès!!';
 
   }
   
   onProjectDeleted(): void {
     this.loadProjects();
     this.showFeedback = true;
-    this.feedbackMessage = 'Project deleted successfully!';
+    this.feedbackMessage = 'Projet supprimée avec succès!';
 
   }
 
