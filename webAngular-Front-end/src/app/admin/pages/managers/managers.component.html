@@ -1,27 +1,48 @@
-
-  
-  
+<div class="projects-container">
+  <div class="header-container">
+    <div class="breadcrumb">
+      <span class="current">Gestionnaires</span>
+    </div>
+  </div>
+  <p>Ajouter des gestionnaires pour les équipes. Notez bien que chaque gestionnaire ne peut gérer que des équipes d’une seule section.</p>
   <ng-container *ngIf="(loading$ | async) === false; else loadingTemplate">
-      <ng-container *ngIf="(error$ | async) === false; else errorTemplate">
-        <ng-container *ngIf="(members$ | async) as members">
-          <div class="team-grid" *ngIf="members.length > 0; else noEmployes">
-             <app-manager-table [members]="members"></app-manager-table>
-          </div>
-          <ng-template #noEmployes>
-            <div class="centered-message">
-              Aucun membre pour l'instant !
-            </div>
-          </ng-template>
-        </ng-container>
-      </ng-container>
-    </ng-container>
-    
-    <ng-template #loadingTemplate>
-      <div class="centered-message loading-message">
-        <app-spinner-g></app-spinner-g>
-      </div>
-    </ng-template>
-    
-    <ng-template #errorTemplate>
-      <app-error-message></app-error-message>
-    </ng-template>
+    <ng-container *ngIf="(error$ | async) === false; else errorTemplate">
+      <ng-container *ngIf="managers$ | async as managers">
+  <div class="team-grid" *ngIf="managers.length > 0; else noSections">
+    <div class="button-container">
+      <button class="add-project-button" (click)="openAddManagerDialog()">Ajouter un gestionnaire</button>
+    </div>
+    <app-manager-table [managers]="managers"></app-manager-table>
+
+  </div>
+
+
+  <ng-template #noSections>
+    <div class="centered-message-container">
+      <div class="centered-message">Aucun gestionnaire pour l'instant !</div>
+      <button class="add-project-button" (click)="openAddManagerDialog()">Ajouter</button>
+    </div>
+  </ng-template>
+  
+</ng-container>
+</ng-container>
+</ng-container>
+
+  <ng-template #loadingTemplate>
+    <div class="centered-message loading-message">
+      <app-spinner-g></app-spinner-g>
+    </div>
+  </ng-template>
+
+  <ng-template #errorTemplate>
+    <app-error-message></app-error-message>
+  </ng-template>
+  <app-dialog-add-manager *ngIf="showDialog" (closeDialog)="closeDialog()" (managerAdded)="onManagerAdded($event)"></app-dialog-add-manager>
+</div>
+
+<app-feed-back
+  *ngIf="showFeedback"
+  (closed)="closeFeedback()"
+  [message]="feedbackMessage"
+  (animationDone)="showFeedback = false"
+></app-feed-back>

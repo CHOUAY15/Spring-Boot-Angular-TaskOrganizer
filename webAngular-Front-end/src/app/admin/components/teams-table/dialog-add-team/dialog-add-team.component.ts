@@ -2,16 +2,17 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { TeamService } from 'src/app/core/services/team.service';
-import { DepartmentService } from 'src/app/core/services/department.service';
 import { ManagerService } from 'src/app/core/services/manager.service';
 import { Team } from 'src/app/shared/models/team';
-import { Department } from 'src/app/shared/models/department';
 import { Manager } from 'src/app/shared/models/manager';
+import { DialogAddManagerComponent } from "../../manager-table/dialog-add-manager/dialog-add-manager.component";
+import { Section } from 'src/app/shared/models/section';
+import { SectionService } from 'src/app/core/services/section.service';
 
 @Component({
   selector: 'app-dialog-add-team',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, DialogAddManagerComponent],
   templateUrl: './dialog-add-team.component.html',
   styleUrls: ['./dialog-add-team.component.scss']
 })
@@ -20,7 +21,7 @@ export class DialogAddTeamComponent implements OnInit {
   @Output() teamAdded = new EventEmitter<Team>();
 
   teamForm: FormGroup;
-  departments: Department[] = [];
+  sections: Section[] = [];
   managers: Manager[] = [];
   isLoading: boolean = false;
   successMessage: string | null = null;
@@ -30,43 +31,43 @@ export class DialogAddTeamComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private teamService: TeamService,
-    private departmentService: DepartmentService,
+    private sectionService: SectionService,
     private managerService: ManagerService,
   ) {}
 
   ngOnInit(): void {
     this.initializeForm();
-    this.loadDepartments();
+    this.loadSections();
   }
 
   private initializeForm(): void {
     this.teamForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       description: ['', Validators.required],
-      departmentId: ['', Validators.required],
+      sectionId: ['', Validators.required],
       managerId: ['']
     });
 
-    this.teamForm.get('departmentId')?.valueChanges.subscribe(deptId => {
+    this.teamForm.get('sectionId')?.valueChanges.subscribe(deptId => {
       if (deptId) {
         this.loadManagers(deptId);
       }
     });
   }
 
-  private loadDepartments(): void {
-    this.departmentService.findAll().subscribe(
-      departments => {
-        this.departments = departments;
+  private loadSections(): void {
+    this.sectionService.findAll().subscribe(
+      sections => {
+        this.sections = sections;
       },
       error => {
-        console.error('Error loading departments:', error);
+        console.error('Error loading sections:', error);
       }
     );
   }
 
   private loadManagers(deptId: number): void {
-    this.managerService.findByDepartmntId(deptId).subscribe(
+    this.managerService.findBySectionId(deptId).subscribe(
       managers => {
         this.managers = managers;
         console.log('Managers loaded:', this.managers); // Add this line for debugging
@@ -92,11 +93,11 @@ export class DialogAddTeamComponent implements OnInit {
       const teamToSubmit: any = {
         name: formValue.name,
         description: formValue.description,
-        departmentId: formValue.departmentId,
+        sectionId: formValue.sectionId,
         managerId: formValue.managerId || null
       };
 
-      this.teamService.addTeamToDepartment(teamToSubmit).subscribe(
+      this.teamService.addTeamToSection(teamToSubmit).subscribe(
         (newTeam: Team) => {
           console.log('New team added:', newTeam);
           this.isLoading = false;

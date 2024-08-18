@@ -28,10 +28,10 @@
         </ng-container>
   
         <ng-container matColumnDef="manager">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header><strong>Chef</strong></th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header><strong>Gestionnaire</strong></th>
             <td mat-cell *matCellDef="let team" [attr.data-label]="'Chef'"
                 [ngClass]="{'no-manager': !team.manager?.name}">
-              {{ team.manager?.name ? team.manager.name : 'Pas de chef' }}
+              {{ team.manager?.name ? team.manager.name : 'Pas de gestionnaire' }}
               {{ team.manager?.lastName ? team.manager.lastName : '' }}
 
             </td>
@@ -39,9 +39,9 @@
           
           
   
-        <ng-container matColumnDef="nomDepartement">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header><strong>Département</strong></th>
-          <td mat-cell *matCellDef="let team" [attr.data-label]="'Département'">{{ team.departmentName }}</td>
+        <ng-container matColumnDef="nomSection">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header><strong>Section</strong></th>
+          <td mat-cell *matCellDef="let team" [attr.data-label]="'nomSection'">{{ team.sectionName }}</td>
         </ng-container>
   
         <ng-container matColumnDef="actions">

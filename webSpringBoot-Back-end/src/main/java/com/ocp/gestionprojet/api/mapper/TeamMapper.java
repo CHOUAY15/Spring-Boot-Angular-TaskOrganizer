@@ -13,7 +13,7 @@ public interface TeamMapper {
 
 
 
-    @Mapping(target = "departmentName", source = "department.name")
+    @Mapping(target = "sectionName", source = "section.name")
     TeamResponseDto toDto(TeamEntity teamEntity);
 
    

@@ -20,7 +20,7 @@ public class TeamResponseDto {
     private String description;
     private Integer teamNbr;
     private ManagerDto manager;
-    private String departmentName;
+    private String sectionName;
     private Date creationDate;
 
 }

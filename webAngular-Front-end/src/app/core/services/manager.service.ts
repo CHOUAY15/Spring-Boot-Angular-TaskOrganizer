@@ -3,51 +3,49 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { Manager } from 'src/app/shared/models/manager';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ManagerService {
 
-  private baseUrl = 'http://localhost:4000/api/managers'; // Adjust this URL if needed
+  private baseUrl = `${environment.apiUrl}/managers`;
 
   constructor(private http: HttpClient) { }
 
   getManagerById(id: number): Observable<Manager> {
     const url = `${this.baseUrl}/id/${id}`;
-    return this.http.get<Manager>(url).pipe(
-      catchError(this.handleError)
-    );
+    return this.http.get<Manager>(url);
   }
 
   deleteManager(id: number): Observable<void> {
     const url = `${this.baseUrl}/id/${id}`;
-    return this.http.delete<void>(url).pipe(
-      catchError(this.handleError)
-    );
+    return this.http.delete<void>(url);
   }
 
   updateManager(manager: any): Observable<Manager> {
-    return this.http.put<Manager>(this.baseUrl, manager).pipe(
-      catchError(this.handleError)
-    );
+    return this.http.put<Manager>(this.baseUrl, manager);
   }
 
   getAllManagers(): Observable<Manager[]> {
-    return this.http.get<Manager[]>(this.baseUrl).pipe(
-      catchError(this.handleError)
-    );
+    return this.http.get<Manager[]>(this.baseUrl);
   }
 
-  findByDepartmntId(deptId:number): Observable<Manager[]> {
-    const url = `${this.baseUrl}/deptId/${deptId}`;
-    return this.http.get<Manager[]>(url).pipe(
-      catchError(this.handleError)
-    );
+  findBySectionId(secId:number): Observable<Manager[]> {
+    const url = `${this.baseUrl}/secId/${secId}`;
+    return this.http.get<Manager[]>(url);
+  }
+  addManagerToTeams(manager: any): Observable<string> {
+    return this.http.post('http://localhost:4000/auth/register/manager', manager, { responseType: 'text' });
+  }
+  
+
+  delete(mgrId: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/id/${mgrId}`);
   }
 
-  private handleError(error: any): Observable<never> {
-    console.error('An error occurred', error);
-    return throwError(() => new Error('Something bad happened; please try again later.'));
-  }
+
+
+
 }

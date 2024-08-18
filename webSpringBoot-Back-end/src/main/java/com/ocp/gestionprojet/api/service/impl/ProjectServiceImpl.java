@@ -30,14 +30,7 @@ public class ProjectServiceImpl implements ProjetService {
     @Autowired
     private TeamRepository teamRepository;
 
-    /**
-     * Updates an existing project based on the provided ProjectRequestDto.
-     *
-     * @param projectRequestDto DTO containing updated project data.
-     * @param id ID of the project to update.
-     * @return Updated ProjectResponseDto.
-     * @throws EntityNotFoundException if the project with the given ID is not found.
-     */
+ 
     @Override
     @Transactional
     public ProjectResponseDto update(ProjectRequestDto projectRequestDto, Integer id) throws EntityNotFoundException {
@@ -56,24 +49,14 @@ public class ProjectServiceImpl implements ProjetService {
         return projectMapper.toDto(updatedProject);
     }
 
-    /**
-     * Deletes a project by its ID.
-     *
-     * @param id ID of the project to delete.
-     */
+  
     @Override
     @Transactional
     public void delete(Integer id) {
         projectRepository.deleteById(id);
     }
 
-    /**
-     * Adds a new project to a team based on the provided ProjectRequestDto.
-     *
-     * @param projectDto DTO containing project data and team ID.
-     * @return ProjectResponseDto of the saved project.
-     * @throws EntityNotFoundException if the team with the given ID is not found.
-     */
+  
     @Override
     @Transactional
     public ProjectResponseDto addProjectToTeam(ProjectRequestDto projectDto) throws EntityNotFoundException {
@@ -111,12 +94,7 @@ public class ProjectServiceImpl implements ProjetService {
         return projectMapper.toDto(savedProject);
     }
 
-    /**
-     * Finds all projects associated with a specific team.
-     *
-     * @param teamId ID of the team.
-     * @return List of ProjectResponseDto for the projects associated with the team.
-     */
+    
     @Override
     @Transactional(readOnly = true)
     public List<ProjectResponseDto> findByTeam(Integer teamId) {
@@ -126,12 +104,6 @@ public class ProjectServiceImpl implements ProjetService {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * Finds all projects managed by a specific manager.
-     *
-     * @param mgrId ID of the manager.
-     * @return List of ProjectResponseDto for the projects managed by the manager.
-     */
     @Override
     @Transactional(readOnly = true)
     public List<ProjectResponseDto> findByManager(Integer mgrId) {

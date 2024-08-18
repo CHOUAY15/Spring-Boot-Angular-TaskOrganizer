@@ -5,8 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.ocp.gestionprojet.api.exception.EntityNotFoundException;
 import com.ocp.gestionprojet.api.model.dto.projectDto.ProjectRequestDto;
@@ -15,13 +14,10 @@ import com.ocp.gestionprojet.api.service.interfaces.ProjetService;
 
 import jakarta.validation.Valid;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-
+/**
+ * Controller for managing project operations.
+ * Provides endpoints for retrieving, adding, updating, and deleting projects.
+ */
 @RestController
 @RequestMapping("api/projects")
 public class ProjectController {
@@ -37,8 +33,8 @@ public class ProjectController {
      */
     @GetMapping("/teamId/{teamId}")
     public ResponseEntity<List<ProjectResponseDto>> findByTeam(@PathVariable("teamId") Integer teamId) {
-        // Call the service method to find projects by team ID and return the result with HTTP 200 status
-        return new ResponseEntity<>(projetService.findByTeam(teamId), HttpStatus.OK);
+        List<ProjectResponseDto> projects = projetService.findByTeam(teamId);
+        return new ResponseEntity<>(projects, HttpStatus.OK);
     }
 
     /**
@@ -50,7 +46,6 @@ public class ProjectController {
      */
     @PostMapping("")
     public ResponseEntity<ProjectResponseDto> addProjectToTeam(@Valid @RequestBody ProjectRequestDto projectRequestDto) throws EntityNotFoundException {
-        // Call the service method to add the project and return the result with HTTP 201 status
         ProjectResponseDto savedProjectDto = projetService.addProjectToTeam(projectRequestDto);
         return new ResponseEntity<>(savedProjectDto, HttpStatus.CREATED);
     }
@@ -65,7 +60,6 @@ public class ProjectController {
      */
     @PutMapping("/id/{id}")
     public ResponseEntity<ProjectResponseDto> update(@PathVariable("id") Integer id, @Valid @RequestBody ProjectRequestDto projectRequestDto) throws EntityNotFoundException {
-        // Call the service method to update the project and return the result with HTTP 202 status
         ProjectResponseDto updatedProjectDto = projetService.update(projectRequestDto, id);
         return new ResponseEntity<>(updatedProjectDto, HttpStatus.ACCEPTED);
     }
@@ -78,7 +72,6 @@ public class ProjectController {
      */
     @DeleteMapping("/id/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") Integer id) {
-        // Call the service method to delete the project and return HTTP 204 status
         projetService.delete(id);
         return ResponseEntity.noContent().build();
     }
@@ -91,7 +84,7 @@ public class ProjectController {
      */
     @GetMapping("/mgrId/{mgrId}")
     public ResponseEntity<List<ProjectResponseDto>> findByManager(@PathVariable("mgrId") Integer mgrId) {
-        // Call the service method to find projects by manager ID and return the result with HTTP 200 status
-        return new ResponseEntity<>(projetService.findByManager(mgrId), HttpStatus.OK);
+        List<ProjectResponseDto> projects = projetService.findByManager(mgrId);
+        return new ResponseEntity<>(projects, HttpStatus.OK);
     }
 }

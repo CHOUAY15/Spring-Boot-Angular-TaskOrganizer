@@ -9,6 +9,8 @@ import com.ocp.gestionprojet.api.model.entity.TeamEntity;
 public interface TeamRepository extends JpaRepository<TeamEntity, Integer> {
 
     List<TeamEntity> findByManagerId(Integer mgrId);
+    List<TeamEntity> findBySectionId(Integer deptId);
+
 
 
 

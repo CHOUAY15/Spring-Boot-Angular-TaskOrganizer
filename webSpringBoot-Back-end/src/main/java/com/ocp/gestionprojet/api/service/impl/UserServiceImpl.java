@@ -124,27 +124,28 @@ public class UserServiceImpl implements UserService {
     // Register a new manager (chef) and associate them with a team
     @Override
     @Transactional
-    public void registerChef(RegisterManagerDto registerDto)
+    public void registerManager(RegisterManagerDto registerDto)
             throws UserAlreadyExistsException, EntityNotFoundException {
         if (userRepository.existsByEmail(registerDto.getManager().getEmail())) {
             throw new UserAlreadyExistsException("Username is taken!");
         }
 
         String generatedPassword = generateRandomPassword();
-        UserEntity user = createUserEntityToChef(registerDto, generatedPassword);
+        UserEntity user = createUserEntityToManager(registerDto, generatedPassword);
         userRepository.save(user);
 
-        ManagerEntity savedChefEntity = managerService.addManagerToTeam(
+        ManagerEntity savedChefEntity = managerService.addManagersToTeams(
                 registerDto.getManager(), user);
         user.setManager(savedChefEntity);
         userRepository.save(user);
 
         sendPasswordByEmail(user.getEmail(), generatedPassword);
     }
+    
 
     // Create a UserEntity for a manager (chef) with the provided data
     @Override
-    public UserEntity createUserEntityToChef(RegisterManagerDto registerDto, String password) {
+    public UserEntity createUserEntityToManager(RegisterManagerDto registerDto, String password) {
         UserEntity user = new UserEntity();
         user.setEmail(registerDto.getManager().getEmail());
         user.setPassword(passwordEncoder.encode(password));
@@ -165,13 +166,13 @@ public class UserServiceImpl implements UserService {
     // Register a new employee and associate them with a team
     @Override
     @Transactional
-    public void registerEmploye(RegisterMemberDto registerDto)
+    public void registerMember(RegisterMemberDto registerDto)
             throws UserAlreadyExistsException, EntityNotFoundException {
         if (userRepository.existsByEmail(registerDto.getMember().getEmail())) {
             throw new UserAlreadyExistsException("Username is taken!");
         }
 
-        UserEntity user = createUserEntityToEmploye(registerDto);
+        UserEntity user = createUserEntityToMember(registerDto);
         userRepository.save(user);
         MemberEntity savedEmployeEntity = memberService.addMemberToTeam(registerDto.getMember(), user);
         user.setMember(savedEmployeEntity);
@@ -181,7 +182,7 @@ public class UserServiceImpl implements UserService {
 
     // Create a UserEntity for an employee with the provided data
     @Override
-    public UserEntity createUserEntityToEmploye(RegisterMemberDto registerDto) {
+    public UserEntity createUserEntityToMember(RegisterMemberDto registerDto) {
         UserEntity user = new UserEntity();
         user.setEmail(registerDto.getMember().getEmail());
         user.setPassword(passwordEncoder.encode("@"+registerDto.getMember().getCin()+"@"));
@@ -215,4 +216,19 @@ public class UserServiceImpl implements UserService {
         user.setRole(RolesUser.ADMIN);
         return user;
     }
+
+    @Transactional
+    public void updatePassword(String username, String newPassword) {
+        UserEntity user = userRepository.findByEmail(username)
+            .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
+
+        String encodedPassword = passwordEncoder.encode(newPassword);
+
+        user.setPassword(encodedPassword);
+
+        user.setPasswordUpdated(true);
+
+        userRepository.save(user);
+    }
+
 }

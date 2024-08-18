@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, tap, timer } from 'rxjs';
 import { Person } from 'src/app/shared/models/person';
+import { environment } from 'src/environments/environment';
 
 export interface LoginResponse {
   accessToken: string;
@@ -18,7 +19,7 @@ export interface LoginResponse {
 export class AuthenticationService {
   private currentUserSubject: BehaviorSubject<LoginResponse | null>;
   public currentUser: Observable<LoginResponse | null>;
-  private apiUrl = 'http://localhost:4000';
+  private apiUrl = "http://localhost:4000"
   private tokenExpirationTimer: any;
 
   constructor(
@@ -36,9 +37,27 @@ export class AuthenticationService {
         localStorage.setItem('currentUser', JSON.stringify(response));
         this.currentUserSubject.next(response);
         this.startTokenExpirationTimer(response.accessToken);
+  
+        // Apply password status check only for 'CHEF' and 'USER'
+        if (response.role === 'CHEF' || response.role === 'USER') {
+          this.checkPasswordStatus().subscribe(
+            passwordUpdated => {
+              if (!passwordUpdated) {
+                this.router.navigate(['/update-password']);
+              } else {
+                this.redirectBasedOnRole(response.role);
+              }
+            }
+          );
+        } else {
+          // Directly redirect for other roles (e.g., ADMIN)
+          this.redirectBasedOnRole(response.role);
+        }
       })
     );
   }
+  
+
   logout() {
     localStorage.removeItem('currentUser');
     this.currentUserSubject.next(null);
@@ -48,6 +67,10 @@ export class AuthenticationService {
 
   getCurrentUser(): LoginResponse | null {
     return this.currentUserSubject.value;
+  }
+
+  isAuthenticated(): boolean {
+    return this.getCurrentUser() !== null;
   }
 
   hasRole(role: string): boolean {
@@ -126,5 +149,21 @@ export class AuthenticationService {
 
   updatePassword(newPassword: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/auth/update-password`, { newPassword });
+  }
+
+   redirectBasedOnRole(role: string) {
+    switch (role) {
+      case 'CHEF':
+        this.router.navigate(['/manager']);
+        break;
+      case 'USER':
+        this.router.navigate(['/member']);
+        break;
+      case 'ADMIN':
+        this.router.navigate(['/admin']);
+        break;
+      default:
+        this.router.navigate(['/guest']);
+    }
   }
 }

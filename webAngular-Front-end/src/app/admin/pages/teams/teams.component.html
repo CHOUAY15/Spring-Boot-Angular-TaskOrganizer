@@ -1,17 +1,20 @@
 <!-- teams.component.html -->
 
 <div class="projects-container">
-    <div class="header-container">
-      <div class="breadcrumb">
-        <span class="current">Equipes</span>
-      </div>
-      <button class="add-project-button" (click)="addTeam()">+ ajouter une  equipe</button>
+  <div class="header-container">
+    <div class="breadcrumb">
+      <span class="current">Equipes</span>
     </div>
+  </div>
+  <p>Ajouter des équipes spécialisées dans les domaines de les section.</p>
   
     <ng-container *ngIf="(loading$ | async) === false; else loadingTemplate">
       <ng-container *ngIf="(error$ | async) === false; else errorTemplate">
         <ng-container *ngIf="teams$ | async as teams">
           <div class="team-grid" *ngIf="teams.length > 0; else noTeams">
+            <div class="button-container">
+              <button class="add-project-button" (click)="addTeam()">Ajouter une équipe</button>
+            </div>
             <app-team-table
             [teams]="teams"
               (addTeam)="addTeam()"
@@ -19,8 +22,10 @@
             ></app-team-table>
           </div>
           <ng-template #noTeams>
-            <div class="centered-message">aucune equipe pour l'instant!</div>
-          </ng-template>
+            <div class="centered-message-container">
+              <div class="centered-message">Aucune équipe pour l'instant !</div>
+              <button class="add-project-button" (click)="addTeam()">Ajouter</button>
+            </div>          </ng-template>
         </ng-container>
       </ng-container>
     </ng-container>

@@ -2,7 +2,7 @@
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SharedModule } from '../../../theme/shared/shared.module';
-import { TeamTableComponent } from '../../components/teams-table/teams-table.component';
+import { TeamsTableComponent } from '../../components/teams-table/teams-table.component';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { DialogAddTeamComponent } from '../../components/teams-table/dialog-add-team/dialog-add-team.component';
@@ -15,7 +15,7 @@ import { FeedBackComponent } from "../../../shared/components/feed-back/feed-bac
 @Component({
   selector: 'app-teams',
   standalone: true,
-  imports: [TeamTableComponent, CommonModule, SharedModule, RouterLink, DialogAddTeamComponent, SharedModule, FeedBackComponent],
+  imports: [TeamsTableComponent, CommonModule, SharedModule, RouterLink, DialogAddTeamComponent, SharedModule, FeedBackComponent],
   templateUrl: './teams.component.html',
   styleUrls: ['./teams.component.scss']
 })

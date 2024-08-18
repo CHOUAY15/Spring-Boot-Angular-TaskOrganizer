@@ -31,23 +31,24 @@ const AdminNavigationItems: NavigationItem[] = [
         type: 'item',
         classes: 'nav-item',
         url: '/',
-        icon: 'profile',
+        icon: 'dashboard',
         breadcrumbs: false
       }
     ]
   },
   {
-    id: 'DépartementsEquipes',
-    title: 'Départements et équipes',
+    id: 'SectionsEquipes',
+    title: 'Sections et équipes',
     type: 'group',
     icon: 'icon-navigation',
     children: [
       {
-        id: 'départements',
-        title: 'Départements',
+        id: 'sections',
+        title: 'Sections',
         type: 'item',
         classes: 'nav-item',
-        url: '/admin/departments',
+        url: '/admin/sections',
+        icon: 'profile',
         breadcrumbs: false
       }, 
       {
@@ -56,8 +57,18 @@ const AdminNavigationItems: NavigationItem[] = [
         type: 'item',
         classes: 'nav-item',
         url: '/admin/teams',
+        icon: 'team',
         breadcrumbs: false
       },
+      {
+        id: 'projets',
+        title: 'Projets',
+        type: 'item',
+        classes: 'nav-item',
+        url: '/admin/projects',
+        icon: 'book',
+        breadcrumbs: false
+      }
     ]
   },
   {
@@ -67,11 +78,14 @@ const AdminNavigationItems: NavigationItem[] = [
     icon: 'icon-navigation',
     children: [
       {
-        id: 'chefs',
-        title: 'Chefs',
+        id: 'Gestionnaires',
+        title: 'Gestionnaires',
         type: 'item',
         classes: 'nav-item',
         url: '/admin/managers',
+        icon: 'user',
+        breadcrumbs: false
+
       },
       {
         id: 'membres',
@@ -79,6 +93,9 @@ const AdminNavigationItems: NavigationItem[] = [
         type: 'item',
         classes: 'nav-item',
         url: '/admin/members',
+        icon: 'user',
+        breadcrumbs: false
+
       },
     ]
   },

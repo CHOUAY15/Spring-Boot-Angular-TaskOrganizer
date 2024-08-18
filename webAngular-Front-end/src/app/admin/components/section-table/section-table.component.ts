@@ -9,11 +9,11 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { DepartmentService } from 'src/app/core/services/department.service';
-import { Department } from 'src/app/shared/models/department';
+import { SectionService } from 'src/app/core/services/section.service';
+import { Section } from 'src/app/shared/models/section';
 
 @Component({
-  selector: 'app-department-table',
+  selector: 'app-section-table',
   standalone: true,
   imports: [
     CommonModule,
@@ -27,30 +27,30 @@ import { Department } from 'src/app/shared/models/department';
     MatIconModule,
 
   ],
-  templateUrl: './department-table.component.html',
-  styleUrl: './department-table.component.scss'
+  templateUrl: './section-table.component.html',
+  styleUrl: './section-table.component.scss'
 })
-export class DepartmentTableComponent implements OnChanges, AfterViewInit {
+export class SectionTableComponent implements OnChanges, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  @Input() departments: Department[] = [];
-  @Output() addProject = new EventEmitter<void>();
-  @Output() departmntDeleted = new EventEmitter<void>();
-  displayedColumns: string[] = ['name', 'localisation', 'contact','actions'];
-  dataSource: MatTableDataSource<Department>;
+  @Input() sections: Section[] = [];
+  @Output() addSection = new EventEmitter<void>();
+  @Output() sectionDeleted = new EventEmitter<void>();
+  displayedColumns: string[] = ['name','actions'];
+  dataSource: MatTableDataSource<Section>;
   showConfirmModal = false;
-  departmentToDelete: number | null = null;
+  sectionToDelete: number | null = null;
 
   constructor(
     private router: Router,
-    private departmntService: DepartmentService
+    private sectionService: SectionService
   ) {
-    this.dataSource = new MatTableDataSource<Department>([]);
+    this.dataSource = new MatTableDataSource<Section>([]);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['departments']) {
-      this.dataSource.data = this.departments;
+    if (changes['sections']) {
+      this.dataSource.data = this.sections;
       this.dataSource._updateChangeSubscription();
     }
   }
@@ -71,31 +71,29 @@ export class DepartmentTableComponent implements OnChanges, AfterViewInit {
 
 
 
-  deleteProject(departemntId: number): void {
-    this.departmentToDelete = departemntId;
+  deleteSection(secId: number): void {
+    this.sectionToDelete = secId;
     this.showConfirmModal = true;
   }
 
   cancelDelete(): void {
     this.showConfirmModal = false;
-    this.departmentToDelete = null;
+    this.sectionToDelete = null;
   }
 
   confirmDelete(): void {
-    if (this.departmentToDelete !== null) {
-      this.departmntService.delete(this.departmentToDelete).subscribe({
+    if (this.sectionToDelete !== null) {
+      this.sectionService.delete(this.sectionToDelete).subscribe({
         next: (response) => {
-          console.log('deppat deleted successfully', response);
-          this.dataSource.data = this.dataSource.data.filter((department) => department.id !== this.departmentToDelete);
+          this.dataSource.data = this.dataSource.data.filter((section) => section.id !== this.sectionToDelete);
           this.dataSource._updateChangeSubscription();
           this.showConfirmModal = false;
-          this.departmentToDelete = null;
-          this.departmntDeleted.emit();
+          this.sectionToDelete = null;
+          this.sectionDeleted.emit();
         },
         error: (error) => {
-          console.error('There was an error deleting the deppt!', error);
           this.showConfirmModal = false;
-          this.departmentToDelete = null;
+          this.sectionToDelete = null;
         }
       });
     }

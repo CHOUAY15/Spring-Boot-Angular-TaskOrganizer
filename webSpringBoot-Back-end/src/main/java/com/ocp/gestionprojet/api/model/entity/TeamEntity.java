@@ -33,8 +33,8 @@ public class TeamEntity {
     @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<MemberEntity> members = new ArrayList<>();
     @ManyToOne
-    @JoinColumn(name = "department_id", nullable = false)
-    private DepartmentEntity department;
+    @JoinColumn(name = "section_id", nullable = false)
+    private SectionEntity section;
     @ManyToOne(optional = true)
     @JoinColumn(name = "manager")
     private ManagerEntity manager;

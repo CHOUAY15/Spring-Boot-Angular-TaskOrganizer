@@ -37,7 +37,7 @@ public abstract class Person {
     @Column(name = "age")
     private Integer age;
 
-    @Column(name = "telephone", unique = true, nullable = false)
+    @Column(name = "telephone", unique = true)
     private String telephone;
 
     @Column(name = "email", unique = true, nullable = false)
@@ -50,7 +50,7 @@ public abstract class Person {
     private String avatar;
     
     @Enumerated(EnumType.STRING)
-    @Column(name = "gender", nullable = false)
+    @Column(name = "gender")
     private SexePerson gender;
     
     

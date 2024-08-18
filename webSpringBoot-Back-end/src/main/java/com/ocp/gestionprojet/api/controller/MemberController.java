@@ -1,25 +1,21 @@
 package com.ocp.gestionprojet.api.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import com.ocp.gestionprojet.api.exception.EntityNotFoundException;
 import com.ocp.gestionprojet.api.model.dto.memberDto.MemberDto;
 import com.ocp.gestionprojet.api.service.interfaces.MemberService;
 
 import jakarta.validation.Valid;
-
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-
+/**
+ * Controller for managing member operations.
+ * Provides endpoints for retrieving, updating, deleting, and listing members.
+ */
 @RestController
 @RequestMapping("api/members")
 public class MemberController {
@@ -35,8 +31,8 @@ public class MemberController {
      */
     @GetMapping("/teamId/{teamId}")
     public ResponseEntity<List<MemberDto>> findByTeam(@PathVariable("teamId") Integer teamId) {
-        // Call the service method to find members by team ID and return the result with HTTP 200 status
-        return new ResponseEntity<>(memberService.findByTeam(teamId), HttpStatus.OK);
+        List<MemberDto> members = memberService.findByTeam(teamId);
+        return new ResponseEntity<>(members, HttpStatus.OK);
     }
 
     /**
@@ -47,8 +43,8 @@ public class MemberController {
      */
     @GetMapping("/mgrId/{mgrId}")
     public ResponseEntity<List<MemberDto>> findByManager(@PathVariable("mgrId") Integer mgrId) {
-        // Call the service method to find members by manager ID and return the result with HTTP 200 status
-        return new ResponseEntity<>(memberService.findByManager(mgrId), HttpStatus.OK);
+        List<MemberDto> members = memberService.findByManager(mgrId);
+        return new ResponseEntity<>(members, HttpStatus.OK);
     }
 
     /**
@@ -60,7 +56,6 @@ public class MemberController {
      */
     @GetMapping("/id/{id}")
     public ResponseEntity<MemberDto> findById(@PathVariable("id") Integer id) throws EntityNotFoundException {
-        // Call the service method to find a member by ID and return the result with HTTP 200 status
         MemberDto memberDto = memberService.findById(id);
         return new ResponseEntity<>(memberDto, HttpStatus.OK);
     }
@@ -74,7 +69,6 @@ public class MemberController {
      */
     @PutMapping("")
     public ResponseEntity<MemberDto> update(@Valid @RequestBody MemberDto memberDto) throws EntityNotFoundException {
-        // Call the service method to update the member and return the result with HTTP 202 status
         MemberDto updatedMemberDto = memberService.update(memberDto);
         return new ResponseEntity<>(updatedMemberDto, HttpStatus.ACCEPTED);
     }
@@ -85,14 +79,20 @@ public class MemberController {
      * @param id ID of the member to be deleted.
      * @return ResponseEntity with HTTP status 204 No Content.
      */
-    @DeleteMapping("id/{id}")
+    @DeleteMapping("/id/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") Integer id) {
-        // Call the service method to delete the member and return HTTP 204 status
         memberService.delete(id);
         return ResponseEntity.noContent().build();
     }
-       @GetMapping("")
+
+    /**
+     * Retrieves a list of all members.
+     *
+     * @return ResponseEntity with a list of all members and HTTP status 200 OK.
+     */
+    @GetMapping("")
     public ResponseEntity<List<MemberDto>> findAll() {
-        return new ResponseEntity<>(memberService.findAll(), HttpStatus.OK);
+        List<MemberDto> members = memberService.findAll();
+        return new ResponseEntity<>(members, HttpStatus.OK);
     }
 }

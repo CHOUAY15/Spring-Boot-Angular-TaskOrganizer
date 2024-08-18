@@ -2,7 +2,7 @@ import { Person, SexePerson } from "./person";
 
 export class Manager extends Person {
     teamId: number;
-    departmentId: number;
+    sectionId: number;
 
     constructor(
         id: number,
@@ -16,13 +16,13 @@ export class Manager extends Person {
         cin: string,
         gender: SexePerson,
         teamId: number,
-        departmentId: number
+        sectionId: number
     ) {
      
         super(id, name, lastName, age, telephone, email, adresse, avatar, cin, gender);
 
 
         this.teamId = teamId;
-        this.departmentId = departmentId;
+        this.sectionId = sectionId;
     }
 }

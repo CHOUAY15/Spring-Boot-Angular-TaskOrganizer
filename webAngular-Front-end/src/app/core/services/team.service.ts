@@ -1,14 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { catchError, Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { AuthenticationService, LoginResponse } from './authentication.service';
 import { Team } from 'src/app/shared/models/team';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TeamService {
-  apiUrl: string = "http://localhost:4000/api/teams";
+
+  apiUrl: string = `${environment.apiUrl}/teams`;
+
+
   user: LoginResponse;
 
   constructor(
@@ -18,30 +22,27 @@ export class TeamService {
     this.user = authService.getCurrentUser();
   }
 
-  /**
-   * Retrieves teams managed by the current manager (user).
-   * 
-   * @returns Observable array of Team objects.
-   */
-  findTeamsByManager(): Observable<Team[]> {
+
+  findByManager(): Observable<Team[]> {
     return this.http.get<Team[]>(`${this.apiUrl}/mgrId/${this.user.person.id}`);
   }
+
+
+  findTeamsBySectId(secId: number): Observable<Team[]> {
+    return this.http.get<Team[]>(`${this.apiUrl}/secId/${secId}`);
+  }
+
 
   findAll(): Observable<Team[]> {
     return this.http.get<Team[]>(`${this.apiUrl}`);
   }
+
+
   delete(teamId: number): Observable<void> {
-    return this.http.delete<void>(`http://localhost:4000/api/teams/id/${teamId}`);
-  }
-  
-  addTeamToDepartment(team: any): Observable<Team> {
-    return this.http.post<Team>(this.apiUrl, team).pipe(
-      catchError(this.handleError)
-    );
+    return this.http.delete<void>(`${this.apiUrl}/id/${teamId}`);
   }
 
-  private handleError(error: any): Observable<never> {
-    console.error('An error occurred', error);
-    return throwError(() => new Error('Something bad happened; please try again later.'));
+  addTeamToSection(team: Team): Observable<Team> {
+    return this.http.post<Team>(this.apiUrl, team);
   }
 }

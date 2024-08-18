@@ -22,7 +22,10 @@ import {
   FontSizeOutline,
   ProfileOutline,
   BgColorsOutline,
-  AntDesignOutline
+  AntDesignOutline,
+  TeamOutline,
+  BookOutline,
+  UserOutline
 } from '@ant-design/icons-angular/icons';
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
 
@@ -62,7 +65,10 @@ export class NavContentComponent implements OnInit {
         BgColorsOutline,
         AntDesignOutline,
         ChromeOutline,
-        QuestionOutline
+        QuestionOutline,
+        TeamOutline,
+        BookOutline,
+        UserOutline
       ]
     );
   }

@@ -1,4 +1,5 @@
-<div class="circle-chart-wrapper" [style.width.px]="size" [style.height.px]="size">
+<div class="circle-chart-container">
+  <div class="circle-chart-wrapper" [style.width.px]="size" [style.height.px]="size">
     <svg viewBox="0 0 100 100" class="circle-chart">
       <circle cx="50" cy="50" r="35" class="circle-chart__background" />
       <circle cx="50" cy="50" r="35" class="circle-chart__circle"
@@ -7,3 +8,7 @@
       <text x="50" y="50" class="circle-chart__percent">{{percentage}}%</text>
     </svg>
   </div>
+  <p class="circle-chart-description">
+    Le pourcentage des projets en cours par rapport aux projets terminés pour cette année :
+  </p>
+</div>

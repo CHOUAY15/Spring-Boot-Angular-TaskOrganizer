@@ -1,6 +1,8 @@
 package com.ocp.gestionprojet.api.service.impl;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,14 +31,7 @@ public class ManagerServiceImpl implements ManagerService {
     @Autowired
     private TeamRepository teamRepository;
 
-    /**
-     * Retrieves a manager by its ID.
-     *
-     * @param id ID of the manager to retrieve.
-     * @return ManagerDto containing manager data.
-     * @throws EntityNotFoundException if the manager with the given ID is not
-     *                                 found.
-     */
+
     @Override
     @Transactional(readOnly = true)
     public ManagerDto findById(Integer id) throws EntityNotFoundException {
@@ -45,14 +40,6 @@ public class ManagerServiceImpl implements ManagerService {
         return personnelMapper.toDto(manager);
     }
 
-    /**
-     * Updates an existing manager based on the provided ManagerDto.
-     *
-     * @param managerDto DTO containing updated manager data.
-     * @return Updated ManagerDto.
-     * @throws EntityNotFoundException if the manager with the given ID is not
-     *                                 found.
-     */
     @Override
     @Transactional
     public ManagerDto update(ManagerDto managerDto) throws EntityNotFoundException {
@@ -67,49 +54,58 @@ public class ManagerServiceImpl implements ManagerService {
         return personnelMapper.toDto(updatedManager);
     }
 
-    /**
-     * Deletes a manager by its ID.
-     *
-     * @param id ID of the manager to delete.
-     */
+ 
     @Override
     @Transactional
     public void delete(Integer id) {
+        // Fetch all teams associated with the manager
+        List<TeamEntity> teams = teamRepository.findByManagerId(id);
+        
+        // Set manager to null for all fetched teams
+        for (TeamEntity  team : teams) {
+            team.setManager(null);
+        }
+        
+        // Save all updated teams
+        teamRepository.saveAll(teams);
+        
+        // Delete the manager
         managerRepository.deleteById(id);
     }
+    
 
-    /**
-     * Adds a new manager to a department based on the provided ManagerDto.
-     *
-     * @param managerDto DTO containing manager data and department information.
-     * @param user       User entity associated with the manager.
-     * @return The newly created ManagerEntity.
-     * @throws EntityNotFoundException if the department with the given ID is not
-     *                                 found.
-     */
+ 
     @Override
-    @Transactional
-    public ManagerEntity addManagerToTeam(ManagerDto managerDto, UserEntity user) throws EntityNotFoundException {
-        TeamEntity teamEntity = teamRepository.findById(managerDto.getTeamId())
-                .orElseThrow(() -> new EntityNotFoundException("Department not found"));
-
-        ManagerEntity manager = new ManagerEntity();
-        // Set manager properties from DTO
-        updateManagerFromDto(manager, managerDto);
-        manager.setUser(user);
-        manager.setDepartment(teamEntity.getDepartment());
-        teamEntity.setManager(manager);
-        teamRepository.save(teamEntity);
-
-        // Save the new manager entity
-        return managerRepository.save(manager);
+@Transactional
+public ManagerEntity addManagersToTeams(ManagerDto managerDto, UserEntity user) throws EntityNotFoundException {
+    List<Integer> teamIds = managerDto.getTeamsId();
+    if (teamIds == null || teamIds.isEmpty()) {
+        throw new IllegalArgumentException("Team IDs list cannot be null or empty");
     }
 
-    /**
-     * Retrieves all managers.
-     *
-     * @return List of ManagerDto for all managers.
-     */
+    ManagerEntity manager = new ManagerEntity();
+    updateManagerFromDto(manager, managerDto);
+    manager.setUser(user);
+
+    Set<TeamEntity> teams = new HashSet<>();
+    for (Integer teamId : teamIds) {
+        TeamEntity teamEntity = teamRepository.findById(teamId)
+                .orElseThrow(() -> new EntityNotFoundException("Team not found with ID: " + teamId));
+        teams.add(teamEntity);
+        teamEntity.setManager(manager);
+        teamRepository.save(teamEntity);
+    }
+
+   
+    
+    // Set the department based on the first team (assuming all teams are in the same department)
+    if (!teams.isEmpty()) {
+        manager.setSection(teams.iterator().next().getSection());
+    }
+
+    return managerRepository.save(manager);
+}
+  
     @Override
     @Transactional(readOnly = true)
     public List<ManagerDto> findAll() {
@@ -119,12 +115,7 @@ public class ManagerServiceImpl implements ManagerService {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * Updates the properties of a ManagerEntity based on the provided ManagerDto.
-     *
-     * @param manager ManagerEntity to update.
-     * @param dto     DTO containing new manager data.
-     */
+
     private void updateManagerFromDto(ManagerEntity manager, ManagerDto dto) {
         manager.setName(dto.getName());
         manager.setLastName(dto.getLastName());
@@ -139,8 +130,8 @@ public class ManagerServiceImpl implements ManagerService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<ManagerDto> findByDepartmentId(Integer deptId) {
-        List<ManagerEntity> managers = managerRepository.findByDepartmentId(deptId);
+    public List<ManagerDto> findBySection(Integer secId) {
+        List<ManagerEntity> managers = managerRepository.findBySectionId(secId);
         return managers.stream()
                 .map(personnelMapper::toDto)
                 .collect(Collectors.toList());

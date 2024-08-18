@@ -21,15 +21,21 @@ export class RoleGuard implements CanActivate {
 
     // Redirect to appropriate route based on role
     if (currentUser) {
-      if (currentUser.role === 'CHEF') {
-        this.router.navigate(['/manager']);
-      } else if (currentUser.role === 'USER') {
-        this.router.navigate(['/member']);
-      } else if (currentUser.role === 'ADMIN') {
-        this.router.navigate(['/admin']);
+      switch (currentUser.role) {
+        case 'CHEF':
+          this.router.navigate(['/manager']);
+          break;
+        case 'USER':
+          this.router.navigate(['/member']);
+          break;
+        case 'ADMIN':
+          this.router.navigate(['/admin']);
+          break;
+        default:
+          this.router.navigate(['/guest/login']);
       }
     } else {
-      this.router.navigate(['/login']);
+      this.router.navigate(['/guest/login']);
     }
     return false;
   }

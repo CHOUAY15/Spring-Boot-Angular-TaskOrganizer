@@ -19,6 +19,10 @@ import com.ocp.gestionprojet.api.service.interfaces.ManagerService;
 
 import jakarta.validation.Valid;
 
+/**
+ * Controller for managing manager operations.
+ * Provides endpoints for retrieving, updating, deleting, and listing managers.
+ */
 @RestController
 @RequestMapping("api/managers")
 public class ManagerController {
@@ -45,7 +49,7 @@ public class ManagerController {
      * @param id The ID of the manager to delete.
      * @return ResponseEntity with no content to indicate successful deletion.
      */
-    @DeleteMapping("id/{id}")
+    @DeleteMapping("/id/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") Integer id) {
         managerService.delete(id);
         return ResponseEntity.noContent().build();
@@ -74,8 +78,14 @@ public class ManagerController {
         return new ResponseEntity<>(managerService.findAll(), HttpStatus.OK);
     }
 
-      @GetMapping("/deptId/{deptId}")
-    public ResponseEntity<List<ManagerDto>> findByDepartment(@PathVariable("deptId") Integer deptId) {
-        return new ResponseEntity<>(managerService.findByDepartmentId(deptId), HttpStatus.OK);
+    /**
+     * Retrieves a list of managers by their section ID.
+     *
+     * @param secId The section ID to filter managers.
+     * @return ResponseEntity with a list of managers belonging to the specified section.
+     */
+    @GetMapping("/secId/{secId}")
+    public ResponseEntity<List<ManagerDto>> findBySection(@PathVariable("secId") Integer secId) {
+        return new ResponseEntity<>(managerService.findBySection(secId), HttpStatus.OK);
     }
 }

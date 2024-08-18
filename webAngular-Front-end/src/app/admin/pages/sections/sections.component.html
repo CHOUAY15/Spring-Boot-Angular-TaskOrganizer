@@ -1,0 +1,59 @@
+<!-- projets.component.html -->
+
+<div class="projects-container">
+  <div class="header-container">
+    <div class="breadcrumb">
+      <span class="current">Sections</span>
+    </div>
+  </div>
+  <p>Ajouter des sections pour différents domaines de l'informatique : par exemple, développement, réseaux, etc.</p>
+
+  <ng-container *ngIf="(loading$ | async) === false; else loadingTemplate">
+    <ng-container *ngIf="(error$ | async) === false; else errorTemplate">
+      <ng-container *ngIf="sections$ | async as sections">
+        <div class="team-grid" *ngIf="sections.length > 0; else noSections">
+          <div class="button-container">
+            <button class="add-project-button" (click)="addSection()">Ajouter une section</button>
+          </div>
+          <app-section-table
+            [sections]="sections"
+            (addSection)="addSection()"
+            (sectionDeleted)="onSectionDeleted()"
+          ></app-section-table>
+        </div>
+        
+        <ng-template #noSections>
+          <div class="centered-message-container">
+            <div class="centered-message">Aucune section pour l'instant !</div>
+            <button class="add-project-button" (click)="addSection()">Ajouter</button>
+          </div>
+        </ng-template>
+        
+      </ng-container>
+    </ng-container>
+  </ng-container>
+
+  <ng-template #loadingTemplate>
+    <div class="centered-message loading-message">
+      <app-spinner-g></app-spinner-g>
+    </div>
+  </ng-template>
+
+  <ng-template #errorTemplate>
+    <app-error-message></app-error-message>
+  </ng-template>
+
+
+
+  <app-dialog-add-section
+    *ngIf="showDialog"
+    (close)="handleClose()"
+    (sectionAdd)="onSectionAdd($event)"
+  ></app-dialog-add-section>
+</div>
+<app-feed-back
+  *ngIf="showFeedback"
+  (closed)="closeFeedback()"
+  [message]="feedbackMessage"
+  (animationDone)="showFeedback = false"
+></app-feed-back>

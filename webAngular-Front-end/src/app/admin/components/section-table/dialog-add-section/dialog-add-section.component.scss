@@ -236,3 +236,12 @@ button {
     transform: rotate(360deg);
   }
 }
+.error-message {
+  color: #dc3545;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+.input-error {
+  border-color: #dc3545;
+}

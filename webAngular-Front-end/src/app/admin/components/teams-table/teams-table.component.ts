@@ -32,13 +32,13 @@ import { Router } from '@angular/router';
   templateUrl: './teams-table.component.html',
   styleUrls: ['./teams-table.component.scss']
 })
-export class TeamTableComponent implements OnChanges, AfterViewInit {
+export class TeamsTableComponent implements OnChanges, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @Input() teams: Team[] = [];
   @Output() addTeam = new EventEmitter<void>();
   @Output() teamDeleted = new EventEmitter<void>();
-  displayedColumns: string[] = ['nom', 'description', 'dateCreation', 'nmbrMembres', 'manager', 'nomDepartement', 'actions'];
+  displayedColumns: string[] = ['nom', 'description', 'dateCreation', 'nmbrMembres', 'manager', 'nomSection', 'actions'];
   dataSource: MatTableDataSource<Team>;
   showConfirmModal = false;
   teamToDelete: number | null = null;

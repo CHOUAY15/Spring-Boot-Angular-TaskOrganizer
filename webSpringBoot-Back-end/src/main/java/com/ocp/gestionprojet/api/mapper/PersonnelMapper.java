@@ -16,8 +16,8 @@ import com.ocp.gestionprojet.api.model.entity.MemberEntity;
 public interface PersonnelMapper {
 
     // Manager mappings
-    @Mapping(target = "departmentId", source = "department.id")
-    @Mapping(target = "teamId", ignore = true)
+    @Mapping(target = "sectionId", source = "section.id")
+    @Mapping(target = "teamsId", ignore = true)
     ManagerDto toDto(ManagerEntity managerEntity);
 
     // Member mappings

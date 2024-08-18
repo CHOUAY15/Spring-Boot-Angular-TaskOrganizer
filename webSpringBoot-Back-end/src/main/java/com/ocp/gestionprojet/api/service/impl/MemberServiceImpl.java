@@ -29,13 +29,7 @@ public class MemberServiceImpl implements MemberService {
     @Autowired
     private TeamRepository teamRepository;
 
-    /**
-     * Retrieves a member by its ID.
-     *
-     * @param id ID of the member to retrieve.
-     * @return MemberDto containing member data.
-     * @throws EntityNotFoundException if the member with the given ID is not found.
-     */
+   
     @Override
     @Transactional(readOnly = true)
     public MemberDto findById(Integer id) throws EntityNotFoundException {
@@ -44,13 +38,7 @@ public class MemberServiceImpl implements MemberService {
         return personnelMapper.toDto(member);
     }
 
-    /**
-     * Updates an existing member based on the provided MemberDto.
-     *
-     * @param memberDto DTO containing updated member data.
-     * @return Updated MemberDto.
-     * @throws EntityNotFoundException if the member with the given ID is not found.
-     */
+    
     @Override
     @Transactional
     public MemberDto update(MemberDto memberDto) throws EntityNotFoundException {
@@ -65,25 +53,14 @@ public class MemberServiceImpl implements MemberService {
         return personnelMapper.toDto(updatedMember);
     }
 
-    /**
-     * Deletes a member by its ID.
-     *
-     * @param id ID of the member to delete.
-     */
+   
     @Override
     @Transactional
     public void delete(Integer id) {
         memberRepository.deleteById(id);
     }
 
-    /**
-     * Adds a new member to a team based on the provided MemberDto.
-     *
-     * @param memberDto DTO containing member data and team information.
-     * @param user User entity associated with the member.
-     * @return The newly created MemberEntity.
-     * @throws EntityNotFoundException if the team with the given ID is not found.
-     */
+  
     @Override
     @Transactional
     public MemberEntity addMemberToTeam(MemberDto memberDto, UserEntity user) throws EntityNotFoundException {
@@ -102,12 +79,7 @@ public class MemberServiceImpl implements MemberService {
         return memberRepository.save(member);
     }
 
-    /**
-     * Finds all members associated with a specific team.
-     *
-     * @param teamId ID of the team.
-     * @return List of MemberDto for members associated with the team.
-     */
+
     @Override
     @Transactional(readOnly = true)
     public List<MemberDto> findByTeam(Integer teamId) {
@@ -117,12 +89,7 @@ public class MemberServiceImpl implements MemberService {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * Finds all members associated with a specific manager.
-     *
-     * @param mgrId ID of the manager.
-     * @return List of MemberDto for members managed by the manager.
-     */
+   
     @Override
     @Transactional(readOnly = true)
     public List<MemberDto> findByManager(Integer mgrId) {
@@ -132,12 +99,7 @@ public class MemberServiceImpl implements MemberService {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * Updates the properties of a MemberEntity based on the provided MemberDto.
-     *
-     * @param member MemberEntity to update.
-     * @param dto DTO containing new member data.
-     */
+   
     private void updateMemberFromDto(MemberEntity member, MemberDto dto) {
         member.setName(dto.getName());
         member.setLastName(dto.getLastName());

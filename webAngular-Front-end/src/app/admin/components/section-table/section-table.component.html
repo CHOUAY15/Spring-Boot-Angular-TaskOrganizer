@@ -5,27 +5,19 @@
     </mat-form-field>
   </div>
 
-  <ng-container *ngIf="dataSource.data.length > 0; else noProjects">
+
+  <ng-container *ngIf="dataSource.data.length > 0; else noSection">
     <table mat-table [dataSource]="dataSource" matSort>
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef mat-sort-header><strong>Nom</strong></th>
-        <td mat-cell *matCellDef="let departement" [attr.data-label]="'name'">{{ departement.name }}</td>
+        <td mat-cell *matCellDef="let section" [attr.data-label]="'name'">{{ section.name }}</td>
       </ng-container>
 
-      <ng-container matColumnDef="localisation">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header><strong>Localisation</strong></th>
-        <td mat-cell *matCellDef="let departement" [attr.data-label]="'localisation'">{{ departement.localisation }}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="contact">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header><strong>Contact</strong></th>
-        <td mat-cell *matCellDef="let departement" [attr.data-label]="'contact'">{{ departement.contact  }}</td>
-      </ng-container>
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef class="actions-header"><strong>Actions</strong></th>
-        <td mat-cell *matCellDef="let departement"[attr.data-label]="'Actions'">
+        <td mat-cell *matCellDef="let section"[attr.data-label]="'Actions'">
           <div class="action-buttons">
-            <button class="supprimer" (click)="deleteProject(departement.id)">supprimer</button>
+            <button class="supprimer" (click)="deleteSection(section.id)">supprimer</button>
             <button class="modifier" mat-button>modifier</button>
           </div>
         </td>
@@ -38,12 +30,12 @@
     <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
   </ng-container>
 
-  <ng-template #noProjects></ng-template>
+  <ng-template #noSection></ng-template>
 
   <div class="modal" *ngIf="showConfirmModal">
     <div class="modal-content">
       <h2>Confirmer la suppression</h2>
-      <p>Êtes-vous sûr de vouloir supprimer cette departement?</p>
+      <p>Êtes-vous sûr de vouloir supprimer cette section?</p>
       <div class="modal-actions">
         <button class="cancel-btn" (click)="cancelDelete()">Annuler</button>
         <button class="confirm-btn" (click)="confirmDelete()">Supprimer</button>

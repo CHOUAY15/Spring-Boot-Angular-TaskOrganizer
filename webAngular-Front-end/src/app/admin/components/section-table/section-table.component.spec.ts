@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DepartmentTableComponent } from './department-table.component';
+import { SectionTableComponent } from './section-table.component';
 
-describe('DepartmentTableComponent', () => {
-  let component: DepartmentTableComponent;
-  let fixture: ComponentFixture<DepartmentTableComponent>;
+describe('SectionTableComponent', () => {
+  let component: SectionTableComponent;
+  let fixture: ComponentFixture<SectionTableComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DepartmentTableComponent]
+      imports: [SectionTableComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(DepartmentTableComponent);
+    fixture = TestBed.createComponent(SectionTableComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

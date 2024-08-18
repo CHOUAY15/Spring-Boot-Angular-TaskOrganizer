@@ -42,7 +42,7 @@ export class ListTeamsComponent implements OnInit, OnDestroy {
 
   loadTeams(): void {
     const loadedData$ = this.loadingService.loadData(
-      this.teamService.findTeamsByManager().pipe(
+      this.teamService.findByManager().pipe(
         tap(teams => console.log('ListTeamsComponent: Teams received', teams))
       ),
       400
@@ -65,7 +65,7 @@ export class ListTeamsComponent implements OnInit, OnDestroy {
     if (this.filterText) {
       filteredTeams = this.allTeams.filter(team =>
         team.name.toLowerCase().includes(this.filterText.toLowerCase()) ||
-        team.departmentName.toLowerCase().includes(this.filterText.toLowerCase())
+        team.sectionName.toLowerCase().includes(this.filterText.toLowerCase())
       );
     }
     this.totalPages = Math.ceil(filteredTeams.length / this.itemsPerPage);
@@ -99,7 +99,7 @@ export class ListTeamsComponent implements OnInit, OnDestroy {
     }
     return this.allTeams.filter(team =>
       team.name.toLowerCase().includes(this.filterText.toLowerCase()) ||
-      team.departmentName.toLowerCase().includes(this.filterText.toLowerCase())
+      team.sectionName.toLowerCase().includes(this.filterText.toLowerCase())
     );
   }
 

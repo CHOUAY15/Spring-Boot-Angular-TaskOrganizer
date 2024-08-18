@@ -1,4 +1,4 @@
-package com.ocp.gestionprojet.api.model.dto.departmentDto;
+package com.ocp.gestionprojet.api.model.dto.sectionDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,9 +8,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class DepartmentDto {
+public class SectionDto {
     private Integer id;
     private String name;
-    private String localisation;
-    private String contact;
+
 }

@@ -33,22 +33,22 @@ export class DashboardComponent implements OnInit {
       projectProgress: this.statsService.getProjectProgressRatio()
     }).subscribe((results) => {
       this.cards = [
-        { title: 'Total Members', value: results.members, icon: 'fa-users', percentage: 5.2, comment: 'Increased membership this month' },
+        { title: 'Total des membres', value: results.members, icon: 'fa-users', percentage: 5.2, comment: 'Increased membership this month' },
         {
-          title: 'Total Managers',
+          title: 'Total des gestionnaires',
           value: results.managers,
           icon: 'fa-user-tie',
           percentage: -2.1,
           comment: 'Slight decrease in manager count'
         },
         {
-          title: 'Total Projects',
+          title: 'Total des projets',
           value: results.projects,
           icon: 'fa-project-diagram',
           percentage: 10.5,
           comment: 'New projects initiated'
         },
-        { title: 'Total Teams', value: results.teams, icon: 'fa fa-user-friends', percentage: 0, comment: 'Stable teams count' }
+        { title: 'Total des équipes', value: results.teams, icon: 'fa fa-user-friends', percentage: 0, comment: 'Stable teams count' }
       ];
       this.pourcentage=results.projectProgress.percentage;
     });
