@@ -1,19 +1,16 @@
 <!-- projets.component.html -->
 
 <div class="projects-container">
-  <div class="header-container">
-    <div class="breadcrumb">
-      <span class="current">Sections</span>
-    </div>
-  </div>
-  <p>Ajouter des sections pour différents domaines de l'informatique : par exemple, développement, réseaux, etc.</p>
+  <h5 class="current">Total des équipes</h5>
 
   <ng-container *ngIf="(loading$ | async) === false; else loadingTemplate">
     <ng-container *ngIf="(error$ | async) === false; else errorTemplate">
       <ng-container *ngIf="sections$ | async as sections">
         <div class="team-grid" *ngIf="sections.length > 0; else noSections">
-          <div class="button-container">
-            <button class="add-project-button" (click)="addSection()">Ajouter une section</button>
+         
+          <div class="button-and-text-container">
+            <p>Ajouter des sections pour différents domaines de l'informatique : par exemple, développement, réseaux, etc.</p>
+            <button class="add-project-button" (click)="addSection()">Ajouter</button>
           </div>
           <app-section-table
             [sections]="sections"
