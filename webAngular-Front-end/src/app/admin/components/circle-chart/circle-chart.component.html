@@ -2,13 +2,37 @@
   <div class="circle-chart-wrapper" [style.width.px]="size" [style.height.px]="size">
     <svg viewBox="0 0 100 100" class="circle-chart">
       <circle cx="50" cy="50" r="35" class="circle-chart__background" />
-      <circle cx="50" cy="50" r="35" class="circle-chart__circle"
-        [style.stroke-dasharray]="dashArray"
-        [style.stroke]="color" />
-      <text x="50" y="50" class="circle-chart__percent">{{percentage}}%</text>
+      <path class="circle-chart__circle"
+        [attr.d]="circlePath"
+        [style.fill]="color" />
+      <text x="50" y="45" class="circle-chart__percent">{{percentage}}%</text>
+      <text x="50" y="60" class="circle-chart__label">En cours</text>
     </svg>
   </div>
-  <p class="circle-chart-description">
-    Le pourcentage des projets en cours par rapport aux projets terminés pour cette année :
-  </p>
+  <div class="circle-chart-info">
+    <h2 class="circle-chart-title">Progression des Projets</h2>
+    <p class="circle-chart-description">
+      Aperçu détaillé de l'avancement des projets pour l'année en cours :
+    </p>
+    <ul class="circle-chart-details">
+      <li class="current-projects">
+        <span class="detail-label">Projets en cours :</span>
+        <span class="detail-value">{{currentProjects}}</span>
+        <div class="progress-bar" [style.width]="getProgressBarWidth(currentProjects)"></div>
+      </li>
+      <li class="completed-projects">
+        <span class="detail-label">Projets terminés :</span>
+        <span class="detail-value">{{completedProjects}}</span>
+        <div class="progress-bar" [style.width]="getProgressBarWidth(completedProjects)"></div>
+      </li>
+      <li class="total-projects">
+        <span class="detail-label">Total des projets :</span>
+        <span class="detail-value">{{totalProjects}}</span>
+      </li>
+    </ul>
+    <div class="completion-rate">
+      <span class="detail-label">Taux de complétion :</span>
+      <span class="detail-value">{{getCompletionRate()}}</span>
+    </div>
+  </div>
 </div>

@@ -1,10 +1,5 @@
-// angular import
 import { Component, OnInit, ViewChild } from '@angular/core';
-
-// project import
 import { SharedModule } from 'src/app/theme/shared/shared.module';
-
-// third party
 import {
   NgApexchartsModule,
   ChartComponent,
@@ -18,6 +13,9 @@ import {
   ApexGrid,
   ApexTooltip
 } from 'ng-apexcharts';
+import { StatsService } from 'src/app/core/services/stats.service';
+
+
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -40,12 +38,17 @@ export type ChartOptions = {
   styleUrl: './income-overview-chart.component.scss'
 })
 export class IncomeOverviewChartComponent implements OnInit {
-  // public props
   @ViewChild('chart') chart!: ChartComponent;
   chartOptions!: Partial<ChartOptions>;
 
-  // life cycle hook
+  constructor(private taskService: StatsService) {}
+
   ngOnInit() {
+    this.initChartOptions();
+    // this.loadWeeklyTasksData();
+  }
+
+  private initChartOptions() {
     this.chartOptions = {
       chart: {
         type: 'bar',
@@ -66,7 +69,7 @@ export class IncomeOverviewChartComponent implements OnInit {
       },
       series: [
         {
-          data: [80, 95, 70, 42, 65, 55, 78]
+          data: [0, 0, 0, 0, 0, 0, 0]
         }
       ],
       stroke: {
@@ -74,7 +77,7 @@ export class IncomeOverviewChartComponent implements OnInit {
         width: 2
       },
       xaxis: {
-        categories: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
+        categories: ['Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa', 'Di'],
         axisBorder: {
           show: false
         },
@@ -99,4 +102,15 @@ export class IncomeOverviewChartComponent implements OnInit {
       }
     };
   }
+
+  // private loadWeeklyTasksData() {
+  //   this.taskService.getWeeklyCompletedTasksCount().subscribe(
+  //     (data) => {
+  //       this.chartOptions.series = [{ data: data }];
+  //     },
+  //     (error) => {
+  //       console.error('Erreur lors de la récupération des données:', error);
+  //     }
+  //   );
+  // }
 }

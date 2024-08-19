@@ -67,31 +67,35 @@ public class TeamServiceImpl implements TeamService {
     @Override
     @Transactional
     public TeamResponseDto update(TeamRequestDto teamRequestDto, Integer id) throws EntityNotFoundException {
+        // Find the existing team by id, throw an exception if not found
         TeamEntity team = teamRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Team not found"));
-
+    
         // Update the mutable fields
         team.setName(teamRequestDto.getName());
         team.setDescription(teamRequestDto.getDescription());
-
+    
         // Update the section if necessary
         if (teamRequestDto.getSectionId() != null) {
             SectionEntity section = sectionRepository.findById(teamRequestDto.getSectionId())
                     .orElseThrow(() -> new EntityNotFoundException("Section not found"));
             team.setSection(section);
         }
-
-        // Update the manager if necessary
+    
+        // Update the manager if a managerId is provided
         if (teamRequestDto.getManagerId() != null) {
             ManagerEntity manager = managerRepository.findById(teamRequestDto.getManagerId())
-                    .orElseThrow(() -> new EntityNotFoundException("Manager not found"));
+                    .orElse(null); // Return null if the manager is not found
             team.setManager(manager);
+        } else {
+            team.setManager(null); // Explicitly set the manager to null if no managerId is provided
         }
-
+    
+        // Save the updated team and return the response DTO
         TeamEntity updatedTeam = teamRepository.save(team);
         return teamMapper.toDto(updatedTeam);
     }
-
+    
  
     @Override
     public void delete(Integer id) {

@@ -1,6 +1,7 @@
 package com.ocp.gestionprojet.api.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ocp.gestionprojet.api.model.dto.teamDto.TeamStatisticsDTO;
 import com.ocp.gestionprojet.api.service.interfaces.StatisticsService;
 
 /**
@@ -88,4 +90,26 @@ public class StatisticsController {
         response.put("percentage", ratio * 100);
         return ResponseEntity.ok(response);
     }
+    @GetMapping("/team/average/member")
+    public double getAverageMembersPerTeam() {
+        return statisticsService.getAverageMembersPerTeam();
+    }
+    @GetMapping("/team/average/manager")
+    public double getAverageManagersPerTeam() {
+        return statisticsService.getAverageManagersPerTeam();
+    }
+
+    @GetMapping("/projects/count/termine")
+    public long getTotalProjectsProgress() {
+        return statisticsService.countByProgressStatusTrue();
+    }
+    @GetMapping("/projects/count/progress")
+    public long getTotalProjectsNotProg() {
+        return statisticsService.countByProgressStatusFalse();
+    }
+    @GetMapping("teams")
+    public TeamStatisticsDTO getTeamStatistics() {
+        return statisticsService.getTeamStatistics();
+    }
+ 
 }

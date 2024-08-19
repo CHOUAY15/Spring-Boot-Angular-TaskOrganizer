@@ -53,4 +53,6 @@ public interface ProjetService {
      * @return A list of {@link ProjectResponseDto} representing the projects managed by the specified manager.
      */
     List<ProjectResponseDto> findByManager(Integer mgrId);
+
+    List<ProjectResponseDto> findAll();
 }

@@ -1,0 +1,136 @@
+<div class="dialog-overlay">
+    <div class="notification-container">
+      <div *ngIf="successMessage" class="notification success">
+        {{ successMessage }}
+      </div>
+    
+      <div *ngIf="errorMessage" class="notification error">
+        {{ errorMessage }}
+      </div>
+    </div>
+    
+    <div class="dialog-container">
+      <form [formGroup]="teamForm" (ngSubmit)="onSubmit()" class="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
+        <h2 class="text-2xl font-bold mb-6 text-gray-800">Modifier</h2>
+  
+        <div class="mb-4">
+          <label for="name" class="block text-sm font-medium text-gray-700">
+            Nom
+            <span style="color: red">*</span>
+          </label>
+          <input
+            type="text"
+            id="name"
+            formControlName="name"
+            [ngClass]="{ 'input-error': teamForm.get('name')?.invalid && (teamForm.get('name')?.dirty || teamForm.get('name')?.touched) }"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+          />
+          <div
+            *ngIf="teamForm.get('name')?.invalid && (teamForm.get('name')?.dirty || teamForm.get('name')?.touched)"
+            class="error-message"
+          >
+            <div *ngIf="teamForm.get('name')?.errors?.['required']">Le nom est requis.</div>
+            <div *ngIf="teamForm.get('name')?.errors?.['minlength']">Le nom doit contenir au moins 3 caractères.</div>
+          </div>
+        </div>
+  
+        <div class="mb-4">
+          <label for="description" class="block text-sm font-medium text-gray-700">
+            Description
+            <span style="color: red">*</span>
+          </label>
+          <textarea
+            id="description"
+            formControlName="description"
+            rows="3"
+            [ngClass]="{
+              'input-error':
+                teamForm.get('description')?.invalid && (teamForm.get('description')?.dirty || teamForm.get('description')?.touched)
+            }"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+          ></textarea>
+          <div
+            *ngIf="teamForm.get('description')?.invalid && (teamForm.get('description')?.dirty || teamForm.get('description')?.touched)"
+            class="error-message"
+          >
+            La description est requise.
+          </div>
+        </div>
+  
+        <div class="mb-4">
+            <label for="sectionId" class="block text-sm font-medium text-gray-700">
+              Section
+              <span style="color: red">*</span>
+            </label>
+            <div *ngIf="teamToUpdate?.sectionName" class="mb-2">
+              <span class="text-sm text-gray-600">Section actuelle: </span>
+              <span class="font-medium">{{ teamToUpdate.sectionName }}</span>
+            </div>
+            <select
+              id="sectionId"
+              formControlName="sectionId"
+              [ngClass]="{ 'input-error': teamForm.get('sectionId')?.invalid && (teamForm.get('sectionId')?.dirty || teamForm.get('sectionId')?.touched) }"
+              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            >
+              <option *ngFor="let dept of sections" [value]="dept.id">{{ dept.name }}</option>
+            </select>
+            <div
+              *ngIf="teamForm.get('sectionId')?.invalid && (teamForm.get('sectionId')?.dirty || teamForm.get('sectionId')?.touched)"
+              class="error-message"
+            >
+              Section est requise.
+            </div>
+          </div>
+  
+        <div class="mb-4">
+            <label for="managerId" class="block text-sm font-medium text-gray-700">
+              Gestionnaire
+            </label>
+            <div *ngIf="teamToUpdate?.manager" class="mb-2">
+              <span class="text-sm text-gray-600">Gestionnaire actuel: </span>
+              <span class="font-medium">{{ teamToUpdate.manager.lastName }} {{ teamToUpdate.manager.name }}</span>
+              <br>
+              <span style="color: red;">(si vous n'avez pas choisi un gestionnaire, l'équipe sera sans gestionnaire.)</span>
+             
+            </div>
+            <select
+              id="managerId"
+              formControlName="managerId"
+              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            >
+              <option value="">{{ teamToUpdate?.manager ? 'Changer de gestionnaire' : 'Sélectionnez un Gestionnaire (optionnel)' }}</option>
+              <option *ngFor="let manager of managers" [value]="manager.id">
+                {{ manager.lastName }} {{ manager.name }}
+              </option>
+            </select>
+          </div>
+  
+        <div class="mt-6 flex justify-between">
+          <button
+            type="submit"
+            [disabled]="isSubmitting"
+            class="flex-grow mr-2 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <span *ngIf="!isLoading">Modifier</span>
+            <span *ngIf="isLoading" class="flex items-center justify-center">
+              <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              <span class="ml-2">Chargement...</span>
+            </span>
+          </button>
+  
+          <button
+            type="button"
+            (click)="onCloseClick()"
+            [disabled]="isSubmitting"
+            class="flex-grow ml-2 py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            Annuler
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+

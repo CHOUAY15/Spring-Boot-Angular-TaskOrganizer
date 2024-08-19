@@ -6,7 +6,7 @@
     </div>
   
     <ng-container *ngIf="dataSource.data.length > 0; else noTeams">
-      <table mat-table [dataSource]="dataSource" matSort>
+      <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 mat-table--compact">
         <ng-container matColumnDef="nom">
           <th mat-header-cell *matHeaderCellDef mat-sort-header><strong>Nom</strong></th>
           <td mat-cell *matCellDef="let team" [attr.data-label]="'Nom'">{{ team.name }}</td>
@@ -49,7 +49,7 @@
           <td mat-cell *matCellDef="let team" [attr.data-label]="'Actions'">
             <div class="action-buttons">
               <button class="supprimer" (click)="deleteTeam(team.id)">supprimer</button>
-              <button class="modifier" mat-button>modifier</button>
+              <button class="modifier" (click)="update(team)" mat-button>modifier</button>
             </div>
           </td>
         </ng-container>
@@ -73,4 +73,11 @@
         </div>
       </div>
     </div>
+    <app-dialog-update-team 
+    *ngIf="showDialogUpdate" 
+    [teamToUpdate]="teamToUpdate"
+    (close)="onDialogClose()"
+    (teamUpdated)="onTeamUpdated($event)"
+  ></app-dialog-update-team>
   </div>
+  

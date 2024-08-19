@@ -87,4 +87,10 @@ public class ProjectController {
         List<ProjectResponseDto> projects = projetService.findByManager(mgrId);
         return new ResponseEntity<>(projects, HttpStatus.OK);
     }
+
+    @GetMapping("")
+    public ResponseEntity<List<ProjectResponseDto>> findAll() {
+        List<ProjectResponseDto> projects = projetService.findAll();
+        return new ResponseEntity<>(projects, HttpStatus.OK);
+    }
 }

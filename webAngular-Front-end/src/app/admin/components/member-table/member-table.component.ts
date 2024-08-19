@@ -40,7 +40,7 @@ export class MemberTableComponent implements OnChanges, AfterViewInit {
   showConfirmModal = false;
   managerToDelete: number | null = null;
 
-  constructor(private managerService: MemberService) {
+  constructor(private managerService: MemberService,private route:Router) {
     this.dataSource = new MatTableDataSource<Member>([]);
   }
 
@@ -106,6 +106,7 @@ export class MemberTableComponent implements OnChanges, AfterViewInit {
   }
 
   viewProfil(manager: Member) {
-    // Implement view profile logic
+    this.route.navigateByUrl(`admin/member/${manager.id}`)
+   
   }
 }

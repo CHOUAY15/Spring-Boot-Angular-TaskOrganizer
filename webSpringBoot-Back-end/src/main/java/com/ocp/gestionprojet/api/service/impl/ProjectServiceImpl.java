@@ -112,4 +112,13 @@ public class ProjectServiceImpl implements ProjetService {
                 .map(projectMapper::toDto)
                 .collect(Collectors.toList());
     }
+
+
+    @Override
+    public List<ProjectResponseDto> findAll() {
+        List<ProjectEntity> projects = projectRepository.findAll();
+        return projects.stream()
+                .map(projectMapper::toDto)
+                .collect(Collectors.toList());
+    }
 }

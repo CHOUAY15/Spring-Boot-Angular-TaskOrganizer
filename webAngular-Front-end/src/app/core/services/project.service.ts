@@ -79,4 +79,7 @@ export class ProjectService {
   delete(projectId: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/id/${projectId}`);
   }
+  findAll(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl);
+  }
 }

@@ -1,19 +1,110 @@
+// monthly-bar-chart.component.scss
+:host {
+  display: block;
+  font-family: 'Roboto', sans-serif;
+}
+
+.card {
+  border: none;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.card-header {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 1rem 1.5rem;
+
+  h5 {
+    font-size: 1.25rem;
+    color: #333;
+    font-weight: 500;
+  }
+}
+
+.chart-toggle {
+  display: flex;
+  gap: 8px;
+}
+
 .chart-income {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  outline: 0px;
-  border: 0px;
-  margin: 0px;
+  outline: none;
+  border: 1px solid #e0e0e0;
+  margin: 0;
   cursor: pointer;
-  padding: 4px 5px;
-  border-radius: 4px;
-  color: var(--bs-gray);
-  .active {
-    outline: 0px;
-    margin: 0px;
-    padding: 3px 9px;
-    border: 1px solid var(--bs-primary);
-    color: var(--bs-primary);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #616161;
+  background-color: #fff;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    background-color: #f5f5f5;
+  }
+
+  &.active {
+    background-color: #4CAF50;
+    color: white;
+    border-color: #4CAF50;
+  }
+}
+
+.chart-container {
+  height: 350px;
+  margin-top: 1rem;
+}
+
+.statistics-summary {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.statistic-item {
+  text-align: center;
+  padding: 0 1rem;
+}
+
+.statistic-label {
+  font-size: 0.875rem;
+  color: #757575;
+  margin-bottom: 0.25rem;
+}
+
+.statistic-value {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+  .card-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .chart-toggle {
+    margin-top: 1rem;
+  }
+
+  .statistics-summary {
+    flex-direction: column;
+  }
+
+  .statistic-item {
+    margin-bottom: 1rem;
   }
 }

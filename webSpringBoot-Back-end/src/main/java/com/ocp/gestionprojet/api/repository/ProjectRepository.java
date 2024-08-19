@@ -10,6 +10,7 @@ public interface ProjectRepository  extends JpaRepository <ProjectEntity ,Intege
     List<ProjectEntity> findByTeamId(Integer teamId);
     List<ProjectEntity> findByManagerId(Integer managerId);
     long countByProgressStatusTrue();
+    long countByProgressStatusFalse();
     
     
 }

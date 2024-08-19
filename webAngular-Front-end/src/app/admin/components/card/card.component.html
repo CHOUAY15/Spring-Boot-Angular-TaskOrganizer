@@ -1,13 +1,21 @@
 <div class="card">
-    <div class="icon">
-      <i class="fas {{ icon }}"></i>
-    </div>
-    <div class="content">
-      <h3>{{ title }}</h3>
-      <p class="value">{{ value }}</p>
-      <p class="percentage" [ngClass]="{'positive': percentage > 0, 'negative': percentage < 0}">
-        {{ percentage > 0 ? '+' : '' }}{{ percentage }}%
-      </p>
-      <p class="comment">{{ comment }}</p>
-    </div>
+  <div class="icon">
+    <i class="fas {{ icon }}"></i>
   </div>
+  <div class="content">
+    <h3>{{ title }}</h3>
+    <p class="value">{{ value }}</p>
+    <p class="percentage" [ngClass]="{
+        'positive': (id === 1 && percentage > 1) || (id !== 1 && percentage <= 1),
+        'negative': (id === 1 && percentage <= 1) || (id !== 1 && percentage > 1)
+      }">
+      {{ percentage > 1 ? '+' : '' }}{{ percentage }}%
+    </p>
+    <p class="comment" [ngClass]="{
+        'green-text': (id === 1 && percentage > 1) || (id !== 1 && percentage <= 1),
+        'red-text': (id === 1 && percentage <= 1) || (id !== 1 && percentage > 1)
+      }">
+      {{ comment }}
+    </p>
+  </div>
+</div>

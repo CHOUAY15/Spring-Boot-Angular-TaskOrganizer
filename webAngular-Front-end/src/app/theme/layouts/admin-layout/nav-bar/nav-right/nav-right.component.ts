@@ -88,7 +88,7 @@ export class NavRightComponent implements OnInit {
     {
       icon: 'edit',
       title: 'Edit Profile',
-      url:"manager/profil"
+      url:"admin/profil"
     }
   ];
 
@@ -106,4 +106,14 @@ export class NavRightComponent implements OnInit {
       title: 'Feedback'
     }
   ];
+  goToProfil():void{
+    const role = this.authService.getUserRole(); // Adjust according to how you get the role from AuthService
+    if (role === 'ADMIN') {
+      this.route.navigateByUrl('admin/profil');
+    }
+    else{
+      this.route.navigateByUrl('manager/profil');
+
+    }
+  }
 }

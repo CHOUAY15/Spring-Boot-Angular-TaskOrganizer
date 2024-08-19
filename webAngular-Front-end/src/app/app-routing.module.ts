@@ -72,6 +72,14 @@ const routes: Routes = [
         path: 'documents',
         loadComponent: () => import('./manager/pages/deliverables/deliverables.component').then((c) => c.DeliverablesComponent)
       },
+      {
+        path: 'member/:id',
+        loadComponent: () => import('./manager/pages/member/member.component').then((c) => c.MemberComponent)
+      },
+      {
+        path: 'profil',
+        loadComponent: () => import('./manager/pages/profil/profil.component').then((c) => c.ProfilComponent)
+      }
 
      
     ]
@@ -144,7 +152,14 @@ const routes: Routes = [
       {
         path: 'manager/:id',
         loadComponent: () => import('./admin/pages/manager/manager-profil.component').then((m) => m.ManagerProfilComponent)
+      },      {
+        path: 'projects',
+        loadComponent: () => import('./admin/pages/projects/projects.component').then((m) => m.ProjectsComponent)
       },
+      {
+        path: 'profil',
+        loadComponent: () => import('./admin/pages/profil/profil.component').then((c) => c.ProfilComponent)
+      }
       // ... other admin routes ...
     ]
   },

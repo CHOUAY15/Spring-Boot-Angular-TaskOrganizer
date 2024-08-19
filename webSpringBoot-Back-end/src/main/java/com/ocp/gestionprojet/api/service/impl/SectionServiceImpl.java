@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ocp.gestionprojet.api.exception.EntityNotFoundException;
 import com.ocp.gestionprojet.api.mapper.SectionMapper;
 import com.ocp.gestionprojet.api.model.dto.sectionDto.SectionDto;
 import com.ocp.gestionprojet.api.model.entity.SectionEntity;
@@ -54,6 +55,19 @@ public class SectionServiceImpl implements SectionService {
     @Override
     public void delete(Integer id) {
     departmentRepository.deleteById(id);
+    }
+
+
+    @Override
+    @Transactional
+    public SectionDto update(SectionDto sectionDto) throws EntityNotFoundException {
+        SectionEntity sectionEntity=departmentRepository.findById(sectionDto.getId())
+                .orElseThrow(() -> new EntityNotFoundException("section not found"));
+                sectionEntity.setName(sectionDto.getName());
+                departmentRepository.save(sectionEntity);
+                return departmentMapper.toDto(sectionEntity);
+
+
     }
 
 }

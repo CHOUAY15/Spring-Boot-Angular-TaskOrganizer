@@ -49,4 +49,7 @@ export class TeamService {
   findById(id:number): Observable<Team> {
     return this.http.get<Team>(`${this.apiUrl}/id/${id}`);
   }
+  update(id: number, teamDto: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/id/${id}`, teamDto);
+  }
 }

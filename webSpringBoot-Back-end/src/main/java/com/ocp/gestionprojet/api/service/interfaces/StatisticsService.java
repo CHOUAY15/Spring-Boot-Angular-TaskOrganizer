@@ -1,7 +1,11 @@
 package com.ocp.gestionprojet.api.service.interfaces;
 
+
+import com.ocp.gestionprojet.api.model.dto.teamDto.TeamStatisticsDTO;
+
 /**
- * Interface defining the contract for retrieving and calculating various statistics
+ * Interface defining the contract for retrieving and calculating various
+ * statistics
  * related to projects, teams, members, and managers within the system.
  */
 public interface StatisticsService {
@@ -41,4 +45,14 @@ public interface StatisticsService {
      * @return The calculated progress ratio as a double.
      */
     double calculateProgressRatio();
+
+    double getAverageMembersPerTeam();
+
+    double getAverageManagersPerTeam();
+
+    long countByProgressStatusTrue();
+
+    long countByProgressStatusFalse();
+
+    public TeamStatisticsDTO getTeamStatistics();
 }

@@ -7,7 +7,7 @@
 
 
   <ng-container *ngIf="dataSource.data.length > 0; else noSection">
-    <table mat-table [dataSource]="dataSource" matSort>
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 mat-table--compact">
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef mat-sort-header><strong>Nom</strong></th>
         <td mat-cell *matCellDef="let section" [attr.data-label]="'name'">{{ section.name }}</td>
@@ -18,7 +18,8 @@
         <td mat-cell *matCellDef="let section"[attr.data-label]="'Actions'">
           <div class="action-buttons">
             <button class="supprimer" (click)="deleteSection(section.id)">supprimer</button>
-            <button class="modifier" mat-button>modifier</button>
+            <button class="modifier" (click)="update(section)" mat-button>modifier</button>
+         
           </div>
         </td>
       </ng-container>
@@ -42,4 +43,10 @@
       </div>
     </div>
   </div>
+  <app-dialog-update-section 
+  *ngIf="showDialogUpdate" 
+  [sectionToUpdate]="sectionToUpdate"
+  (close)="onDialogClose()"
+  (sectionUpdated)="onSectionUpdated($event)"
+></app-dialog-update-section>
 </div>

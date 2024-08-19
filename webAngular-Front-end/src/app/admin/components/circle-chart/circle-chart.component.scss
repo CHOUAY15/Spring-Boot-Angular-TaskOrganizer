@@ -1,12 +1,19 @@
 .circle-chart-container {
   display: flex;
-  flex-direction: row;
   align-items: center;
+  font-family: 'Arial', sans-serif;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
 }
 
 .circle-chart-wrapper {
   position: relative;
-  margin-right: 20px; /* Adjust spacing as needed */
+  margin-right: 60px;
+  flex-shrink: 0;
 }
 
 .circle-chart {
@@ -15,30 +22,105 @@
 }
 
 .circle-chart__background {
-  fill: none;
-  stroke: #efefef;
-  stroke-width: 4;
+  fill: #f0f0f0;
 }
 
 .circle-chart__circle {
-  fill: none;
-  stroke-width: 4;
-  stroke-linecap: round;
-  transform: rotate(-90deg);
-  transform-origin: 50% 50%;
-  transition: stroke-dasharray 0.3s ease;
+  transition: all 0.5s ease-in-out;
 }
 
 .circle-chart__percent {
-  fill: #666;
-  font-family: sans-serif;
-  font-size: 8px;
+  fill: #ffffff;
+  font-size: 18px;
+  font-weight: bold;
   text-anchor: middle;
   dominant-baseline: central;
 }
 
+.circle-chart__label {
+  fill: #ffffff;
+  font-size: 12px;
+  text-anchor: middle;
+}
+
+.circle-chart-info {
+  flex-grow: 1;
+}
+
+.circle-chart-title {
+  font-size: 28px;
+  color: #333333;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #00B98E;
+  padding-bottom: 10px;
+}
+
 .circle-chart-description {
-  font-family: sans-serif;
-  font-size: 14px;
-  color: #333;
+  font-size: 16px;
+  color: #666666;
+  line-height: 1.6;
+  margin-bottom: 25px;
+}
+
+.circle-chart-details {
+  list-style-type: none;
+  padding: 0;
+}
+
+.circle-chart-details li {
+  font-size: 16px;
+  color: #333333;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.detail-label {
+  font-weight: bold;
+  color: #333333;
+  flex: 1;
+}
+
+.detail-value {
+  font-weight: bold;
+  color: #00B98E;
+  margin-left: 10px;
+}
+
+.progress-bar {
+  height: 8px;
+  background-color: #00B98E;
+  border-radius: 4px;
+  margin-top: 5px;
+  transition: width 0.5s ease-in-out;
+}
+
+.current-projects .progress-bar {
+  background-color: #FFA500;
+}
+
+.completed-projects .progress-bar {
+  background-color: #00B98E;
+}
+
+.total-projects {
+  margin-top: 20px;
+  font-size: 18px;
+  border-top: 1px solid #e0e0e0;
+  padding-top: 15px;
+}
+
+.completion-rate {
+  margin-top: 25px;
+  font-size: 20px;
+  color: #333333;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.completion-rate .detail-value {
+  font-size: 24px;
+  color: #00B98E;
 }

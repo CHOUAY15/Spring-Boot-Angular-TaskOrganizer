@@ -113,10 +113,10 @@ const AdminNavigationItems: NavigationItem[] = [
       },
       {
         id: 'support',
-        title: 'Support',
+        title: 'OCP Group',
         type: 'item',
         classes: 'nav-item',
-        url: 'https://codedthemes.gitbook.io/mantis-angular/',
+        url: 'https://www.ocpgroup.ma/',
         icon: 'question',
         target: true,
         external: true

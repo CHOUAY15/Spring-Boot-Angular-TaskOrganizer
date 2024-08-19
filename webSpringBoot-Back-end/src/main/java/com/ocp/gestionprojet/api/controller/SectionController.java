@@ -7,8 +7,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.ocp.gestionprojet.api.exception.EntityNotFoundException;
 import com.ocp.gestionprojet.api.model.dto.sectionDto.SectionDto;
 import com.ocp.gestionprojet.api.service.interfaces.SectionService;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PathVariable;
+
 
 /**
  * SectionController is a REST controller that handles CRUD operations for
@@ -69,5 +74,13 @@ public class SectionController {
         // Call the service method to delete the section by ID
         sectionService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("")
+    public ResponseEntity<SectionDto> update(@RequestBody SectionDto sectionDto) throws EntityNotFoundException{
+        // Call the service method to save the new section and return the result with
+        // HTTP 201 status
+        SectionDto savedSectionDto = sectionService.update(sectionDto);
+        return new ResponseEntity<>(savedSectionDto, HttpStatus.CREATED);
     }
 }

@@ -1,26 +1,27 @@
 <div class="dashboard">
-    <div class="cards-row">
-      <div class="card-container" *ngFor="let card of cards">
-        <app-card
-          [title]="card.title"
-          [value]="card.value"
-          [icon]="card.icon"
-          [percentage]="card.percentage"
-          [comment]="card.comment">
-        </app-card>
-      </div>
-    </div>
-    <div class="charts-row">
-      <div class="chart-container">
-        <app-monthly-bar-chart></app-monthly-bar-chart>
-      </div>
-      <div class="chart-container">
-        <app-income-overview-chart></app-income-overview-chart>
-      </div>
-    </div>
-    <div class="circle-charts-row">
-      <div class="circle-chart-container">
-        <app-circle-chart [percentage]="pourcentage"></app-circle-chart>
-      </div>
+  <div class="cards-row">
+    <div class="card-container" *ngFor="let card of cards">
+      <app-card
+        [id]="card.id"
+        [title]="card.title"
+        [value]="card.value"
+        [icon]="card.icon"
+        [percentage]="card.percentage"
+        [comment]="card.comment"
+      ></app-card>
     </div>
   </div>
+  <div class="charts-row">
+    <div class="chart-container">
+      <app-monthly-bar-chart></app-monthly-bar-chart>
+    </div>
+    <div class="chart-container">
+      <app-income-overview-chart></app-income-overview-chart>
+    </div>
+  </div>
+  <div class="circle-charts-row">
+    <div class="circle-chart-container">
+      <app-circle-chart ></app-circle-chart>
+    </div>
+  </div>
+</div>

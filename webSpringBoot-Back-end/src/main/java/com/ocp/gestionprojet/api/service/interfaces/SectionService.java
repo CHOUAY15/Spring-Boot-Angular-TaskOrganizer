@@ -1,6 +1,8 @@
 package com.ocp.gestionprojet.api.service.interfaces;
 
 import java.util.List;
+
+import com.ocp.gestionprojet.api.exception.EntityNotFoundException;
 import com.ocp.gestionprojet.api.model.dto.sectionDto.SectionDto;
 
 /**
@@ -30,4 +32,6 @@ public interface SectionService {
      * @param id The ID of the section to be deleted.
      */
     void delete(Integer id);
+
+    SectionDto update(SectionDto sectionDto) throws EntityNotFoundException;
 }

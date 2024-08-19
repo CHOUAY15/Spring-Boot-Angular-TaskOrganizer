@@ -1,10 +1,7 @@
-// angular import
+// monthly-bar-chart.component.ts
 import { Component, OnInit, ViewChild } from '@angular/core';
-
-// project import
 import { SharedModule } from 'src/app/theme/shared/shared.module';
-
-// third party
+import { StatsService } from 'src/app/core/services/stats.service';
 import {
   NgApexchartsModule,
   ApexChart,
@@ -15,7 +12,8 @@ import {
   ApexXAxis,
   ApexYAxis,
   ApexTheme,
-  ApexGrid
+  ApexGrid,
+  ApexPlotOptions
 } from 'ng-apexcharts';
 
 export type ChartOptions = {
@@ -28,7 +26,9 @@ export type ChartOptions = {
   yaxis: ApexYAxis;
   grid: ApexGrid;
   theme: ApexTheme;
+  plotOptions: ApexPlotOptions;  // Add this line
 };
+
 
 @Component({
   selector: 'app-monthly-bar-chart',
@@ -38,34 +38,55 @@ export type ChartOptions = {
   styleUrl: './monthly-bar-chart.component.scss'
 })
 export class MonthlyBarChartComponent implements OnInit {
-  // public props
   @ViewChild('chart') chart!: ChartComponent;
   chartOptions!: Partial<ChartOptions>;
+  teamStatistics: any;
+  activeView: 'week' | 'month' = 'week';
 
-  // life cycle hook
+  constructor(private statsService: StatsService) {}
+
   ngOnInit() {
-    document.querySelector('.chart-income.week')?.classList.add('active');
+    this.fetchTeamStatistics();
+  }
+
+  fetchTeamStatistics() {
+    this.statsService.getTeamStatistics().subscribe(
+      (data) => {
+        this.teamStatistics = data;
+        this.updateChart();
+      },
+      (error) => {
+        console.error('Error fetching team statistics:', error);
+      }
+    );
+  }
+
+  updateChart() {
     this.chartOptions = {
       chart: {
-        height: 450,
-        type: 'area',
+        height: 350,
+        type: 'bar',
         toolbar: {
           show: false
         },
-        background: 'transparent'
+        fontFamily: 'Roboto, sans-serif',
       },
       dataLabels: {
         enabled: false
       },
-      colors: ['#1677ff', '#0050b3'],
+      colors: ['#4CAF50', '#2196F3'],
       series: [
         {
-          name: 'Page Views',
-          data: [0, 86, 28, 115, 48, 210, 136]
+          name: 'Équipes',
+          data: [
+            this.teamStatistics.totalTeams,
+            this.teamStatistics.teamsWithProjects,
+            this.teamStatistics.teamsWithoutProjects
+          ]
         },
         {
-          name: 'Sessions',
-          data: [0, 43, 14, 56, 24, 105, 68]
+          name: 'Projets',
+          data: [this.teamStatistics.totalProjects, 0, 0]
         }
       ],
       stroke: {
@@ -73,72 +94,45 @@ export class MonthlyBarChartComponent implements OnInit {
         width: 2
       },
       xaxis: {
-        categories: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        categories: ['Total', 'Avec P', 'Sans P'],
         labels: {
           style: {
-            colors: [
-              '#8c8c8c',
-              '#8c8c8c',
-              '#8c8c8c',
-              '#8c8c8c',
-              '#8c8c8c',
-              '#8c8c8c',
-              '#8c8c8c',
-              '#8c8c8c',
-              '#8c8c8c',
-              '#8c8c8c',
-              '#8c8c8c',
-              '#8c8c8c'
-            ]
+            colors: '#616161',
+            fontSize: '12px',
+            fontFamily: 'Roboto, sans-serif',
           }
         },
         axisBorder: {
-          show: true,
-          color: '#f0f0f0'
+          show: false
+        },
+        axisTicks: {
+          show: false
         }
       },
       yaxis: {
         labels: {
           style: {
-            colors: ['#8c8c8c']
+            colors: '#616161',
+            fontSize: '12px',
+            fontFamily: 'Roboto, sans-serif',
           }
         }
       },
       grid: {
-        strokeDashArray: 0,
-        borderColor: '#f5f5f5'
+        borderColor: '#f1f1f1',
       },
       theme: {
         mode: 'light'
-      }
+      },
+      plotOptions: {
+        bar: {
+          borderRadius: 4,
+          horizontal: false,
+          columnWidth: '55%',
+        },
+      },
     };
   }
 
-  // public method
-  toggleActive(value: string) {
-    this.chartOptions.series = [
-      {
-        name: 'Page Views',
-        data: value === 'month' ? [76, 85, 101, 98, 87, 105, 91, 114, 94, 86, 115, 35] : [31, 40, 28, 51, 42, 109, 100]
-      },
-      {
-        name: 'Sessions',
-        data: value === 'month' ? [110, 60, 150, 35, 60, 36, 26, 45, 65, 52, 53, 41] : [11, 32, 45, 32, 34, 52, 41]
-      }
-    ];
-    const xaxis = { ...this.chartOptions.xaxis };
-    xaxis.categories =
-      value === 'month'
-        ? ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-        : ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-    xaxis.tickAmount = value === 'month' ? 11 : 7;
-    this.chartOptions = { ...this.chartOptions, xaxis };
-    if (value === 'month') {
-      document.querySelector('.chart-income.month')?.classList.add('active');
-      document.querySelector('.chart-income.week')?.classList.remove('active');
-    } else {
-      document.querySelector('.chart-income.week')?.classList.add('active');
-      document.querySelector('.chart-income.month')?.classList.remove('active');
-    }
-  }
+ 
 }

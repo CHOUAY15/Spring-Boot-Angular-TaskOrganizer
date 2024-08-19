@@ -1,24 +1,33 @@
-<div class="d-flex align-items-center justify-content-between mb-3">
-  <h5 class="mb-0">Unique Visitor</h5>
-  <div class="d-flex gap-2 chart-income">
-    <div class="chart-income month" (click)="toggleActive('month')">Month</div>
-    <div class="chart-income week" (click)="toggleActive('week')">Week</div>
+<!-- monthly-bar-chart.component.html -->
+<div class="card shadow-sm">
+  <div class="card-header bg-white d-flex justify-content-between align-items-center">
+    <h5 class="mb-0 font-weight-bold ">Statistiques d'équipe</h5>
+
   </div>
-</div>
-<div class="card">
   <div class="card-body">
-    <div id="chart">
+    <div id="chart" class="chart-container">
       <apx-chart
-        [series]="chartOptions.series"
-        [chart]="chartOptions.chart"
-        [dataLabels]="chartOptions.dataLabels"
-        [xaxis]="chartOptions.xaxis"
-        [colors]="chartOptions.colors"
-        [stroke]="chartOptions.stroke"
-        [yaxis]="chartOptions.yaxis"
-        [grid]="chartOptions.grid"
-        [theme]="chartOptions.theme"
+        [series]="chartOptions.series!"
+        [chart]="chartOptions.chart!"
+        [xaxis]="chartOptions.xaxis!"
+        [dataLabels]="chartOptions.dataLabels!"
+        [grid]="chartOptions.grid!"
+        [stroke]="chartOptions.stroke!"
+        [yaxis]="chartOptions.yaxis!"
+        [colors]="chartOptions.colors!"
+        [theme]="chartOptions.theme!"
+        [plotOptions]="chartOptions.plotOptions!"
       ></apx-chart>
+    </div>
+    <div class="mt-4 statistics-summary">
+      <div class="statistic-item">
+        <p class="statistic-label">Taille moyenne de l'équipe</p>
+        <p class="statistic-value">{{ teamStatistics?.averageTeamSize | number:'1.2-2' }}</p>
+      </div>
+      <div class="statistic-item">
+        <p class="statistic-label">Nombre total de projets</p>
+        <p class="statistic-value">{{ teamStatistics?.totalProjects }}</p>
+      </div>
     </div>
   </div>
 </div>

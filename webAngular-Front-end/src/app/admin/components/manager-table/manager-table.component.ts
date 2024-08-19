@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { ManagerService } from 'src/app/core/services/manager.service';
 import { Manager } from 'src/app/shared/models/manager';
 
@@ -40,7 +41,7 @@ export class ManagerTableComponent implements OnChanges, AfterViewInit {
   showConfirmModal = false;
   managerToDelete: number | null = null;
 
-  constructor(private managerService: ManagerService) {
+  constructor(private managerService: ManagerService,private route:Router) {
     this.dataSource = new MatTableDataSource<Manager>([]);
   }
 
@@ -106,6 +107,6 @@ export class ManagerTableComponent implements OnChanges, AfterViewInit {
   }
 
   viewProfil(manager: Manager) {
-    // Implement view profile logic
+    this.route.navigateByUrl(`admin/manager/${manager.id}`)
   }
 }

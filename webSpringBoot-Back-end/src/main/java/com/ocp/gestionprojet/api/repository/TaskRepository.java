@@ -18,4 +18,5 @@ public interface TaskRepository extends JpaRepository<TaskEntity, Integer> {
     List<TaskEntity> findTasksByMemberAndProject(@Param("memberId") Integer memberId,
             @Param("projectId") Integer projectId);
 
+
 }

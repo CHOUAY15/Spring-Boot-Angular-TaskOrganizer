@@ -11,6 +11,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { SectionService } from 'src/app/core/services/section.service';
 import { Section } from 'src/app/shared/models/section';
+import { DialogUpdateSectionComponent } from './dialog-update-section/dialog-update-section.component';
 
 @Component({
   selector: 'app-section-table',
@@ -25,7 +26,7 @@ import { Section } from 'src/app/shared/models/section';
     MatFormFieldModule,
     FormsModule,
     MatIconModule,
-
+    DialogUpdateSectionComponent
   ],
   templateUrl: './section-table.component.html',
   styleUrl: './section-table.component.scss'
@@ -36,10 +37,12 @@ export class SectionTableComponent implements OnChanges, AfterViewInit {
   @Input() sections: Section[] = [];
   @Output() addSection = new EventEmitter<void>();
   @Output() sectionDeleted = new EventEmitter<void>();
-  displayedColumns: string[] = ['name','actions'];
+  displayedColumns: string[] = ['name', 'actions'];
   dataSource: MatTableDataSource<Section>;
   showConfirmModal = false;
   sectionToDelete: number | null = null;
+  showDialogUpdate = false;
+  sectionToUpdate: Section | null = null;
 
   constructor(
     private router: Router,
@@ -69,8 +72,6 @@ export class SectionTableComponent implements OnChanges, AfterViewInit {
     }
   }
 
-
-
   deleteSection(secId: number): void {
     this.sectionToDelete = secId;
     this.showConfirmModal = true;
@@ -97,5 +98,22 @@ export class SectionTableComponent implements OnChanges, AfterViewInit {
         }
       });
     }
+  }
+  update(section: Section) {
+    this.showDialogUpdate = true;
+    this.sectionToUpdate = section;
+  }
+  onDialogClose() {
+    this.showDialogUpdate = false;
+    this.sectionToUpdate = null;
+  }
+  onSectionUpdated(updatedSection: Section) {
+    const index = this.dataSource.data.findIndex(s => s.id === updatedSection.id);
+    if (index !== -1) {
+      this.dataSource.data[index] = updatedSection;
+      this.dataSource._updateChangeSubscription();
+    }
+    this.showDialogUpdate = false;
+    this.sectionToUpdate = null;
   }
 }

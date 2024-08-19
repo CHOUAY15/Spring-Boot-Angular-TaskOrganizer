@@ -101,8 +101,8 @@
             <img src="assets/images/profile/homme.png" alt="user-image" class="user-avatar wid-35" />
           </div>
           <div class="flex-grow-1 ms-3 text-start">
-            <h6 class="mb-0">{{ role }} d'équipes</h6>
-            <span>Departement :{{ nomDept }} </span>
+            <h6 class="mb-0">{{ role }} </h6>
+            <span>{{ nomDept }} </span>
           </div>
         </div>
       </div>
@@ -117,14 +117,14 @@
               <div>
                 <a class="dropdown-item">
                   <i class="text-muted" antIcon theme="outline" type="{{ task.icon }}"></i>
-                  <span [routerLink]="['/manager/profil']" routerLinkActive="router-link-active" >{{ task.title }}</span>
+                  <span (click)="goToProfil()"  routerLinkActive="router-link-active" >{{ task.title }} </span>
                 </a>
               </div>
             }
             <div>
               <a class="dropdown-item" (click)="logOut()">
                 <i class="text-muted" antIcon theme="outline" type="logout"></i>
-                <span>Logout</span>
+                <span>Se Déconnecter</span>
               </a>
             </div>
           </ng-template>

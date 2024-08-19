@@ -14,4 +14,5 @@ export class CardComponent {
   @Input() icon: string = '';
   @Input() percentage: number = 0;
   @Input() comment: string = '';
+  @Input() id: number = 0;
 }

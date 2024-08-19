@@ -29,4 +29,22 @@ export class StatsService {
   getProjectProgressRatio(): Observable<{ratio: number, percentage: number}> {
     return this.http.get<{ratio: number, percentage: number}>(`${this.apiUrl}/projects/progress-ratio`);
   }
+  getAverageMember(): Observable<number> {
+    return this.http.get<number>(`${this.apiUrl}/team/average/member`);
+  }
+  getAverageManager(): Observable<number> {
+    return this.http.get<number>(`${this.apiUrl}/team/average/manager`);
+  }
+  getTotalProjectsProgress(): Observable<number> {
+    return this.http.get<number>(`${this.apiUrl}/projects/progress`);
+  }
+  getTotalProjectsTermine(): Observable<number> {
+    return this.http.get<number>(`${this.apiUrl}/projects/termine`);
+  }
+  getTeamStatistics(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/teams`);
+  }
+
+ 
+
 }

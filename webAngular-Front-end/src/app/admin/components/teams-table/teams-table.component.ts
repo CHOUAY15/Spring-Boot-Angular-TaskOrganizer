@@ -12,6 +12,7 @@ import { DialogAddTeamComponent } from './dialog-add-team/dialog-add-team.compon
 import { Team } from 'src/app/shared/models/team';
 import { TeamService } from 'src/app/core/services/team.service';
 import { Router } from '@angular/router';
+import { DialogUpdateTeamComponent } from "./dialog-update-team/dialog-update-team.component";
 
 @Component({
   selector: 'app-team-table',
@@ -27,8 +28,9 @@ import { Router } from '@angular/router';
     FormsModule,
     MatIconModule,
     DatePipe,
-    DialogAddTeamComponent
-  ],
+    DialogAddTeamComponent,
+    DialogUpdateTeamComponent
+],
   templateUrl: './teams-table.component.html',
   styleUrls: ['./teams-table.component.scss']
 })
@@ -42,6 +44,8 @@ export class TeamsTableComponent implements OnChanges, AfterViewInit {
   dataSource: MatTableDataSource<Team>;
   showConfirmModal = false;
   teamToDelete: number | null = null;
+  showDialogUpdate = false;
+  teamToUpdate: Team | null = null;
 
   constructor(
     private teamService: TeamService
@@ -99,4 +103,24 @@ export class TeamsTableComponent implements OnChanges, AfterViewInit {
       });
     }
   }
+  update(team: Team) {
+    this.teamToUpdate = team;
+    this.showDialogUpdate = true;
+  }
+
+  onDialogClose() {
+    this.showDialogUpdate = false;
+    this.teamToUpdate = null;
+  }
+
+  onTeamUpdated(updatedTeam: Team) {
+    const index = this.dataSource.data.findIndex(t => t.id === updatedTeam.id);
+    if (index !== -1) {
+      this.dataSource.data[index] = updatedTeam;
+      this.dataSource._updateChangeSubscription();
+    }
+    this.showDialogUpdate = false;
+    this.teamToUpdate = null;
+  }
+  
 }
