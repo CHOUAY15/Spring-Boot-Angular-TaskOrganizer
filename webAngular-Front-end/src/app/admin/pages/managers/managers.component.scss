@@ -12,21 +12,22 @@
   gap: 16px; // Space between the text and button
 }
 
+
 .add-project-button {
-  padding: 12px 24px;
+  padding: 8px 16px; // Réduit le padding
   background-color: #00B98E;
   color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: 4px; // Réduit le rayon de bordure
   cursor: pointer;
-  font-size: 16px;
-  font-weight: 500;
+  font-size: 14px; // Réduit la taille de la police
+  font-weight: 400; // Réduit le poids de la police
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); // Réduit l'ombre
+
   &:hover {
     background-color: #00A17C;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15); // Réduit l'ombre au survol
   }
 }
 
@@ -127,4 +128,33 @@ app-error-message {
   font-weight: bold;
   color: #333;
   font-size: 14px;
+}
+.csv-import-button {
+  background-color: #1976d2;
+}
+
+.csv-import-button:hover {
+  background-color: #218838;
+}
+
+.csv-import-button i {
+  font-size: 18px;
+}
+.centered-message-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 50vh; /* Full viewport height */
+  text-align: center; /* Center text horizontally */
+}
+
+.centered-message {
+  font-size: 18px;
+  margin-bottom: 16px; /* Spacing between message and buttons */
+}
+
+.button-container {
+  display: flex;
+  gap: 16px; /* Spacing between buttons */
 }

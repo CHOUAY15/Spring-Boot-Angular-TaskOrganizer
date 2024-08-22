@@ -20,7 +20,7 @@ export class DialogAddProjectComponent  implements OnInit {
   minDate: string;
   fileError: string | null = null;
   projetForm: FormGroup;
-  livrables: Deliverable[] = [];
+  livrables: any[] = [];
   files: File[] = [];
   selectedFile: File | null = null;
   isLoading: boolean = false;
@@ -144,12 +144,13 @@ export class DialogAddProjectComponent  implements OnInit {
         teamId: this.teamId
       };
 
-      this.projetService.addProjectWithFiles(projectToSubmit, this.files).subscribe(
+      // Filter out any null or undefined files
+      const filesToUpload = this.files.filter(file => file && file.name);
+
+      this.projetService.addProjectWithFiles(projectToSubmit, filesToUpload).subscribe(
         (newProject: Project) => {
           console.log('New project added:', newProject);
-         
           this.isLoading = false;
-       
           this.successMessage = "Projet ajouté avec succès!";
           setTimeout(() => {
             this.projectAdded.emit(newProject);
@@ -159,7 +160,7 @@ export class DialogAddProjectComponent  implements OnInit {
         error => {
           console.error('Error while adding project:', error);
           this.isLoading = false;
-          this.errorMessage = "Erreur de connexion. Veuillez réessayer.";
+          this.errorMessage = "Erreur lors de l'ajout du projet. Veuillez réessayer.";
         }
       );
     } else {

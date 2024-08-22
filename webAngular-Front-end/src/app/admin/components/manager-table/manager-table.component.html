@@ -78,3 +78,9 @@
     </div>
   </div>
 </div>
+<app-dialog-update-manager 
+  *ngIf="showDialog" 
+  [manager]="selectedManager"
+  (closeDialog)="onDialogClose()"
+  (managerUpdated)="onManagerUpdated($event)">
+</app-dialog-update-manager>

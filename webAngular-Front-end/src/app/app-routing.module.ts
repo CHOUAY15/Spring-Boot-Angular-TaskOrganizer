@@ -79,6 +79,14 @@ const routes: Routes = [
       {
         path: 'profil',
         loadComponent: () => import('./manager/pages/profil/profil.component').then((c) => c.ProfilComponent)
+      },
+      {
+        path: 'projects',
+        loadComponent: () => import('./manager/pages/all-projects/all-projects.component').then((c) => c.AllProjectsComponent)
+      },
+      {
+        path: 'members',
+        loadComponent: () => import('./manager/pages/all-members/all-members.component').then((c) => c.AllMembersComponent)
       }
 
      
@@ -110,6 +118,10 @@ const routes: Routes = [
       {
         path: 'profil',
         loadComponent: () => import('./member/pages/profil/profil.component').then((c) => c.ProfilComponent)
+      },
+      {
+        path: 'reports',
+        loadComponent: () => import('./member/pages/reports/reports.component').then((c) => c.ReportsComponent)
       },
       // ... other member routes ...
     ]

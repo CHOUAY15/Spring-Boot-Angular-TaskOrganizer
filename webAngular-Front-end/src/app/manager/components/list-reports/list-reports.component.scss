@@ -287,3 +287,47 @@
     font-size: 14px; // Smaller icon
   }
 }
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  font-family: 'Roboto', Arial, sans-serif;
+}
+
+.pagination-btn {
+  background-color: #f0f0f0;
+  border: none;
+  color: #333;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin: 4px 2px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  border-radius: 4px;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  background-color: #ddd;
+}
+
+.pagination-btn.active {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.pagination-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .pagination-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+}

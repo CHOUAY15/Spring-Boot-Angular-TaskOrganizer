@@ -11,6 +11,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { ManagerService } from 'src/app/core/services/manager.service';
 import { Manager } from 'src/app/shared/models/manager';
+import { DialogUpdateManagerComponent } from "./dialog-update-manager/dialog-update-manager.component";
 
 @Component({
   selector: 'app-manager-table',
@@ -25,8 +26,9 @@ import { Manager } from 'src/app/shared/models/manager';
     MatFormFieldModule,
     FormsModule,
     MatIconModule,
-    DatePipe
-  ],
+    DatePipe,
+    DialogUpdateManagerComponent
+],
   templateUrl: './manager-table.component.html',
   styleUrls: ['./manager-table.component.scss']
 })
@@ -35,6 +37,9 @@ export class ManagerTableComponent implements OnChanges, AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;
   @Input() managers: Manager[] = [];
   @Output() managerDeleted = new EventEmitter<void>();
+  showDialog:boolean=false;
+  selectedManager: Manager | null = null;
+
   
   dataSource: MatTableDataSource<Manager>;
   displayedColumns: string[] = ['avatar', 'nom', 'prenom', 'cin', 'email', 'actions'];
@@ -102,11 +107,33 @@ export class ManagerTableComponent implements OnChanges, AfterViewInit {
     }
   }
 
-  modifierManager(manager: Manager) {
-    // Implement modification logic
-  }
+  
 
   viewProfil(manager: Manager) {
     this.route.navigateByUrl(`admin/manager/${manager.id}`)
+  }
+  modifierManager(manager: Manager) {
+    this.selectedManager = manager;
+    this.showDialog = true;
+  }
+
+  onDialogClose() {
+    this.showDialog = false;
+    this.selectedManager = null;
+  }
+  onManagerUpdated(event: { success: boolean, message: string }) {
+    if (event.success) {
+      // Refresh the manager list or update the local data
+      this.managerService.getAllManagers().subscribe(
+        managers => {
+          this.managers = managers;
+          this.dataSource.data = this.managers;
+          this.dataSource._updateChangeSubscription();
+        }
+      );
+    }
+    // Show feedback message
+    // You can use a snackbar or any other method to show the message
+    console.log(event.message);
   }
 }

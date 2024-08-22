@@ -1,52 +1,75 @@
-
 <div class="filter-container">
-    <input 
-      type="text" 
-      [(ngModel)]="filterText" 
-      (ngModelChange)="filterMembers()"
-      placeholder="Filtrer par nom ou prénom"
-      class="filter-input"
-    >
-  </div>
-  
-  <ul class="employe-list">
-    <li *ngFor="let employe of filteredMembers; let i = index" class="employe-item">
-      <div class="employe-folder" (click)="toggleMember(employe)">
-        <div class="employe-info">
-          <span class="membre">
-            <div class="circle-icon">
-              <img
-                [src]="
-                  employe.gender === 'Homme'
-                    ? '../../../../../assets/images/profile/homme.png'
-                    : '../../../../../assets/images/profile/femme.png'
-                "
-                [alt]="employe.gender === 'Homme' ? 'Default Male Avatar' : 'Default Female Avatar'"
-              />
-            </div>
-          </span>
-          <span class="employe-nom">{{ employe?.name || 'N/A' }} {{ employe?.lastName || 'N/A' }}  </span>
-        </div>
-        <div class="employe-meta">
-          <span class="employe-date" *ngIf="employe.report; else notOpen">
-            Deposé le : {{ employe.report?.creationDate| date: 'dd/MM/yyyy' }}
-          </span>
-        </div>
-        <ng-template #notOpen>
-          <p style="font-size: small;">Aucun rapport pour l'instant.</p>
-        </ng-template>
-      </div>
-      <ul class="document-list" *ngIf="employe.isOpen && employe.report">
-        <li class="document-item">
-          <span class="document-row">
-            <i class="fas fa-file-pdf"></i>
-            <span class="document-name">{{ employe.report?.name || 'N/A' }}</span>
-            <div class="document-actions">
-                <button (click)="viewFile(employe.report)" class="btn-open-pdf">Ouvrir</button>
-            </div>
+  <input 
+    type="text" 
+    [(ngModel)]="filterText" 
+    (ngModelChange)="filterMembers()"
+    placeholder="Filtrer par nom ou prénom"
+    class="filter-input"
+  >
+</div>
+
+<ul class="employe-list">
+  <li *ngFor="let employe of getCurrentPageMembers(); let i = index" class="employe-item">
+    <div class="employe-folder" (click)="toggleMember(employe)">
+      <div class="employe-info">
+        <span class="membre">
+          <div class="circle-icon">
+            <img
+              [src]="
+                employe.gender === 'Homme'
+                  ? '../../../../../assets/images/profile/homme.png'
+                  : '../../../../../assets/images/profile/femme.png'
+              "
+              [alt]="employe.gender === 'Homme' ? 'Default Male Avatar' : 'Default Female Avatar'"
+            />
+          </div>
         </span>
-        </li>
-      </ul>
-    </li>
-  </ul>
-  
+        <span class="employe-nom">{{ employe?.name || 'N/A' }} {{ employe?.lastName || 'N/A' }}  </span>
+      </div>
+      <div class="employe-meta">
+        <span class="employe-date" *ngIf="employe.report; else notOpen">
+          Deposé le : {{ employe.report?.creationDate| date: 'dd/MM/yyyy' }}
+        </span>
+      </div>
+      <ng-template #notOpen>
+        <p style="font-size: small;">Aucun rapport pour l'instant.</p>
+      </ng-template>
+    </div>
+    <ul class="document-list" *ngIf="employe.isOpen && employe.report">
+      <li class="document-item">
+        <span class="document-row">
+          <i class="fas fa-file-pdf"></i>
+          <span class="document-name">{{ employe.report?.name || 'N/A' }}</span>
+          <div class="document-actions">
+            <button (click)="viewFile(employe.report)" class="btn-open-pdf">Ouvrir</button>
+          </div>
+        </span>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<div class="pagination" *ngIf="totalPages > 1">
+  <button 
+    class="pagination-btn" 
+    [disabled]="currentPage === 1"
+    (click)="changePage(currentPage - 1)"
+  >
+    &laquo;
+  </button>
+  <button 
+    *ngFor="let page of [].constructor(totalPages); let i = index"
+    class="pagination-btn"
+    [class.active]="currentPage === i + 1"
+    (click)="changePage(i + 1)"
+  >
+    {{ i + 1 }}
+  </button>
+  <button 
+    class="pagination-btn" 
+    [disabled]="currentPage === totalPages"
+    (click)="changePage(currentPage + 1)"
+  >
+    &raquo;
+  </button>
+</div>

@@ -8,11 +8,13 @@ export class Project {
     description: string;
     progressStatus: boolean;
     deliverables: Deliverable[];
+    teamName:string;
     isOpen?:boolean
 
     constructor(
         id: number | undefined,
         name: string,
+        teamName:string,
         startDate: Date,
         endDate: Date,
         description: string,
@@ -26,5 +28,6 @@ export class Project {
         this.description = description;
         this.progressStatus = progressStatus;
         this.deliverables = deliverables;
+        this.teamName=teamName;
     }
 }

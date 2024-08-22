@@ -1,24 +1,28 @@
 import { CommonModule, DatePipe } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { DeliverableService } from 'src/app/core/services/deliverable.service';
 import { ProjectService } from 'src/app/core/services/project.service';
 import { Deliverable } from 'src/app/shared/models/deliverable';
 import { Project } from 'src/app/shared/models/project';
+import { FeedBackComponent } from "../../../shared/components/feed-back/feed-back.component";
 
 @Component({
   selector: 'app-list-deliverables',
   standalone: true,
-  imports: [CommonModule, DatePipe, FormsModule],
+  imports: [CommonModule, DatePipe, FormsModule, FeedBackComponent],
   templateUrl: './list-deliverables.component.html',
   styleUrls: ['./list-deliverables.component.scss']
 })
 export class ListDeliverablesComponent implements OnInit {
   @Input() projects: Project[] = [];
+  showFeedback = false;
+  feedbackMessage = '';
   
   filteredProjects: Project[] = []; // Array to hold filtered projects
   filterText: string = ''; // To hold the filter text
 
-  constructor(private projectService: ProjectService) {}
+  constructor(private projectService: ProjectService,private deliverableService:DeliverableService) {}
 
   ngOnInit(): void {
     this.filteredProjects = [...this.projects];
@@ -58,8 +62,37 @@ export class ListDeliverablesComponent implements OnInit {
     console.log('Add a PDF to the project:', project.name);
   }
 
-  deleteDocument(project: Project, doc: Deliverable): void {
-    // Logic to delete the document from the project
-    console.log('Delete document:', doc.name, 'from project:', project.name);
+  deleteDocument(doc: Deliverable): void {
+    this.deliverableService.deleteDeliverable(doc.id).subscribe({
+      next: () => {
+        console.log(`Document with ID ${doc.id} deleted successfully.`);
+        // Remove the deleted document from the list
+        this.removeDocumentFromList(doc);
+        // Show feedback
+        this.showFeedbackMessage('Document supprimé avec succès');
+      },
+      error: (err) => {
+        console.error('Error deleting document:', err);
+        this.showFeedbackMessage('Erreur lors de la suppression du document');
+      }
+    });
   }
+  removeDocumentFromList(doc: Deliverable): void {
+    this.filteredProjects = this.filteredProjects.map(project => {
+      if (project.deliverables) {
+        project.deliverables = project.deliverables.filter(d => d.id !== doc.id);
+      }
+      return project;
+    });
+  }
+
+  showFeedbackMessage(message: string): void {
+    this.feedbackMessage = message;
+    this.showFeedback = true;
+  }
+
+  closeFeedback(): void {
+    this.showFeedback = false;
+  }
+  
 }

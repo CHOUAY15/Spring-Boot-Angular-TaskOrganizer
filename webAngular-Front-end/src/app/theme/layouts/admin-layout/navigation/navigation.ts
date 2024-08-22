@@ -154,15 +154,7 @@ const ChefNavigationItems: NavigationItem[] = [
         title: 'Projets',
         type: 'item',
         classes: 'nav-item',
-        url: '/chef/projets',
-        breadcrumbs: false,
-        icon: 'profile'
-      }, {
-        id: 'taches',
-        title: 'Tâches',
-        type: 'item',
-        classes: 'nav-item',
-        url: '/chef/projets',
+        url: '/manager/projects',
         breadcrumbs: false,
         icon: 'profile'
       },  {
@@ -170,7 +162,7 @@ const ChefNavigationItems: NavigationItem[] = [
         title: 'Membres',
         type: 'item',
         classes: 'nav-item',
-        url: '/chef/projets',
+        url: '/manager/members',
         breadcrumbs: false,
         icon: 'user'
       }

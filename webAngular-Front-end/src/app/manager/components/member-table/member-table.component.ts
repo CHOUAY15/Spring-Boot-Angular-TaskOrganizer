@@ -33,7 +33,7 @@ export class MemberTableComponent implements OnChanges, AfterViewInit {
   @Input() teamId: string = ''; // Renamed 'equipeId' to 'teamId' for consistency
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  displayedColumns: string[] = ['avatar', 'nom', 'prenom', 'cin', 'profil']; // Translated column names to English
+  displayedColumns: string[] = ['avatar', 'nom', 'prenom','teamName', 'cin', 'profil']; // Translated column names to English
   dataSource: MatTableDataSource<Member>;
 
   constructor(private router: Router) {

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { forkJoin, from, map, Observable, switchMap } from 'rxjs';
-import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { HttpClient, HttpErrorResponse, HttpEventType } from '@angular/common/http';
+import { catchError, forkJoin, from, map, Observable, of, switchMap } from 'rxjs';
 import { AuthenticationService } from './authentication.service';
 import { Project } from 'src/app/shared/models/project';
 import { environment } from 'src/environments/environment';
@@ -10,13 +9,14 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class ProjectService {
-  private basePath = '/projects';
+  
   private mgrId: number;
+  private baseUrl = 'http://localhost:4000/api/upload';
+
   apiUrl: string = `${environment.apiUrl}/projects`;
 
   constructor(
     private http: HttpClient,
-    private storage: AngularFireStorage,
     private authService: AuthenticationService
   ) {
     this.mgrId = authService.getCurrentUser().person.id;
@@ -33,10 +33,10 @@ export class ProjectService {
     const uploadTasks = files.map((file) => this.uploadFile(file));
 
     return forkJoin(uploadTasks).pipe(
-      map((uploadedFilePaths) => {
+      map((uploadedFileNames) => {
         project.deliverables = project.deliverables.map((deliverable, index) => ({
           name: deliverable.name,
-          path: uploadedFilePaths[index] || ''
+          path: uploadedFileNames[index] || ''
         }));
         return project;
       }),
@@ -44,17 +44,40 @@ export class ProjectService {
     );
   }
 
-
   private uploadFile(file: File): Observable<string> {
-    const filePath = `${this.basePath}/${new Date().getTime()}_${file.name}`;
-    const uploadTask = this.storage.upload(filePath, file);
+    const formData = new FormData();
+    formData.append('file', file, file.name);
 
-    return from(uploadTask).pipe(
-      switchMap((snapshot) => snapshot.ref.getDownloadURL())
+    return this.http.post(`${this.baseUrl}`, formData, {
+      reportProgress: true,
+      observe: 'events',
+      responseType: 'text'
+    }).pipe(
+      map(event => {
+        if (event.type === HttpEventType.Response) {
+          return event.body;
+        }
+        return '';
+      }),
+      catchError(this.handleError)
     );
   }
 
- 
+  private handleError(error: HttpErrorResponse): Observable<string> {
+    console.error('An error occurred:', error);
+    if (error.error instanceof ErrorEvent) {
+      // A client-side or network error occurred. Handle it accordingly.
+      console.error('An error occurred:', error.error.message);
+    } else {
+      // The backend returned an unsuccessful response code.
+      console.error(
+        `Backend returned code ${error.status}, ` +
+        `body was: ${error.error}`);
+    }
+    // Return an observable with a user-facing error message.
+    return of('');
+  }
+
   addProject(project: any): Observable<Project> {
     return this.http.post<Project>(`${this.apiUrl}`, project);
   }
@@ -66,8 +89,14 @@ export class ProjectService {
   }
 
  
-  getFileUrl(path: string): Observable<string> {
-    return this.storage.ref(path).getDownloadURL();
+  getFileUrl(filename: string): Observable<string> {
+    return this.http.get(`${this.baseUrl}/file/${filename}`, { responseType: 'blob' })
+      .pipe(
+        map(response => {
+          const blob = new Blob([response], { type: 'application/octet-stream' });
+          return URL.createObjectURL(blob);
+        })
+      );
   }
 
  

@@ -23,5 +23,6 @@ public class ProjectResponseDto {
     private String description;
     private boolean progressStatus;
     private List<DeliverableDto> deliverables;
+    private String teamName;
 
 }

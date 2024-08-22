@@ -36,7 +36,7 @@ export class MemberTableComponent implements OnChanges, AfterViewInit {
   @Output() managerDeleted = new EventEmitter<void>();
   
   dataSource: MatTableDataSource<Member>;
-  displayedColumns: string[] = ['avatar', 'nom', 'prenom', 'cin', 'email', 'actions'];
+  displayedColumns: string[] = ['avatar', 'nom','teamName', 'prenom', 'cin', 'email', 'actions'];
   showConfirmModal = false;
   managerToDelete: number | null = null;
 

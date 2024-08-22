@@ -1,0 +1,82 @@
+<div class="projet-table-container">
+    <div class="table-header">
+      <mat-form-field>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Filtre" />
+      </mat-form-field>
+    </div>
+  
+    <ng-container *ngIf="dataSource.data.length > 0; else noProjects">
+      <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 mat-table--compact">
+        <ng-container matColumnDef="titre">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header><strong>Titre</strong></th>
+          <td mat-cell *matCellDef="let projet" [attr.data-label]="'Titre'">{{ projet.name }}</td>
+        </ng-container>
+        <ng-container matColumnDef="teamName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header><strong>équipe</strong></th>
+            <td mat-cell *matCellDef="let projet" [attr.data-label]="'teamName'">{{ projet.teamName }}</td>
+          </ng-container>
+  
+        <ng-container matColumnDef="description">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header><strong>Description</strong></th>
+          <td mat-cell *matCellDef="let projet" [attr.data-label]="'Description'">{{ projet.description }}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="dateDebut">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header><strong>Date de debut</strong></th>
+          <td mat-cell *matCellDef="let projet" [attr.data-label]="'Date de debut'">{{ projet.startDate | date }}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="dateFin">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header><strong>Date de fin</strong></th>
+          <td mat-cell *matCellDef="let projet" [attr.data-label]="'Date de fin'">{{ projet.endDate | date }}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="tâches">
+          <th mat-header-cell *matHeaderCellDef class="actions-header"><strong>Tâches</strong></th>
+          <td mat-cell *matCellDef="let projet" [attr.data-label]="'Tâches'">
+            <a class="underline-link" (click)="goToTasks(projet)">Voir</a>
+          </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="etatAvancement">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header><strong>Etat-Avancement</strong></th>
+          <td
+            mat-cell
+            *matCellDef="let projet"
+            [attr.data-label]="'Etat d`avancement'"
+            [ngClass]="projet.etatAvancement ? 'etat-termine' : 'etat-en-cours'"
+          >
+            {{ projet.etatAvancement ? 'terminé' : 'en cours' }}
+          </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef class="actions-header"><strong>Actions</strong></th>
+          <td mat-cell *matCellDef="let projet" [attr.data-label]="'Actions'">
+            <div class="action-buttons">
+              <button class="supprimer" (click)="deleteProject(projet.id)">supprimer</button>
+              <button class="modifier" mat-button>modifier</button>
+            </div>
+          </td>
+        </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+  
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+    </ng-container>
+  
+    <ng-template #noProjects></ng-template>
+  
+    <div class="modal" *ngIf="showConfirmModal">
+      <div class="modal-content">
+        <h2>Confirmer la suppression</h2>
+        <p>Êtes-vous sûr de vouloir supprimer ce projet ?</p>
+        <div class="modal-actions">
+          <button class="cancel-btn" (click)="cancelDelete()">Annuler</button>
+          <button class="confirm-btn" (click)="confirmDelete()">Supprimer</button>
+        </div>
+      </div>
+    </div>
+  </div>

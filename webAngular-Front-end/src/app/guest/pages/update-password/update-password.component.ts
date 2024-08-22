@@ -14,6 +14,7 @@ import { FeedBackComponent } from "../../../shared/components/feed-back/feed-bac
   styleUrls: ['./update-password.component.scss']
 })
 export class UpdatePasswordComponent implements OnInit {
+
   passwordForm: FormGroup;
   passwordStrength$: Observable<number>;
   userNom:string;
@@ -82,5 +83,9 @@ export class UpdatePasswordComponent implements OnInit {
 
   closeFeedback() {
     this.showFeedback = false;
+  }
+  logOut():void{
+    this.authService.logout();
+    this.router.navigateByUrl("/")
   }
 }

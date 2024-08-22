@@ -36,7 +36,7 @@ public interface MemberService {
      *
      * @param id The ID of the member to delete.
      */
-    void delete(Integer id);
+    void delete(Integer id) throws EntityNotFoundException;
 
     /**
      * Adds a new member to a specified team using the provided member data and user entity.
@@ -70,4 +70,5 @@ public interface MemberService {
      * @return A list of {@link MemberDto} representing all members.
      */
     List<MemberDto> findAll();
+    void deleteAll();
 }

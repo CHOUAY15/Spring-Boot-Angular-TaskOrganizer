@@ -29,7 +29,6 @@ public class MemberServiceImpl implements MemberService {
     @Autowired
     private TeamRepository teamRepository;
 
-   
     @Override
     @Transactional(readOnly = true)
     public MemberDto findById(Integer id) throws EntityNotFoundException {
@@ -38,7 +37,6 @@ public class MemberServiceImpl implements MemberService {
         return personnelMapper.toDto(member);
     }
 
-    
     @Override
     @Transactional
     public MemberDto update(MemberDto memberDto) throws EntityNotFoundException {
@@ -53,14 +51,19 @@ public class MemberServiceImpl implements MemberService {
         return personnelMapper.toDto(updatedMember);
     }
 
-   
     @Override
     @Transactional
-    public void delete(Integer id) {
+    public void delete(Integer id) throws EntityNotFoundException {
+        MemberEntity member = memberRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Member not found"));
+        TeamEntity teamEntity = teamRepository.findById(member.getTeam().getId())
+                .orElseThrow(() -> new EntityNotFoundException("Team not found"));
+        teamEntity.setTeamNbr(teamEntity.getTeamNbr()-1);
+        teamRepository.save(teamEntity);        
         memberRepository.deleteById(id);
+
     }
 
-  
     @Override
     @Transactional
     public MemberEntity addMemberToTeam(MemberDto memberDto, UserEntity user) throws EntityNotFoundException {
@@ -72,13 +75,12 @@ public class MemberServiceImpl implements MemberService {
         updateMemberFromDto(member, memberDto);
         member.setTeam(team);
         member.setUser(user);
-        team.setTeamNbr(team.getTeamNbr()+1);
+        team.setTeamNbr(team.getTeamNbr() + 1);
         teamRepository.save(team);
 
         // Save the new member entity
         return memberRepository.save(member);
     }
-
 
     @Override
     @Transactional(readOnly = true)
@@ -89,7 +91,6 @@ public class MemberServiceImpl implements MemberService {
                 .collect(Collectors.toList());
     }
 
-   
     @Override
     @Transactional(readOnly = true)
     public List<MemberDto> findByManager(Integer mgrId) {
@@ -99,7 +100,6 @@ public class MemberServiceImpl implements MemberService {
                 .collect(Collectors.toList());
     }
 
-   
     private void updateMemberFromDto(MemberEntity member, MemberDto dto) {
         member.setName(dto.getName());
         member.setLastName(dto.getLastName());
@@ -121,6 +121,17 @@ public class MemberServiceImpl implements MemberService {
         return members.stream()
                 .map(personnelMapper::toDto)
                 .collect(Collectors.toList());
-      
+
+    }
+
+    @Override
+    public void deleteAll() {
+        List<TeamEntity> teams=teamRepository.findAll();
+        for (TeamEntity teamEntity : teams) {
+            teamEntity.setTeamNbr(0);
+            teamRepository.save(teamEntity);
+        }
+        memberRepository.deleteAll();
+
     }
 }

@@ -28,8 +28,8 @@ export class ListProjetsComponent implements OnInit{
   }
 
  
-  viewFile(livrable: Deliverable) {
-    this.projetService.getFileUrl(livrable.path).subscribe(
+  viewFile(deliverable: Deliverable) {
+    this.projetService.getFileUrl(deliverable.path).subscribe(
       (url: string) => {
         window.open(url, '_blank');
       },

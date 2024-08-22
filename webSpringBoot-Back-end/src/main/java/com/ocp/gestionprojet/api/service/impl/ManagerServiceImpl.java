@@ -2,6 +2,7 @@ package com.ocp.gestionprojet.api.service.impl;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -115,17 +116,16 @@ public ManagerEntity addManagersToTeams(ManagerDto managerDto, UserEntity user) 
                 .collect(Collectors.toList());
     }
 
-
     private void updateManagerFromDto(ManagerEntity manager, ManagerDto dto) {
-        manager.setName(dto.getName());
-        manager.setLastName(dto.getLastName());
-        manager.setCin(dto.getCin());
-        manager.setAge(dto.getAge());
-        manager.setTelephone(dto.getTelephone());
-        manager.setEmail(dto.getEmail());
-        manager.setAdresse(dto.getAdresse());
-        manager.setAvatar(dto.getAvatar());
-        manager.setGender(dto.getGender());
+        Optional.ofNullable(dto.getName()).ifPresent(manager::setName);
+        Optional.ofNullable(dto.getLastName()).ifPresent(manager::setLastName);
+        Optional.ofNullable(dto.getCin()).ifPresent(manager::setCin);
+        Optional.ofNullable(dto.getAge()).ifPresent(manager::setAge);
+        Optional.ofNullable(dto.getTelephone()).ifPresent(manager::setTelephone);
+        Optional.ofNullable(dto.getEmail()).ifPresent(manager::setEmail);
+        Optional.ofNullable(dto.getAdresse()).ifPresent(manager::setAdresse);
+        Optional.ofNullable(dto.getAvatar()).ifPresent(manager::setAvatar);
+        Optional.ofNullable(dto.getGender()).ifPresent(manager::setGender);
     }
 
     @Override

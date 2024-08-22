@@ -4,7 +4,7 @@
     <ng-container *ngIf="(error$ | async) === false; else errorTemplate">
       <ng-container *ngIf="tasks$ | async as tasks">
         <div class="team-grid">
-          <app-list-tasks [tasks]="tasks$ | async"  [idMembre]="idMembre"></app-list-tasks>
+          <app-list-tasks [tasks]="tasks$ | async"  [idMembre]="idMembre" [prjtId]="projectId"></app-list-tasks>
         </div>
       </ng-container>
     </ng-container>

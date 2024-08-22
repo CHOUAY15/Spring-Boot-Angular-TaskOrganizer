@@ -1,1 +1,39 @@
-<p>reports works!</p>
+<div class="container">
+    <h2>Mes rapports</h2>
+    
+    <div class="filter-container">
+      <input type="text" class="filter-input" placeholder="filtre..." [(ngModel)]="searchTerm" (input)="filterReports()">
+    </div>
+
+    <div *ngIf="filteredReports$ | async as reports">
+      <div *ngIf="reports.length; else noReports">
+        <div *ngFor="let report of reports | slice:(currentPage-1)*pageSize:currentPage*pageSize" class="report-item">
+          <div class="report-icon">
+            <i class="fas fa-file-pdf"></i>
+          </div>
+          <div class="report-info">
+            <h3>{{ report.name }}</h3>
+            <p class="report-path">{{ report.path }}</p>
+            <p class="report-date">{{ report.creationDate | date:'medium' }}</p>
+          </div>
+          <div class="report-actions">
+            <button class="btn btn-open" (click)="getFile(report)">Ouvrir</button>
+            <!-- <button class="btn btn-delete" (click)="deleteReport(report)">Supprimer</button> -->
+          </div>
+        </div>
+      </div>
+      <ng-template #noReports>
+        <p class="no-reports">aucun rapport .</p>
+      </ng-template>
+    </div>
+
+    <div class="pagination" *ngIf="(reports$ | async)?.length > pageSize">
+      <button class="pagination-btn" [disabled]="currentPage === 1" (click)="changePage(-1)">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+      <span class="page-info">Page {{ currentPage }} of {{ totalPages }}</span>
+      <button class="pagination-btn" [disabled]="currentPage === totalPages" (click)="changePage(1)">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+    </div>
+  </div>

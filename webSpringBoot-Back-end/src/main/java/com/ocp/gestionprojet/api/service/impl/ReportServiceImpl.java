@@ -1,7 +1,10 @@
 package com.ocp.gestionprojet.api.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.stream.Collectors;
 
 import com.ocp.gestionprojet.api.exception.EntityNotFoundException;
 import com.ocp.gestionprojet.api.mapper.ReportMapper;
@@ -48,8 +51,23 @@ public class ReportServiceImpl  implements ReportService{
     }
 
     @Override
-    public void deleteReport(Integer id) {
+    public void deleteReport(Integer id) throws EntityNotFoundException {
+        ReportEntity reportEntity=reportRepository.findById(id)
+        .orElseThrow(() -> new EntityNotFoundException("Member not found"));
+        MemberEntity memberEntity=memberRepository.findById(reportEntity.getMember().getId())
+        .orElseThrow(() -> new EntityNotFoundException("Member not found"));
+        memberEntity.setReport(null);
+        memberRepository.save(memberEntity);
+
        reportRepository.deleteById(id);
+    }
+
+    @Override
+    public List<ReportDto> findReportByMembre(Integer id) {
+       List<ReportEntity> teams = reportRepository.findBymemberId(id);
+        return teams.stream()
+                .map(reportMapper::toDto)
+                .collect(Collectors.toList());
     }
     
 }

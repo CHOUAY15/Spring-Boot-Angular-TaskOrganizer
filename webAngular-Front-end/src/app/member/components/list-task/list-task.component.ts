@@ -28,11 +28,13 @@ import { FeedBackComponent } from "../../../shared/components/feed-back/feed-bac
 export class ListTaskComponent implements OnInit, OnChanges {
 
   @Input() tasks: TaskData[] = [];
-  @Input() prjtId: string = '';
+  @Input() prjtId;
   @Input() idMembre: number;
   @Output() taskDeleted = new EventEmitter<number>();
   @Output() taskStatusChanged = new EventEmitter<{taskId: number, newStatus: StatutTache}>();
   membre:boolean=true;
+  uploadedFileName: string | null = null;
+
 
   tasksAFaire: TaskData[] = [];
   tasksEnCours: TaskData[] = [];
@@ -156,6 +158,7 @@ export class ListTaskComponent implements OnInit, OnChanges {
     fileInput.onchange = (event: any) => {
       const file = event.target.files[0];
       if (file) {
+        this.uploadedFileName = file.name;
         this.uploadFileAndCreateReport(file);
       }
     };
@@ -164,7 +167,7 @@ export class ListTaskComponent implements OnInit, OnChanges {
   }
 
   private uploadFileAndCreateReport(file: File) {
-    this.reportService.uploadFileAndCreateReport(file, this.prjtId,this.idMembre).subscribe({
+    this.reportService.uploadFileAndCreateReport(file, this.prjtId, this.idMembre).subscribe({
       next: (createdReport) => {
         console.log('Report created successfully:', createdReport);
         this.showFeedbackMessage('Rapport importé et enregistré avec succès!');
@@ -172,9 +175,11 @@ export class ListTaskComponent implements OnInit, OnChanges {
       error: (error) => {
         console.error('Error uploading file or creating report:', error);
         this.showFeedbackMessage('Erreur lors de l\'import du rapport.');
+        this.uploadedFileName = null; // Reset the file name if upload fails
       }
     });
   }
+
   showFeedbackMessage(message: string) {
     this.feedbackMessage = message;
     this.showFeedback = true;

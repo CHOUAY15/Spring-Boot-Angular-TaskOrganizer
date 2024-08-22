@@ -62,4 +62,8 @@ export class MemberService {
     return this.http.post(`http://localhost:4000/auth/register/csv`, formData);
   }
 
+  deleteAll(): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}`);
+  }
+
 }

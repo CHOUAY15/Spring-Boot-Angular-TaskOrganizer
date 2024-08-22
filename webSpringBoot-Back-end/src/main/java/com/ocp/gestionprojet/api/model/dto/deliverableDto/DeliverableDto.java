@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 
 public class DeliverableDto {
+    private Integer id;
     private String name;
     private String path;
  

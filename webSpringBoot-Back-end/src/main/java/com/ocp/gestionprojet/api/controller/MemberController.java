@@ -80,7 +80,7 @@ public class MemberController {
      * @return ResponseEntity with HTTP status 204 No Content.
      */
     @DeleteMapping("/id/{id}")
-    public ResponseEntity<?> delete(@PathVariable("id") Integer id) {
+    public ResponseEntity<?> delete(@PathVariable("id") Integer id) throws EntityNotFoundException{
         memberService.delete(id);
         return ResponseEntity.noContent().build();
     }
@@ -95,4 +95,11 @@ public class MemberController {
         List<MemberDto> members = memberService.findAll();
         return new ResponseEntity<>(members, HttpStatus.OK);
     }
+
+    @DeleteMapping("")
+    public ResponseEntity<?> deleteAll() {
+        memberService.deleteAll();
+        return ResponseEntity.noContent().build();
+    }
+
 }

@@ -1,7 +1,7 @@
 <!-- projets.component.html -->
 
 <div class="projects-container">
-  <h5 class="current">Total des équipes</h5>
+  <h5 class="current">Sections</h5>
 
   <ng-container *ngIf="(loading$ | async) === false; else loadingTemplate">
     <ng-container *ngIf="(error$ | async) === false; else errorTemplate">
@@ -21,6 +21,8 @@
         
         <ng-template #noSections>
           <div class="centered-message-container">
+            <p>Ajouter des sections pour différents domaines de l'informatique : par exemple, développement, réseaux, etc.</p>
+
             <div class="centered-message">Aucune section pour l'instant !</div>
             <button class="add-project-button" (click)="addSection()">Ajouter</button>
           </div>

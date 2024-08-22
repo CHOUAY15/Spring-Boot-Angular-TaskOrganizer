@@ -1,14 +1,16 @@
 <div class="board-header">
   <h4>Liste des tâches</h4>
-  <p [ngClass]="{'warning-message': true, 'show': showImportPdfButton, 'hide': !showImportPdfButton}">
+  <p *ngIf="!uploadedFileName" [ngClass]="{'warning-message': true, 'show': showImportPdfButton, 'hide': !showImportPdfButton}">
     Merci d'insérer votre rapport final pour le projet : il ne doit pas dépasser 40 pages.
   </p>
   
-    <button *ngIf="showImportPdfButton" class="import-pdf-btn" (click)="importPdf()">
-    <i class="fas fa-file-import"></i>
-    Importer
-  </button>
-
+  <div *ngIf="showImportPdfButton" class="import-pdf-container">
+    <button class="import-pdf-btn" (click)="importPdf()">
+      <i class="fas fa-file-import"></i>
+      {{ uploadedFileName ? 'Mise à jour' : 'Importer' }}
+    </button>
+    <span *ngIf="uploadedFileName" class="uploaded-file-name">{{ uploadedFileName }}</span>
+  </div>
 </div>
 
 <div class="board">

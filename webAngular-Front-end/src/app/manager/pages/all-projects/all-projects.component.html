@@ -1,0 +1,48 @@
+<!-- projets.component.html -->
+
+<div class="breadcrumb">
+
+    <span class="current">projets</span>
+  </div>
+  
+  
+    <ng-container *ngIf="(loading$ | async) === false; else loadingTemplate">
+      <ng-container *ngIf="(error$ | async) === false; else errorTemplate">
+        <ng-container *ngIf="projects$ | async as projects">
+  
+          <div class="team-grid" *ngIf="projects.length > 0; else noProjets">
+           
+            <app-all-projects-table
+              [projects]="projects"
+
+ 
+              (projectDeleted)="onProjectDeleted()"
+            ></app-all-projects-table>
+          </div>
+          <ng-template #noProjets>
+            <div class="centered-message-container">
+              <div class="centered-message">Aucun projet pour l'instant !</div>
+            </div>
+          </ng-template>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+  
+    <ng-template #loadingTemplate>
+      <div class="centered-message loading-message">
+        <app-spinner-g></app-spinner-g>
+      </div>
+    </ng-template>
+  
+    <ng-template #errorTemplate>
+      <app-error-message></app-error-message>
+    </ng-template>
+  
+
+  <app-feed-back
+  *ngIf="showFeedback"
+  (closed)="closeFeedback()"
+  [message]="feedbackMessage"
+  (animationDone)="showFeedback = false"
+  ></app-feed-back>
+  

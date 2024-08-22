@@ -18,6 +18,7 @@ import { FeedBackComponent } from "../../../shared/components/feed-back/feed-bac
   styleUrls: ['./members.component.scss']
 })
 export class MembersComponent implements OnInit, OnDestroy {
+
   @ViewChild('fileInput') fileInput!: ElementRef;
 
   private managerSubject = new BehaviorSubject<Member[]>([]);
@@ -31,6 +32,7 @@ export class MembersComponent implements OnInit, OnDestroy {
   loading$: Observable<boolean>;
   error$: Observable<boolean>;
   isInitialLoad = true;
+  isUploading = false; // Add this new property
 
   constructor(
     private managerService: MemberService,
@@ -125,17 +127,37 @@ export class MembersComponent implements OnInit, OnDestroy {
     const formData = new FormData();
     formData.append('file', file);
   
+    this.isUploading = true; // Set uploading flag to true
     this.managerService.uploadCSV(formData).subscribe(
       (response) => {
         console.log('CSV upload response:', response);
         this.showFeedbackMessage('Fichier CSV téléchargé et traité avec succès.');
         this.loadManagers(); // Refresh the member list
+        this.isUploading = false; // Set uploading flag to false
       },
       (error) => {
         console.error('Error uploading CSV:', error);
         this.showFeedbackMessage('Fichier CSV téléchargé et traité avec succès.');
         this.loadManagers(); // Refresh the member list
+        this.isUploading = false; // Set uploading flag to false
       }
     );
   }
+  deletAll() {
+    this.managerService.deleteAll().subscribe({
+      next: () => {
+        console.log('All members deleted successfully.');
+        // Clear the local data
+        this.managerSubject.next([]);
+        // Show feedback
+        this.showFeedbackMessage('Tous les membres ont été supprimés avec succès');
+      },
+      error: (err) => {
+        console.error('Error deleting all members:', err);
+        this.showFeedbackMessage('Erreur lors de la suppression de tous les membres');
+      }
+    });
+  }
+
+ 
 }

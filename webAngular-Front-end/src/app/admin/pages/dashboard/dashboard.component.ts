@@ -58,8 +58,8 @@ export class DashboardComponent implements OnInit {
           title: 'Total des projets',
           value: results.projects,
           icon: 'fa-project-diagram',
-          percentage: 10.5,
-          comment: 'New projects initiated'
+          percentage: 0,
+          comment: 'Pas de projet pour l\'instant.'
         },
         {
           id: 4,
@@ -67,7 +67,7 @@ export class DashboardComponent implements OnInit {
           value: results.teams,
           icon: 'fa fa-user-friends',
           percentage: 0,
-          comment: 'Stable teams count'
+          comment: 'Un nombre équilibré d\'équipes'
         }
       ];
     });

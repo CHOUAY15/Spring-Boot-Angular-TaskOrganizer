@@ -1,24 +1,27 @@
 <div class="projects-container">
   <h5>Membres</h5>
-  <ng-container *ngIf="(loading$ | async) === false; else loadingTemplate">
+  <ng-container *ngIf="(loading$ | async) === false && !isUploading; else loadingTemplate">
     <ng-container *ngIf="(error$ | async) === false; else errorTemplate">
       <ng-container *ngIf="managers$ | async as managers">
         <div class="team-grid" *ngIf="managers.length > 0; else noSections">
           <div class="button-and-text-container">
             <p>Ajoutez des membres à des équipes de chaque section.</p>
             <button class="add-project-button" (click)="openAddManagerDialog()">Ajouter</button>
-            <button class="add-project-button csv-import-button" (click)="openFileInput()">
+            <button class="add-project-button csv-import-button" (click)="openFileInput()" [disabled]="isUploading">
               <i class="fas fa-file-csv"></i> Importer
             </button>
+            <button class="add-project-button red-button" (click)="deletAll()">Vider la table</button>
           </div>
-          <app-member-table [managers]="managers"></app-member-table>
+          <app-member-table  [managers]="managers"></app-member-table>
         </div>
         <ng-template #noSections>
           <div class="centered-message-container">
             <div class="centered-message">Aucun member pour l'instant !</div>
             <div class="button-container">
               <button class="add-project-button" (click)="openAddManagerDialog()">Ajouter</button>
-              <button class="add-project-button" (click)="openFileInput()">  <i class="fas fa-file-csv"></i> Importer</button>
+              <button class="add-project-button" (click)="openFileInput()" [disabled]="isUploading">
+                <i class="fas fa-file-csv"></i> Importer
+              </button>
             </div>
           </div>
         </ng-template>
@@ -29,6 +32,8 @@
   <ng-template #loadingTemplate>
     <div class="centered-message loading-message">
       <app-spinner-g></app-spinner-g>
+      <br>
+      <h6 *ngIf="isUploading">Merci de patienter pendant le téléchargement...</h6>
     </div>
   </ng-template>
 
