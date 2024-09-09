@@ -78,7 +78,7 @@ const routes: Routes = [
       },
       {
         path: 'profil',
-        loadComponent: () => import('./manager/pages/profil/profil.component').then((c) => c.ProfilComponent)
+        loadComponent: () => import('./member/pages/profil/profil.component').then((c) => c.ProfilComponent)
       },
       {
         path: 'projects',
